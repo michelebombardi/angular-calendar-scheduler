@@ -5,12 +5,16 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 
+import { SchedulerModule } from './modules/scheduler/scheduler.module';
+
+
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    SchedulerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

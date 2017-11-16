@@ -118,14 +118,14 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      // "app",
       "camelCase"
     ],
     "component-selector": [
       true,
-      "element",
-      "app",
-      "kebab-case"
+      "element"
+      // "app",
+      // "kebab-case"
     ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
