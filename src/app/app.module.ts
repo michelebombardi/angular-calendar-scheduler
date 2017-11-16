@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-
+import { CalendarModule } from 'angular-calendar';
 import { SchedulerModule } from './modules/scheduler/scheduler.module';
 
 
@@ -14,6 +14,7 @@ import { SchedulerModule } from './modules/scheduler/scheduler.module';
   ],
   imports: [
     BrowserModule,
+    CalendarModule.forRoot(),
     SchedulerModule
   ],
   providers: [],

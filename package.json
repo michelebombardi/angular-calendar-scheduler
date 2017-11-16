@@ -1,7 +1,8 @@
 {
   "name": "angular-calendar-scheduler",
-  "version": "0.0.0",
+  "version": "0.0.4",
   "license": "MIT",
+  "private": false,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -12,7 +13,22 @@
     "packagr": "ng-packagr -p ng-package.json",
     "publish": "npm publish dist"
   },
-  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bm-software/angular-calendar-scheduler.git"
+  },
+  "author": "Michele Bombardi (BM Software)",
+  "homepage": "https://github.com/bm-software/angular-calendar-scheduler",
+  "keywords": [
+    "bmsoftware",
+    "calendar",
+    "angular",
+    "scheduler",
+    "events",
+    "angular-calendar",
+    "angular-calendar-scheduler",
+    "angular-scheduler"
+  ],
   "dependencies": {
     "@angular/animations": "^5.0.0",
     "@angular/common": "^5.0.0",
@@ -23,7 +39,9 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
+    "angular-calendar": "^0.21.3",
     "core-js": "^2.4.1",
+    "moment": "^2.19.2",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },

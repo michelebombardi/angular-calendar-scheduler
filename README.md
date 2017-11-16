@@ -1,6 +1,6 @@
 # AngularCalendarScheduler
 
-A scheduler view component for [mattlewis92/angular-calendar](https://github.com/mattlewis92/angular-calendar) version 1.5.0.
+A scheduler view component for [mattlewis92/angular-calendar](https://github.com/mattlewis92/angular-calendar).
 
 ## Development server
 
