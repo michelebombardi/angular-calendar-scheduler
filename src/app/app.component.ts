@@ -23,17 +23,25 @@ import {
   CalendarSchedulerEventAction
 } from './modules/scheduler/scheduler.module';
 import {
+    CalendarDateFormatter
+} from 'angular-calendar';
+import {
   CalendarPeriod,
   startOfPeriod,
   endOfPeriod,
   addPeriod,
-  subPeriod
+  subPeriod,
+  SchedulerDateFormatter
 } from './modules/scheduler/scheduler.module';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [{
+    provide: CalendarDateFormatter,
+    useClass: SchedulerDateFormatter
+}]
 })
 export class AppComponent {
   title = 'Angular Calendar Scheduler Demo';
@@ -41,12 +49,12 @@ export class AppComponent {
   view: CalendarPeriod = 'week';
   viewDate: Date = new Date();
   refreshSubject: Subject<any> = new Subject();
-  locale: string = 'it';
+  locale: string = 'en';
   weekStartsOn: number = 1;
   startsWithToday: boolean = true;
   activeDayIsOpen: boolean = true;
   excludeDays: number[] = [0];
-  dayStartHour: number = 7;
+  dayStartHour: number = 6;
   dayEndHour: number = 22;
 
   minDate: Date = new Date();

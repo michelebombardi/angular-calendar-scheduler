@@ -9,10 +9,14 @@ import {
     OnDestroy,
     LOCALE_ID,
     Inject,
-    TemplateRef
+    TemplateRef,
+    ViewEncapsulation
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import {
+    CalendarDateFormatter
+} from 'angular-calendar';
 import {
     EventColor,
     DayViewHour,
@@ -37,6 +41,8 @@ import {
     isSameDay,
     getDay
 } from 'date-fns';
+import { SchedulerConfig } from './scheduler-config';
+
 
 const WEEKEND_DAY_NUMBERS = [0, 6];
 const DAYS_IN_WEEK = 7;
@@ -156,7 +162,8 @@ export interface CalendarSchedulerEventAction {
             </div>
         </div>
     `,
-    styleUrls: ['./calendar-scheduler-view.component.scss']
+    styleUrls: ['./calendar-scheduler-view.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDestroy {
     /**
@@ -301,8 +308,8 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     /**
      * @hidden
      */
-    constructor(private cdr: ChangeDetectorRef, @Inject(LOCALE_ID) locale: string) {
-        this.locale = locale;
+    constructor(private cdr: ChangeDetectorRef, @Inject(LOCALE_ID) locale: string, private config: SchedulerConfig) {
+        this.locale = config.locale || locale;
     }
 
     /**
@@ -321,7 +328,6 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * @hidden
      */
     ngOnChanges(changes: any): void {
-
         this.hours = this.getSchedulerViewHourGrid({
             viewDate: this.viewDate,
             hourSegments: this.hourSegments,

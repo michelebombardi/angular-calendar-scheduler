@@ -30,7 +30,7 @@ import { SchedulerViewDay } from './calendar-scheduler-view.component';
             [ngTemplateOutlet]="customTemplate || defaultTemplate"
             [ngTemplateOutletContext]="{days: days, locale: locale, dayClicked: dayClicked}">
         </ng-template>
-  `
+    `
 })
 export class CalendarSchedulerHeaderComponent {
 

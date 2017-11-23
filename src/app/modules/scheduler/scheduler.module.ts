@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CalendarModule } from 'angular-calendar';
@@ -11,7 +11,16 @@ import { CalendarSchedulerEventContentComponent } from './calendar-scheduler-eve
 import { CalendarSchedulerEventActionsComponent } from './calendar-scheduler-event-actions.component';
 
 export * from './calendar-scheduler-view.component';
+export * from './formatters';
 export * from './calendar-utils';
+
+import { SchedulerConfig } from './scheduler-config';
+
+export const SCHEDULER_CONFIG = new InjectionToken('SchedulerConfig');
+
+export function provideAuthConfig(config: SchedulerConfig) {
+    return new SchedulerConfig(config);
+}
 
 @NgModule({
   imports: [
@@ -37,4 +46,14 @@ export * from './calendar-utils';
     CalendarSchedulerEventActionsComponent
   ]
 })
-export class SchedulerModule { }
+export class SchedulerModule {
+  static forRoot(config?: SchedulerConfig): ModuleWithProviders {
+    return {
+        ngModule: SchedulerModule,
+        providers: [
+            { provide: SCHEDULER_CONFIG, useValue: config },
+            { provide: SchedulerConfig, useFactory: provideAuthConfig, deps: [SCHEDULER_CONFIG] }
+        ]
+    };
+}
+}
