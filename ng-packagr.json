@@ -3,7 +3,10 @@
     "lib": {
       "entryFile": "public_api.ts",
       "externals": {
-        "date-fns/start_of_day/index": "date-fns" // <-- MAPPING
+        "date-fns": "date-fns",
+        "date-fns/index": "date-fns",
+        "date-fns/start_of_day": "date-fns",
+        "date-fns/start_of_day/index": "date-fns"
       }
     }
   }
