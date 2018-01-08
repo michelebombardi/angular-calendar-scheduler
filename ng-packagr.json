@@ -3,10 +3,9 @@
     "lib": {
       "entryFile": "public_api.ts",
       "externals": {
-        "date-fns": "date-fns",
-        "date-fns/index": "date-fns",
-        "date-fns/start_of_day": "date-fns",
-        "date-fns/start_of_day/index": "date-fns"
+        "angular-calendar": "angularCalendar",
+        "date-fns": "dateFns",
+        "calendar-utils": "calendarUtils"
       }
     }
   }

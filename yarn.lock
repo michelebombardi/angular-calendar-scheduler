@@ -293,23 +293,23 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-angular-calendar@^0.21.3:
-  version "0.21.3"
-  resolved "https://registry.yarnpkg.com/angular-calendar/-/angular-calendar-0.21.3.tgz#56a7bf3aa3cc5cae73bdc6453e5a45b1a687fe88"
+angular-calendar@^0.23.1:
+  version "0.23.1"
+  resolved "https://registry.yarnpkg.com/angular-calendar/-/angular-calendar-0.23.1.tgz#f73b462a08bda480849a706340c26c91090ea1fb"
   dependencies:
-    angular-draggable-droppable "^1.1.1"
-    angular-resizable-element "^1.2.4"
-    calendar-utils "0.0.57"
+    angular-draggable-droppable "^2.0.0"
+    angular-resizable-element "^2.0.0"
+    calendar-utils "0.0.60"
     date-fns "^1.28.5"
     positioning "^1.3.1"
 
-angular-draggable-droppable@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/angular-draggable-droppable/-/angular-draggable-droppable-1.1.1.tgz#70b3b601daaf65a1b3f73d8a4de8683e7fa22356"
+angular-draggable-droppable@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/angular-draggable-droppable/-/angular-draggable-droppable-2.0.0.tgz#6b3ca7a0ddf36c55c30cdebea9de0592de29d76f"
 
-angular-resizable-element@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/angular-resizable-element/-/angular-resizable-element-1.2.4.tgz#983828eaced18f432814581ab4c25892c26197d9"
+angular-resizable-element@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/angular-resizable-element/-/angular-resizable-element-2.0.0.tgz#10a437cce317e459e07c3189519ef395e6b86130"
 
 ansi-html@0.0.7:
   version "0.0.7"
@@ -881,9 +881,9 @@ cacache@^10.0.0:
     unique-filename "^1.1.0"
     y18n "^3.2.1"
 
-calendar-utils@0.0.57:
-  version "0.0.57"
-  resolved "https://registry.yarnpkg.com/calendar-utils/-/calendar-utils-0.0.57.tgz#f1fd02a05094dabe73382e992c7f5357edeb228b"
+calendar-utils@0.0.60:
+  version "0.0.60"
+  resolved "https://registry.yarnpkg.com/calendar-utils/-/calendar-utils-0.0.60.tgz#8dc829b4b54ad8a4cf23bf3642d0b05479407ac3"
 
 callsite@1.0.0:
   version "1.0.0"
