@@ -10,8 +10,12 @@ import { CalendarSchedulerEventTitleComponent } from './calendar-scheduler-event
 import { CalendarSchedulerEventContentComponent } from './calendar-scheduler-event-content.component';
 import { CalendarSchedulerEventActionsComponent } from './calendar-scheduler-event-actions.component';
 
+import { SchedulerEventTitlePipe } from './pipes'
+import { SchedulerEventTitleFormatter } from './formatters'
+
 export * from './calendar-scheduler-view.component';
 export * from './formatters';
+export * from './pipes';
 export * from './calendar-utils';
 
 import { SchedulerConfig } from './scheduler-config';
@@ -34,7 +38,12 @@ export function provideAuthConfig(config: SchedulerConfig) {
     CalendarSchedulerEventComponent,
     CalendarSchedulerEventTitleComponent,
     CalendarSchedulerEventContentComponent,
-    CalendarSchedulerEventActionsComponent
+    CalendarSchedulerEventActionsComponent,
+    SchedulerEventTitlePipe
+  ],
+  providers: [
+    SchedulerEventTitlePipe,
+    SchedulerEventTitleFormatter
   ],
   exports: [
     CalendarSchedulerViewComponent,

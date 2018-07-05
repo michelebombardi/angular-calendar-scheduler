@@ -8,7 +8,7 @@ import {
     template: `
         <div
             class="cal-scheduler-event-title"
-            [innerHTML]="event.title | calendarEventTitle:view:event">
+            [innerHTML]="event.title | schedulerEventTitle:view:event">
         </div>
         <div *ngIf="event.status"
             class="cal-scheduler-event-status"
@@ -26,5 +26,4 @@ export class CalendarSchedulerEventTitleComponent {
     @Input() event: CalendarSchedulerEvent;
 
     @Input() view: string;
-
 }

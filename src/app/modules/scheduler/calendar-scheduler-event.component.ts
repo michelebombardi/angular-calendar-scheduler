@@ -78,7 +78,7 @@ export class CalendarSchedulerEventComponent implements OnInit {
 
     @Input() customTemplate: TemplateRef<any>;
 
-    @Output() eventClicked: EventEmitter<CalendarSchedulerEvent> = new EventEmitter<CalendarSchedulerEvent>();
+    @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
 
     constructor(private renderer: Renderer) {   }
 

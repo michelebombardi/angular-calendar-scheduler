@@ -14,9 +14,6 @@ import {
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import {
-    CalendarDateFormatter
-} from 'angular-calendar';
-import {
     EventColor,
     DayViewHour,
     DayViewHourSegment
@@ -59,6 +56,7 @@ export interface SchedulerViewDay {
     isToday: boolean;
     isFuture: boolean;
     isWeekend: boolean;
+    inMonth: boolean;
     dragOver: boolean;
     backgroundColor?: string;
     cssClass?: string;
@@ -150,7 +148,7 @@ export interface CalendarSchedulerEventAction {
                             [showActions]="showActions"
                             [customTemplate]="cellTemplate"
                             [eventTemplate]="eventTemplate"
-                            (click)="dayClicked.emit({day: day})"
+                            (click)="dayClicked.emit({date: day})"
                             (highlightSegment)="toggleSegmentHighlight($event.event, true)"
                             (unhighlightSegment)="toggleSegmentHighlight($event.event, false)"
                             (segmentClicked)="segmentClicked.emit({segment: $event.segment})"
