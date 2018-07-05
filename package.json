@@ -1,6 +1,6 @@
 {
   "name": "angular-calendar-scheduler",
-  "version": "1.0.0",
+  "version": "0.0.8",
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -29,22 +29,7 @@
     "angular-calendar-scheduler",
     "angular-scheduler"
   ],
-  "dependencies": {
-    "@angular/animations": "^6.0.3",
-    "@angular/common": "^6.0.3",
-    "@angular/compiler": "^6.0.3",
-    "@angular/core": "^6.0.3",
-    "@angular/forms": "^6.0.3",
-    "@angular/http": "^6.0.3",
-    "@angular/platform-browser": "^6.0.3",
-    "@angular/platform-browser-dynamic": "^6.0.3",
-    "@angular/router": "^6.0.3",
-    "bootstrap": "^4.1.1",
-    "core-js": "^2.5.4",
-    "moment": "^2.19.2",
-    "rxjs": "^6.0.0",
-    "zone.js": "^0.8.26"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
     "@angular/cli": "~6.0.8",
@@ -69,6 +54,20 @@
     "typescript": "~2.7.2"
   },
   "peerDependencies": {
-    "angular-calendar": "^0.25.2"
+    "@angular/animations": "^6.0.3",
+    "@angular/common": "^6.0.3",
+    "@angular/compiler": "^6.0.3",
+    "@angular/core": "^6.0.3",
+    "@angular/forms": "^6.0.3",
+    "@angular/http": "^6.0.3",
+    "@angular/platform-browser": "^6.0.3",
+    "@angular/platform-browser-dynamic": "^6.0.3",
+    "@angular/router": "^6.0.3",
+    "angular-calendar": "^0.25.2",
+    "bootstrap": "^4.1.1",
+    "core-js": "^2.5.4",
+    "moment": "^2.19.2",
+    "rxjs": "^6.0.0",
+    "zone.js": "^0.8.26"
   }
 }

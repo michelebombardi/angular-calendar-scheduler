@@ -5,7 +5,10 @@ import {
     SchedulerViewHourSegment,
     CalendarSchedulerEvent
 } from './calendar-scheduler-view.component';
-import * as moment from 'moment';
+
+// WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255
+import * as momentImported from 'moment';
+const moment = momentImported;
 
 @Component({ // [class.no-border]': '!day.hasBorder
     selector: 'calendar-scheduler-cell',

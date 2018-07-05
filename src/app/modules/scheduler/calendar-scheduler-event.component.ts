@@ -8,7 +8,10 @@ import {
 import {
     isSameDay
 } from 'date-fns';
-import * as moment from 'moment';
+
+// WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255
+import * as momentImported from 'moment';
+const moment = momentImported;
 
 /**
  * [mwlCalendarTooltip]="event.title | calendarEventTitle:'weekTooltip':event"
