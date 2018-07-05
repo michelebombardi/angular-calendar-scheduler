@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 import {
   setDate,
@@ -35,13 +35,13 @@ import {
 } from './modules/scheduler/scheduler.module';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  providers: [{
-    provide: CalendarDateFormatter,
-    useClass: SchedulerDateFormatter
-}]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    providers: [{
+        provide: CalendarDateFormatter,
+        useClass: SchedulerDateFormatter
+    }]
 })
 export class AppComponent {
   title = 'Angular Calendar Scheduler Demo';

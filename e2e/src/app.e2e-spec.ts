@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('angular-calendar-scheduler App', () => {
+describe('workspace-project App', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -9,6 +9,6 @@ describe('angular-calendar-scheduler App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('Welcome to angular-calendar-scheduler!');
   });
 });
