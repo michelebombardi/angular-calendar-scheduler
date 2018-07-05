@@ -1,37 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import {
-  setDate,
-  setMonth,
-  setYear,
-  startOfWeek,
-  startOfDay,
-  endOfDay,
-  addDays,
-  addWeeks,
-  addMonths,
-  differenceInCalendarWeeks,
-  isSameDay
+    startOfHour,
+    endOfDay,
+    addHours,
+    addDays,
+    addMonths,
 } from 'date-fns';
 import {
-  SchedulerViewDay,
-  SchedulerViewHour,
-  SchedulerViewHourSegment,
-  CalendarSchedulerEvent,
-  CalendarSchedulerEventStatus,
-  CalendarSchedulerEventAction
+    SchedulerViewDay,
+    SchedulerViewHour,
+    SchedulerViewHourSegment,
+    CalendarSchedulerEvent,
+    CalendarSchedulerEventStatus,
+    CalendarSchedulerEventAction
 } from './modules/scheduler/scheduler.module';
 import {
     CalendarDateFormatter
 } from 'angular-calendar';
 import {
-  CalendarPeriod,
-  startOfPeriod,
-  endOfPeriod,
-  addPeriod,
-  subPeriod,
-  SchedulerDateFormatter
+    CalendarPeriod,
+    startOfPeriod,
+    endOfPeriod,
+    addPeriod,
+    subPeriod,
+    SchedulerDateFormatter
 } from './modules/scheduler/scheduler.module';
 
 @Component({
@@ -43,105 +37,120 @@ import {
         useClass: SchedulerDateFormatter
     }]
 })
-export class AppComponent {
-  title = 'Angular Calendar Scheduler Demo';
+export class AppComponent implements OnInit {
+    title = 'Angular Calendar Scheduler Demo';
 
-  view: CalendarPeriod = 'week';
-  viewDate: Date = new Date();
-  refreshSubject: Subject<any> = new Subject();
-  locale: string = 'en';
-  weekStartsOn: number = 1;
-  startsWithToday: boolean = true;
-  activeDayIsOpen: boolean = true;
-  excludeDays: number[] = [0];
-  dayStartHour: number = 6;
-  dayEndHour: number = 22;
+    view: CalendarPeriod = 'week';
+    viewDate: Date = new Date();
+    refreshSubject: Subject<any> = new Subject();
+    locale: string = 'en';
+    weekStartsOn: number = 1;
+    startsWithToday: boolean = true;
+    activeDayIsOpen: boolean = true;
+    excludeDays: number[] = [0];
+    dayStartHour: number = 6;
+    dayEndHour: number = 22;
 
-  minDate: Date = new Date();
-  maxDate: Date = endOfDay(addMonths(new Date(), 1));
-  dayModifier: Function;
-  hourModifier: Function;
-  segmentModifier: Function;
-  prevBtnDisabled: boolean = false;
-  nextBtnDisabled: boolean = false;
+    minDate: Date = new Date();
+    maxDate: Date = endOfDay(addMonths(new Date(), 1));
+    dayModifier: Function;
+    hourModifier: Function;
+    segmentModifier: Function;
+    prevBtnDisabled: boolean = false;
+    nextBtnDisabled: boolean = false;
 
-  actions: CalendarSchedulerEventAction[] = [{
-      when: 'enabled',
-      label: '<span class="valign-center"><i class="material-icons md-18 md-red-500">cancel</i></span>',
-      title: 'Delete',
-      onClick: (event: CalendarSchedulerEvent): void => {
-          console.log('Pressed action cancel on event ' + event.id);
-      }
+    actions: CalendarSchedulerEventAction[] = [{
+        when: 'enabled',
+        label: '<span class="valign-center"><i class="material-icons md-18 md-red-500">cancel</i></span>',
+        title: 'Delete',
+        onClick: (event: CalendarSchedulerEvent): void => {
+            console.log('Pressed action cancel on event ' + event.id);
+        }
+    }];
+
+    events: CalendarSchedulerEvent[] = [];
+
+    constructor(@Inject(LOCALE_ID) locale: string) {
+        this.locale = locale;
+        
+        this.dayModifier = ((day: SchedulerViewDay): void => {
+            if (!this.isDateValid(day.date)) {
+                day.cssClass = 'cal-disabled';
+            }
+        }).bind(this);
+        this.hourModifier = ((hour: SchedulerViewHour): void => {
+            if (!this.isDateValid(hour.date)) {
+                hour.cssClass = 'cal-disabled';
+            }
+        }).bind(this);
+        this.segmentModifier = ((segment: SchedulerViewHourSegment): void => {
+            if (!this.isDateValid(segment.date)) {
+                segment.isDisabled = true;
+            }
+        }).bind(this);
+
+        this.dateOrViewChanged();
     }
-  ];
 
-  events: CalendarSchedulerEvent[] = [];
+    ngOnInit(): void {
+        this.events = [<CalendarSchedulerEvent>{
+            id: '1',
+            start: addDays(startOfHour(new Date()), 1),
+            end: addDays(addHours(startOfHour(new Date()), 1), 1),
+            title: 'Event 1',
+            content: 'INCONTRO IMPORTANTE',
+            color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+            actions: this.actions,
+            status: 'ok' as CalendarSchedulerEventStatus,
+            isClickable: true,
+            isDisabled: false
+        }]
+    }
 
-  constructor() {
+    changeDate(date: Date): void {
+        console.log('changeDate', date);
+        this.viewDate = date;
+        this.dateOrViewChanged();
+    }
 
-      this.dayModifier = ((day: SchedulerViewDay): void => {
-         if (!this.isDateValid(day.date)) {
-             day.cssClass = 'cal-disabled';
-         }
-      }).bind(this);
-      this.hourModifier = ((hour: SchedulerViewHour): void => {
-         if (!this.isDateValid(hour.date)) {
-             hour.cssClass = 'cal-disabled';
-         }
-      }).bind(this);
-      this.segmentModifier = ((segment: SchedulerViewHourSegment): void => {
-          if (!this.isDateValid(segment.date)) {
-              segment.isDisabled = true;
-          }
-      }).bind(this);
+    changeView(view: CalendarPeriod): void {
+        console.log('changeView', view);
+        this.view = view;
+        this.dateOrViewChanged();
+    }
 
-      this.dateOrViewChanged();
-  }
+    dateOrViewChanged(): void {
+        if (this.startsWithToday) {
+            this.prevBtnDisabled = !this.isDateValid(subPeriod(this.view, this.viewDate, 1));
+            this.nextBtnDisabled = !this.isDateValid(addPeriod(this.view, this.viewDate, 1));
+        } else {
+            this.prevBtnDisabled = !this.isDateValid(endOfPeriod(this.view, subPeriod(this.view, this.viewDate, 1)));
+            this.nextBtnDisabled = !this.isDateValid(startOfPeriod(this.view, addPeriod(this.view, this.viewDate, 1)));
+        }
 
-  changeDate(date: Date): void {
-    console.log('changeDate', date);
-    this.viewDate = date;
-    this.dateOrViewChanged();
-  }
+        if (this.viewDate < this.minDate) {
+            this.changeDate(this.minDate);
+        } else if (this.viewDate > this.maxDate) {
+            this.changeDate(this.maxDate);
+        }
+    }
 
-  changeView(view: CalendarPeriod): void {
-      console.log('changeView', view);
-      this.view = view;
-      this.dateOrViewChanged();
-  }
+    private isDateValid(date: Date): boolean {
+        return /*isToday(date) ||*/ date >= this.minDate && date <= this.maxDate;
+    }
 
-  dateOrViewChanged(): void {
-      if (this.startsWithToday) {
-          this.prevBtnDisabled = !this.isDateValid(subPeriod(this.view, this.viewDate, 1));
-          this.nextBtnDisabled = !this.isDateValid(addPeriod(this.view, this.viewDate, 1));
-      } else {
-          this.prevBtnDisabled = !this.isDateValid(endOfPeriod(this.view, subPeriod(this.view, this.viewDate, 1)));
-          this.nextBtnDisabled = !this.isDateValid(startOfPeriod(this.view, addPeriod(this.view, this.viewDate, 1)));
-      }
+    dayClicked({ date, events }: { date: Date, events: CalendarSchedulerEvent[] }): void {
+        console.log('dayClicked Date', date);
+        console.log('dayClicked Events', events);
+    }
 
-      if (this.viewDate < this.minDate) {
-          this.changeDate(this.minDate);
-      } else if (this.viewDate > this.maxDate) {
-          this.changeDate(this.maxDate);
-      }
-  }
+    eventClicked(action: string, event: CalendarSchedulerEvent): void {
+        console.log('eventClicked Action', action);
+        console.log('eventClicked Event', event);
+    }
 
-  private isDateValid(date: Date): boolean {
-      return /*isToday(date) ||*/ date >= this.minDate && date <= this.maxDate;
-  }
-
-  dayClicked({ date, events }: { date: Date, events: CalendarSchedulerEvent[] }): void {
-    console.log('dayClicked Date', date);
-    console.log('dayClicked Events', events);
-  }
-
-  eventClicked(action: string, event: CalendarSchedulerEvent): void {
-    console.log('eventClicked Action', action);
-    console.log('eventClicked Event', event);
-  }
-
-  segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
-    console.log('segmentClicked Action', action);
-    console.log('segmentClicked Segment', segment);
-  }
+    segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
+        console.log('segmentClicked Action', action);
+        console.log('segmentClicked Segment', segment);
+    }
 }

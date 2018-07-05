@@ -7,6 +7,10 @@ import { AppComponent } from './app.component';
 import { CalendarModule } from 'angular-calendar';
 import { SchedulerModule } from './modules/scheduler/scheduler.module';
 
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it';
+registerLocaleData(localeIt);
+
 
 @NgModule({
   declarations: [
@@ -15,7 +19,7 @@ import { SchedulerModule } from './modules/scheduler/scheduler.module';
   imports: [
     BrowserModule,
     CalendarModule.forRoot(),
-    SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'weekNumber' })
+    SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' })
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'en-US' }
