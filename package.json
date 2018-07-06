@@ -1,6 +1,6 @@
 {
   "name": "angular-calendar-scheduler",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -29,8 +29,7 @@
     "angular-calendar-scheduler",
     "angular-scheduler"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
     "@angular/cli": "~6.0.8",
