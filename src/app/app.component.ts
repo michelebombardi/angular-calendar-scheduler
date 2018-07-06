@@ -28,6 +28,8 @@ import {
     SchedulerDateFormatter
 } from './modules/scheduler/scheduler.module';
 
+import { AppService } from './services/app.service';
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -47,7 +49,7 @@ export class AppComponent implements OnInit {
     weekStartsOn: number = 1;
     startsWithToday: boolean = true;
     activeDayIsOpen: boolean = true;
-    excludeDays: number[] = [0];
+    excludeDays: number[] = []; // [0];
     dayStartHour: number = 6;
     dayEndHour: number = 22;
 
@@ -68,9 +70,9 @@ export class AppComponent implements OnInit {
         }
     }];
 
-    events: CalendarSchedulerEvent[] = [];
+    events: CalendarSchedulerEvent[];
 
-    constructor(@Inject(LOCALE_ID) locale: string) {
+    constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService) {
         this.locale = locale;
         
         this.dayModifier = ((day: SchedulerViewDay): void => {
@@ -93,18 +95,8 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.events = [<CalendarSchedulerEvent>{
-            id: '1',
-            start: addDays(startOfHour(new Date()), 1),
-            end: addDays(addHours(startOfHour(new Date()), 1), 1),
-            title: 'Event 1',
-            content: 'INCONTRO IMPORTANTE',
-            color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
-            actions: this.actions,
-            status: 'ok' as CalendarSchedulerEventStatus,
-            isClickable: true,
-            isDisabled: false
-        }]
+        this.appService.getEvents(this.actions)
+            .then((events: CalendarSchedulerEvent[]) => this.events = events);
     }
 
     changeDate(date: Date): void {

@@ -10,6 +10,10 @@ import { AppComponent } from './app.component';
 import { CalendarModule } from 'angular-calendar';
 import { SchedulerModule } from './modules/scheduler/scheduler.module';
 
+import { AppService } from './services/app.service';
+
+import { MatProgressSpinnerModule } from '@angular/material';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -17,9 +21,11 @@ import { SchedulerModule } from './modules/scheduler/scheduler.module';
   imports: [
     BrowserModule,
     CalendarModule.forRoot(),
-    SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' })
+    SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' }),
+    MatProgressSpinnerModule
   ],
   providers: [
+    AppService,
     { provide: LOCALE_ID, useValue: 'en-US' }
   ],
   bootstrap: [AppComponent]
