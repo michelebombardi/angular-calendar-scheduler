@@ -28,11 +28,12 @@ ___
 
 <!-- * [About](#about) -->
 * [Getting Started](#getting-started)
-  * [Install](#install)
-  * [Include Component](#include-component)
-  * [Usage](#usage)
-<!-- * [Component API](#component-api)
+    * [Install](#install)
+    * [Include Component](#include-component)
+    * [Usage](#usage)
+<!-- * [API](#api)
   * [Properties](#properties) -->
+* [License](#license)
 
 <!-- ## About -->
 
@@ -222,3 +223,7 @@ export class AppComponent implements OnInit {
     </calendar-scheduler-view>
     ...
 ```
+
+### License
+
+This software is released under the MIT license. See LICENSE for more details.
