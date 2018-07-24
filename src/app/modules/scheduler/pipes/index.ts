@@ -1,1 +1,1 @@
-export * from './scheduler-event-title.pipe'
+export * from './scheduler-event-title.pipe';

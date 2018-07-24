@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "setup": "npm install",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",

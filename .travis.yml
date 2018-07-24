@@ -1,6 +1,15 @@
 language: node_js
 node_js: 10
-scripts:
+
+before_script:
+  - yarn setup
+  - yarn build
+  - yarn lint
+
+script:
   - npm install codecov -g
+
 after_success:
   - codecov
+  #- yarn packagr
+  #- yarn publish

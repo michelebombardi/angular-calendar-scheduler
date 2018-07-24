@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, Renderer } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, Renderer2 } from '@angular/core';
 import {
     SchedulerViewDay,
     SchedulerViewHour,
@@ -83,7 +83,7 @@ export class CalendarSchedulerEventComponent implements OnInit {
 
     @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
 
-    constructor(private renderer: Renderer) {   }
+    constructor(private renderer: Renderer2) {   }
 
     public ngOnInit(): void {
         this.segment.hasBorder = this.hour.hasBorder = !this.event.endsAfterSegment;

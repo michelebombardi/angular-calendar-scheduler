@@ -50,8 +50,8 @@ export class AppService {
                 isClickable: true,
                 isDisabled: false
             }
-        ]
+        ];
 
-        return new Promise(resolve => setTimeout(() => resolve(events), 3000))
+        return new Promise(resolve => setTimeout(() => resolve(events), 3000));
     }
 }

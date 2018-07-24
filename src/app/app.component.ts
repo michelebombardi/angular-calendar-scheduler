@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
 
     constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService) {
         this.locale = locale;
-        
+
         this.dayModifier = ((day: SchedulerViewDay): void => {
             if (!this.isDateValid(day.date)) {
                 day.cssClass = 'cal-disabled';
