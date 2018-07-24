@@ -1,4 +1,4 @@
-# AngularCalendarScheduler
+# Angular Calendar Scheduler
 
 This project provide a scheduler view component for [mattlewis92/angular-calendar](https://github.com/mattlewis92/angular-calendar).
 
