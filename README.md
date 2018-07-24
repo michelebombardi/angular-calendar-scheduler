@@ -12,6 +12,10 @@ This project provide a scheduler view component for [mattlewis92/angular-calenda
 <a href="https://codecov.io/gh/bm-software/angular-calendar-scheduler">
     <img src="https://codecov.io/gh/bm-software/angular-calendar-scheduler/branch/master/graph/badge.svg" alt="codecov">
 </a>
+<img src="https://img.shields.io/github/issues/bm-software/angular-calendar-scheduler.svg" alt="issues">
+<img src="https://img.shields.io/github/forks/bm-software/angular-calendar-scheduler.svg" alt="forks">
+<img src="https://img.shields.io/github/stars/bm-software/angular-calendar-scheduler.svg" alt="stars">
+<img src="https://img.shields.io/github/license/bm-software/angular-calendar-scheduler.svg" alt="license">
 
 ## Development server
 
