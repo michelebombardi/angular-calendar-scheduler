@@ -15,15 +15,16 @@ This project provide a scheduler view component for [mattlewis92/angular-calenda
 <a href="https://github.com/bm-software/angular-calendar-scheduler/issues">
     <img src="https://img.shields.io/github/issues/bm-software/angular-calendar-scheduler.svg" alt="issues">
 </a>
-<a href="https://github.com/bm-software/angular-calendar-scheduler">
+<a href="https://github.com/bm-software/angular-calendar-scheduler/network">
     <img src="https://img.shields.io/github/forks/bm-software/angular-calendar-scheduler.svg" alt="forks">
 </a>
-<a href="https://github.com/bm-software/angular-calendar-scheduler">
+<a href="https://github.com/bm-software/angular-calendar-scheduler/stargazers">
     <img src="https://img.shields.io/github/stars/bm-software/angular-calendar-scheduler.svg" alt="stars">
 </a>
 <a href="https://github.com/bm-software/angular-calendar-scheduler">
     <img src="https://img.shields.io/github/license/bm-software/angular-calendar-scheduler.svg" alt="license">
 </a>
+
 
 ## Development server
 
