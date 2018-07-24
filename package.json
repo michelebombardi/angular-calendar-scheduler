@@ -76,10 +76,8 @@
   },
   "peerDependencies": {
     "@angular/animations": ">=6.0.0 <8.0.0",
-    "@angular/cdk": ">=6.0.0 <8.0.0",
     "@angular/common": ">=6.0.0 <8.0.0",
     "@angular/core": ">=6.0.0 <8.0.0",
-    "@angular/material": ">=6.0.0 <8.0.0",
     "angular-calendar": ">=0.25.2",
     "bootstrap": ">=4.1.0",
     "moment": ">=2.18.0"
