@@ -2,14 +2,21 @@ language: node_js
 node_js: 10
 
 before_script:
-  - yarn setup
-  - yarn build
-  - yarn lint
+  - npm install -g @angular/cli
+  - ng setup
+  - ng lint
 
 script:
   - npm install codecov -g
+  - ng build --prod
 
 after_success:
   - codecov
-  #- yarn packagr
-  #- yarn publish
+  # - yarn packagr
+  # - yarn publish
+
+notifications:
+  email:
+    false
+    # on_failure: change
+    # on_success: change

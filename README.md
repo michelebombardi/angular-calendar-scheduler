@@ -8,8 +8,8 @@ This project provide a scheduler view component for [mattlewis92/angular-calenda
 </a> 
 <a href="https://travis-ci.org/bm-software/angular-calendar-scheduler">
     <img src="https://travis-ci.org/bm-software/angular-calendar-scheduler.svg?branch=master" alt="travis"></a> 
-<a href="https://codecov.io/github/scttcper/ngx-color">
-    <img src="https://img.shields.io/codecov/c/github/scttcper/ngx-color.svg" alt="codecov">
+<a href="https://codecov.io/gh/bm-software/angular-calendar-scheduler">
+    <img src="https://img.shields.io/codecov/c/github/bm-software/angular-calendar-scheduler.svg" alt="codecov">
 </a>
 
 ## Development server
