@@ -14,12 +14,7 @@ import {
     SchedulerViewHourSegment,
     CalendarSchedulerEvent,
     CalendarSchedulerEventStatus,
-    CalendarSchedulerEventAction
-} from './modules/scheduler/scheduler.module';
-import {
-    CalendarDateFormatter
-} from 'angular-calendar';
-import {
+    CalendarSchedulerEventAction,
     CalendarPeriod,
     startOfPeriod,
     endOfPeriod,
@@ -27,6 +22,9 @@ import {
     subPeriod,
     SchedulerDateFormatter
 } from './modules/scheduler/scheduler.module';
+import {
+    CalendarDateFormatter
+} from 'angular-calendar';
 
 import { AppService } from './services/app.service';
 
