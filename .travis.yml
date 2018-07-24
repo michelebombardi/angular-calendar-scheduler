@@ -3,11 +3,12 @@ node_js: 10
 
 before_script:
   - npm install -g @angular/cli
-  - ng lint
+  - npm install @angular/compiler --save
 
 script:
-  - npm install codecov -g
+  - ng lint
   - ng build --prod
+  - npm install codecov -g
 
 after_success:
   - codecov
@@ -16,6 +17,5 @@ after_success:
 
 notifications:
   email:
-    false
-    # on_failure: change
-    # on_success: change
+    on_failure: change
+    on_success: change
