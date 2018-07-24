@@ -41,11 +41,13 @@ ___
 
 ### Install
 
+##### NPM
+
 ```sh
 npm install angular-calendar-scheduler --save
 ```
 
-or
+##### Yarn
 
 ```sh
 yarn add angular-calendar-scheduler
