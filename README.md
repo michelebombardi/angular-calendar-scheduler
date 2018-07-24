@@ -12,7 +12,7 @@ This project provide a scheduler view component for [mattlewis92/angular-calenda
 <a href="https://codecov.io/gh/bm-software/angular-calendar-scheduler">
     <img src="https://codecov.io/gh/bm-software/angular-calendar-scheduler/branch/master/graph/badge.svg" alt="codecov">
 </a>
-<a href="hhttps://github.com/bm-software/angular-calendar-scheduler/issues">
+<a href="https://github.com/bm-software/angular-calendar-scheduler/issues">
     <img src="https://img.shields.io/github/issues/bm-software/angular-calendar-scheduler.svg" alt="issues">
 </a>
 <a href="https://github.com/bm-software/angular-calendar-scheduler">
