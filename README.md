@@ -4,12 +4,13 @@ This project provide a scheduler view component for [mattlewis92/angular-calenda
 
 <br>
 <a href="https://www.npmjs.com/package/angular-calendar-scheduler">
-    <img src="https://badge.fury.io/js/ngx-color.svg" alt="npm">
+    <img src="https://badge.fury.io/js/angular-calendar-scheduler.svg" alt="npm">
 </a> 
 <a href="https://travis-ci.org/bm-software/angular-calendar-scheduler">
-    <img src="https://travis-ci.org/bm-software/angular-calendar-scheduler.svg?branch=master" alt="travis"></a> 
+    <img src="https://travis-ci.org/bm-software/angular-calendar-scheduler.svg?branch=master" alt="travis">
+</a> 
 <a href="https://codecov.io/gh/bm-software/angular-calendar-scheduler">
-    <img src="https://img.shields.io/codecov/c/github/bm-software/angular-calendar-scheduler.svg" alt="codecov">
+    <img src="https://codecov.io/gh/bm-software/angular-calendar-scheduler/branch/master/graph/badge.svg" alt="codecov">
 </a>
 
 ## Development server
