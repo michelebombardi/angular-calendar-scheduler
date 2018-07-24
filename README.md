@@ -41,13 +41,13 @@ ___
 
 ### Install
 
-##### NPM
+#### NPM
 
 ```sh
 npm install angular-calendar-scheduler --save
 ```
 
-##### Yarn
+#### Yarn
 
 ```sh
 yarn add angular-calendar-scheduler
@@ -55,7 +55,7 @@ yarn add angular-calendar-scheduler
 
 ### Include Component
 
-##### import
+#### Import
 
 ```ts
 import { CalendarModule } from 'angular-calendar';
@@ -76,7 +76,7 @@ class AppModule { }
 
 ### Usage
 
-##### app.component.ts
+#### app.component.ts
 
 ```ts
 import { CalendarDateFormatter } from 'angular-calendar';
@@ -200,7 +200,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-##### app.component.html
+#### app.component.html
 
 ```html
     ...
