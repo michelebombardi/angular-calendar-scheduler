@@ -3,7 +3,6 @@ node_js: 10
 
 before_script:
   - npm install -g @angular/cli
-  - npm install @angular/core @angular/compiler @angular/animations @angular/material @angular/cdk bootstrap --save
 
 script:
   - ng lint
