@@ -3,7 +3,7 @@ import {
     CalendarSchedulerEvent,
     CalendarSchedulerEventStatus,
     CalendarSchedulerEventAction
-} from '../modules/scheduler/scheduler.module';
+} from 'angular-calendar-scheduler';
 import {
     addDays,
     startOfHour,

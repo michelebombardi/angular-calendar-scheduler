@@ -8,7 +8,7 @@ registerLocaleData(localeIt);
 import { AppComponent } from './app.component';
 
 import { CalendarModule } from 'angular-calendar';
-import { SchedulerModule } from './modules/scheduler/scheduler.module';
+import { SchedulerModule } from 'angular-calendar-scheduler';
 
 import { AppService } from './services/app.service';
 

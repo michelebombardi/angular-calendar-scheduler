@@ -21,7 +21,7 @@ import {
     addPeriod,
     subPeriod,
     SchedulerDateFormatter
-} from './modules/scheduler/scheduler.module';
+} from 'angular-calendar-scheduler';
 import {
     CalendarDateFormatter
 } from 'angular-calendar';
