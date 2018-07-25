@@ -8,7 +8,6 @@
     "dist"
   ],
   "scripts": {
-    "setup": "npm install",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
