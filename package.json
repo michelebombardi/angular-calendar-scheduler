@@ -20,7 +20,7 @@
     "build:dist": "npm run build:package && npm run build:styles && npm run copyfiles",
     "build:styles": "node-sass src/app/modules/scheduler/calendar-scheduler-view.component.scss | postcss --output dist/css/angular-calendar-scheduler.css",
     "copyfiles": "copyfiles CHANGELOG.md dist && copyfiles -u 1 src/modules/**/package.json dist && copyfiles -u 1 src/**/*.scss dist/scss",
-    "release:git": "git add package.json yarn.lock && git commit -m \"bump version number\" && standard-version --first-release && git push --follow-tags origin master",
+    "release:git": "git add package.json yarn.lock && git commit -m \"bump version number\" && standard-version && git push --follow-tags origin master",
     "release:npm": "npm run build:dist && npm publish dist",
     "release": "npm run release:git && npm run release:npm"
   },
