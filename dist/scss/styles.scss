@@ -1,0 +1,67 @@
+/* Material Icons Styles (http://google.github.io/material-design-icons/#icon-font-for-the-web) */
+/* Rules for sizing the icon. */
+.material-icons.md-12 { font-size: 12px; }
+.material-icons.md-14 { font-size: 14px; }
+.material-icons.md-16 { font-size: 16px; }
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-20 { font-size: 20px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-32 { font-size: 32px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+$orange-600: #FB8C00;
+$red-500: #F44336;
+$green-500: #4CAF50;
+$white-1000: #FFFFFF;
+$white-1000-50: rgba(255, 255, 255, 0.5);
+$black-1000: #000000;
+
+.material-icons.md-orange-600 { color: $orange-600; }
+.material-icons.md-red-500 { color: $red-500; }
+.material-icons.md-green-500 { color: $green-500; }
+.material-icons.md-white { color: $white-1000; }
+.material-icons.md-white-50 { color: $white-1000-50 }
+.material-icons.md-black { color: $black-1000; }
+/*----------------------------------------------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+html, body {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.align-center {
+    &.vertical:not(.horizontal) {
+        display: flex;
+        align-items: center;
+    }
+
+    &.horizontal:not(.vertical) {
+        text-align: center;
+    }
+
+    &:not(.vertical):not(.horizontal) {
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.valign-center {
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+}

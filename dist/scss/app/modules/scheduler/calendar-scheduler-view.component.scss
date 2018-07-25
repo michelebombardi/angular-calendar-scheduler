@@ -1,0 +1,350 @@
+.cal-scheduler-view {
+  .cal-scheduler-headers {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-flow: row wrap;
+      flex-flow: row wrap;
+      margin-bottom: 3px;
+      border: 1px solid #e1e1e1;
+
+      .aside {
+          flex: 1 0;
+
+          &.cal-header-clock {
+              max-width: 5em;
+          }
+      }
+
+      .cal-header {
+          flex: 1;
+          text-align: center;
+          padding: 5px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &:not(:last-child) {
+              border-right: 1px solid #e1e1e1;
+          }
+
+          &:hover {
+              background-color: #ededed;
+          }
+
+          &.cal-today {
+              background-color: #e8fde7;
+          }
+
+          &.cal-weekend span {
+              color: #8b0000;
+          }
+
+          span {
+              font-weight: 400;
+              opacity: 0.5;
+          }
+      }
+
+      .cal-header-cols {
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-flex-flow: row wrap;
+          flex-flow: row wrap;
+      }
+  }
+
+  .cal-scheduler {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-flow: row wrap;
+      flex-flow: row wrap;
+
+      .aside {
+          flex: 1 0;
+
+          &.cal-scheduler-hour-rows {
+              max-width: 5em; //5.12em
+          }
+      }
+
+      .cal-scheduler-hour-rows {
+          width: auto !important;
+          border: solid 1px #e1e1e1;
+          overflow: hidden;
+          position: relative;
+
+          .cal-scheduler-hour {
+              display: -webkit-box;
+              display: -moz-box;
+              display: -ms-flexbox;
+              display: flex;
+              height: 7.25em;
+
+              &:nth-child(odd) {
+                  background-color: #fafafa;
+              }
+
+              &:not(:last-child) {
+                  border-bottom: 1px solid #e1e1e1;
+              }
+
+              .cal-scheduler-time {
+                  display: -webkit-box;
+                  display: -moz-box;
+                  display: -ms-flexbox;
+                  display: flex;
+                  -webkit-flex-flow: column wrap;
+                  flex-flow: column wrap;
+                  width: 100%;
+                  font-weight: bold;
+                  text-align: center;
+
+                  .cal-scheduler-hour-segment {
+                      flex: 1 0;
+
+                      &:hover {
+                          background-color: #ededed;
+                      }
+
+                      &:not(:last-child) {
+                          border-bottom: thin dashed #e1e1e1;
+                      }
+                  }
+              }
+          }
+      }
+
+      .cal-scheduler-cols {
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-flex-flow: row wrap;
+          flex-flow: row wrap;
+          border-top: 1px solid #e1e1e1;
+
+          .cal-scheduler-col {
+              display: -webkit-box;
+              display: -moz-box;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-flex-flow: column wrap;
+              flex-flow: column wrap;
+              flex: 1 0;
+              border-right: 1px solid #e1e1e1;
+              /*&:hover {
+                  background-color: #fafafa;
+              }*/
+              .cal-scheduler-cell {
+                  display: -webkit-box;
+                  display: -moz-box;
+                  display: -ms-flexbox;
+                  display: flex;
+                  flex-flow: column wrap;
+                  flex: 1 0;
+
+                  &.cal-today {
+                      background-color: #e8fde7;
+                  }
+
+                  &.cal-disabled {
+                      background-color: #eee;
+                      pointer-events: none;
+
+                      .cal-scheduler-events {
+                          filter: opacity(50%);
+                          -webkit-filter: opacity(50%);
+                      }
+                  }
+
+                  .cal-scheduler-segments {
+                      display: -webkit-box;
+                      display: -moz-box;
+                      display: -ms-flexbox;
+                      display: flex;
+                      flex-flow: column wrap;
+                      flex: 1 0;
+                      border-bottom: 1px solid #e1e1e1;
+
+                      &.no-border {
+                          border-bottom: 0 !important;
+                      }
+
+                      &.cal-disabled {
+                          background-color: #eee;
+                          pointer-events: none;
+
+                          .cal-scheduler-event {
+                              filter: opacity(50%);
+                              -webkit-filter: opacity(50%);
+                          }
+                      }
+
+                      .cal-scheduler-segment {
+                          flex: 1 0;
+                          display: -webkit-box;
+                          display: -moz-box;
+                          display: -ms-flexbox;
+                          display: flex;
+                          flex-flow: column wrap;
+
+                          &:not(.has-events):hover {
+                              background-color: #ededed;
+                          }
+
+                          &:not(:last-child) {
+                              border-bottom: thin dashed #e1e1e1;
+                          }
+
+                          &.no-border {
+                              border-bottom: 0 !important;
+                          }
+
+                          &.cal-disabled {
+                              background-color: #eee;
+                              pointer-events: none;
+                          }
+
+                          .cal-scheduler-events {
+                              flex: 1 0;
+                              display: -webkit-box;
+                              display: -moz-box;
+                              display: -ms-flexbox;
+                              display: flex;
+                              flex-flow: column wrap;
+
+                              .cal-scheduler-event-container {
+                                  flex: 1 0;
+                                  display: -webkit-box;
+                                  display: -moz-box;
+                                  display: -ms-flexbox;
+                                  display: flex;
+                                  flex-flow: column wrap;
+
+                                  .cal-scheduler-event {
+                                      flex: 1 0;
+                                      display: -webkit-box;
+                                      display: -moz-box;
+                                      display: -ms-flexbox;
+                                      display: flex;
+                                      flex-flow: row wrap;
+                                      padding: 0 10px;
+                                      font-size: 12px;
+                                      margin: 0 2px;
+                                      line-height: 30px;
+                                      overflow: hidden;
+                                      text-overflow: ellipsis;
+                                      white-space: nowrap;
+
+                                      -webkit-transition: all ease-out 0.2s;
+                                      -moz-transition: all ease-out 0.2s;
+                                      -o-transition: all ease-out 0.2s;
+                                      transition: all ease-out 0.2s;
+
+                                      filter: brightness(100%);
+                                      -webkit-filter: brightness(100%);
+                                      -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+
+                                      &.cal-starts-within-segment {
+                                          border-top-left-radius: .3em;
+                                          border-top-right-radius: .3em;
+                                          margin-top: 2px;
+                                      }
+
+                                      &.cal-ends-within-segment {
+                                          border-bottom-left-radius: .3em;
+                                          border-bottom-right-radius: .3em;
+                                          margin-bottom: 2px;
+                                      }
+
+                                      &.cal-disabled {
+                                          background-color: gray !important;
+                                          // pointer-events: none;
+                                          filter: grayscale(100%);
+                                          -webkit-filter: grayscale(100%);
+                                      }
+
+                                      &.cal-not-clickable {
+                                          cursor: not-allowed !important;
+                                      }
+
+                                      &:not(.cal-disabled):hover,
+                                      &:not(.cal-disabled).hovered {
+                                          cursor: pointer;
+                                          filter: brightness(80%);
+                                          -webkit-filter: brightness(80%);
+                                      }
+
+                                      .cal-scheduler-event-title-container {
+                                          position: relative;
+                                          width: 100%;
+
+                                          .cal-scheduler-event-title {
+                                              font-size: 16px;
+                                              font-weight: bold;
+                                          }
+
+                                          .cal-scheduler-event-status {
+                                              position: absolute;
+                                              top: 25%;
+                                              right: 1%;
+
+                                              width: 16px;
+                                              height: 16px;
+                                              background: grey;
+                                              -moz-border-radius: 50px;
+                                              -webkit-border-radius: 50px;
+                                              border-radius: 50px;
+                                              border: 1px solid black;
+
+                                              &.ok {
+                                                  background: green;
+                                              }
+
+                                              &.warning {
+                                                  background: orange;
+                                              }
+
+                                              &.danger {
+                                                  background: red;
+                                              }
+                                          }
+                                      }
+
+                                      .cal-scheduler-event-content-container {
+                                          width: 100%;
+
+                                          .cal-scheduler-event-content {
+                                          }
+                                      }
+
+                                      .cal-scheduler-event-actions-container {
+                                          flex: 1 0;
+                                          position: relative;
+
+                                          .cal-scheduler-event-actions {
+                                              position: absolute;
+                                              bottom: 5px;
+                                              right: 0;
+
+                                              .cal-scheduler-event-action {
+                                                  text-decoration: none;
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  }
+}
