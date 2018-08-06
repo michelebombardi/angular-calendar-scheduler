@@ -40,7 +40,8 @@
     "angular-calendar",
     "angular-calendar-scheduler",
     "angular-scheduler",
-    "angular-calendar-week-hours-view"
+    "angular-calendar-week-hours-view",
+    "week-hours-view"
   ],
   "dependencies": {},
   "devDependencies": {
