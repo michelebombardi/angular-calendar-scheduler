@@ -26,6 +26,23 @@ export function provideAuthConfig(config: SchedulerConfig) {
     return new SchedulerConfig(config);
 }
 
+/**
+ * The main module of this library. Example usage:
+ *
+ * ```typescript
+ * import { CalenderModule } from 'angular-calendar';
+ * import { SchedulerModule } from 'angular-calendar-scheduler';
+ *
+ * @NgModule({
+ *   imports: [
+ *     CalenderModule.forRoot(),
+ *     SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' })
+ *   ]
+ * })
+ * class MyModule {}
+ * ```
+ *
+ */
 @NgModule({
   imports: [
     CommonModule,
