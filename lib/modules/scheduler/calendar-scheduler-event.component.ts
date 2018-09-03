@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, Renderer2 } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import {
     SchedulerViewDay,
     SchedulerViewHour,
@@ -17,15 +17,29 @@ const moment = momentImported;
  * [mwlCalendarTooltip]="event.title | calendarEventTitle:'weekTooltip':event"
  * [tooltipPlacement]="tooltipPlacement"
  */
+/**
+ * [class.cal-starts-within-segment]="!event.startsBeforeSegment"
+ * [class.cal-ends-within-segment]="!event.endsAfterSegment"
+ * 
+ * <mwl-calendar-scheduler-event-title *ngIf="!event.startsBeforeSegment"
+ *     [event]="event"
+ *     view="week">
+ * </mwl-calendar-scheduler-event-title>
+ * <mwl-calendar-scheduler-event-content *ngIf="!event.startsBeforeSegment"
+ *     [event]="event">
+ * </mwl-calendar-scheduler-event-content>
+ * <mwl-calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isClickable && !event.endsAfterSegment"></mwl-calendar-scheduler-event-actions>
+ * <mwl-calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isDisabled && !event.endsAfterSegment"></mwl-calendar-scheduler-event-actions>
+ */
 @Component({
     selector: 'calendar-scheduler-event',
     template: `
         <ng-template #defaultTemplate>
-            <div
+            <div #calEvent
                 class="cal-scheduler-event"
                 [title]="title"
-                [class.cal-starts-within-segment]="!event.startsBeforeSegment"
-                [class.cal-ends-within-segment]="!event.endsAfterSegment"
+                [class.cal-starts-within-segment]="true"
+                [class.cal-ends-within-segment]="true"
                 [class.hovered]="event.isHovered"
                 [class.cal-disabled]="event.isDisabled || segment.isDisabled"
                 [class.cal-not-clickable]="!event.isClickable"
@@ -34,15 +48,15 @@ const moment = momentImported;
                 (mwlClick)="eventClicked.emit({event: event})"
                 (mouseenter)="highlightEvent()"
                 (mouseleave)="unhighlightEvent()">
-                <calendar-scheduler-event-title *ngIf="!event.startsBeforeSegment"
+                <calendar-scheduler-event-title
                     [event]="event"
                     view="week">
                 </calendar-scheduler-event-title>
-                <calendar-scheduler-event-content *ngIf="!event.startsBeforeSegment"
+                <calendar-scheduler-event-content
                     [event]="event">
                 </calendar-scheduler-event-content>
-                <calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isClickable && !event.endsAfterSegment"></calendar-scheduler-event-actions>
-                <calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isDisabled && !event.endsAfterSegment"></calendar-scheduler-event-actions>
+                <calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isClickable"></calendar-scheduler-event-actions>
+                <calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isDisabled"></calendar-scheduler-event-actions>
             </div>
         </ng-template>
         <ng-template
@@ -64,6 +78,7 @@ const moment = momentImported;
     }
 })
 export class CalendarSchedulerEventComponent implements OnInit {
+    @ViewChild('calEvent') eventRef: ElementRef;
 
     @Input() title: string;
 
@@ -81,16 +96,24 @@ export class CalendarSchedulerEventComponent implements OnInit {
 
     @Input() customTemplate: TemplateRef<any>;
 
+    @Input() container: HTMLDivElement;
+
+    @Input() hourSegments: number = 2;
+
     @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
 
     constructor(private renderer: Renderer2) {   }
 
     public ngOnInit(): void {
-        this.segment.hasBorder = this.hour.hasBorder = !this.event.endsAfterSegment;
+        this.segment.hasBorder = this.hour.hasBorder = true; //!this.event.endsAfterSegment;
 
         this.title = moment(this.event.start).format('dddd L');
 
         this.checkEnableState();
+    }
+
+    public ngAfterViewInit(): void {
+        setTimeout(() => this.renderer.setStyle(this.eventRef.nativeElement, 'height', `${this.container.clientHeight * this.hourSegments}px`), 0);
     }
 
     private checkEnableState(): void {

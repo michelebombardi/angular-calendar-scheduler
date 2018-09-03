@@ -141,6 +141,7 @@ export interface CalendarSchedulerEventAction {
                         <calendar-scheduler-cell
                             *ngFor="let hour of day.hours"
                             [ngClass]="day?.cssClass"
+                            [hourSegments]="hourSegments"
                             [day]="day"
                             [hour]="hour"
                             [locale]="locale"
@@ -360,28 +361,28 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * @hidden
      */
     toggleSegmentHighlight(event: CalendarSchedulerEvent, isHighlighted: boolean): void {
-        this.days.forEach((day: SchedulerViewDay) => {
-            day.hours.forEach((hour: SchedulerViewHour) => {
-                // hour.segments.forEach((segment: SchedulerViewHourSegment) => {
-                //    if (isHighlighted && segment.events.indexOf(event) > -1) {
-                //        segment.backgroundColor = event.color.secondary;
-                //    } else {
-                //        delete segment.backgroundColor;
-                //    }
-                // });
-                hour.segments.filter((segment: SchedulerViewHourSegment) => segment.events.some((ev: CalendarSchedulerEvent) => ev.id === event.id && ev.start.getDay() === event.start.getDay()))
-                    .forEach((segment: SchedulerViewHourSegment) => {
-                        segment.events.filter((ev: CalendarSchedulerEvent) => ev.id === event.id && ev.start.getDay() === event.start.getDay())
-                            .forEach((e: CalendarSchedulerEvent) => {
-                                if (isHighlighted) {
-                                    segment.backgroundColor = e.color.secondary;
-                                } else {
-                                    delete segment.backgroundColor;
-                                }
-                        });
-                });
-            });
-        });
+        // this.days.forEach((day: SchedulerViewDay) => {
+        //     day.hours.forEach((hour: SchedulerViewHour) => {
+        //         // hour.segments.forEach((segment: SchedulerViewHourSegment) => {
+        //         //    if (isHighlighted && segment.events.indexOf(event) > -1) {
+        //         //        segment.backgroundColor = event.color.secondary;
+        //         //    } else {
+        //         //        delete segment.backgroundColor;
+        //         //    }
+        //         // });
+        //         hour.segments.filter((segment: SchedulerViewHourSegment) => segment.events.some((ev: CalendarSchedulerEvent) => ev.id === event.id && ev.start.getDay() === event.start.getDay()))
+        //             .forEach((segment: SchedulerViewHourSegment) => {
+        //                 segment.events.filter((ev: CalendarSchedulerEvent) => ev.id === event.id && ev.start.getDay() === event.start.getDay())
+        //                     .forEach((e: CalendarSchedulerEvent) => {
+        //                         if (isHighlighted) {
+        //                             segment.backgroundColor = e.color.secondary;
+        //                         } else {
+        //                             delete segment.backgroundColor;
+        //                         }
+        //                 });
+        //         });
+        //     });
+        // });
     }
 
     private refreshHeader(): void {
@@ -510,21 +511,21 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         const eventStart: Date = event.start;
         const eventEnd: Date = event.end || event.start;
 
-        if (eventStart > periodStart && eventStart < periodEnd) {
+        //if (eventStart > periodStart && eventStart < periodEnd) {
+        //    return true;
+        //}
+        if (eventEnd > periodStart && eventEnd < periodEnd) {   // QUESTO E' PER IL let eventsInWeek = this.getEventsInPeriod(...)
             return true;
         }
-        if (eventEnd > periodStart && eventEnd < periodEnd) {
-            return true;
-        }
-        if (eventStart < periodStart && eventEnd > periodEnd) {
-            return true;
-        }
+        //if (eventEnd < periodStart && eventEnd > periodEnd) {
+        //    return true;
+        //}
         if (isSameSecond(eventStart, periodStart) || isSameSecond(eventStart, subSeconds(periodEnd, 1))) {
             return true;
         }
-        if (isSameSecond(subSeconds(eventEnd, 1), periodStart) || isSameSecond(eventEnd, periodEnd)) {
-            return true;
-        }
+        //if (isSameSecond(subSeconds(eventEnd, 1), periodStart) || isSameSecond(eventEnd, periodEnd)) {
+        //    return true;
+        //}
         return false;
     }
 

@@ -27,9 +27,10 @@ const moment = momentImported;
                     [class.no-border]="!segment.hasBorder"
                     (mwlClick)="onSegmentClick($event, segment)">
 
-                    <div class="cal-scheduler-events" *ngIf="segment.events.length > 0">
+                    <div #eventsContainer class="cal-scheduler-events" *ngIf="segment.events.length > 0">
                         <calendar-scheduler-event
                             *ngFor="let event of segment.events"
+                            [hourSegments]="hourSegments"
                             [day]="day"
                             [hour]="hour"
                             [segment]="segment"
@@ -39,7 +40,8 @@ const moment = momentImported;
                             [tooltipPlacement]="tooltipPlacement"
                             [showActions]="showActions"
                             [customTemplate]="eventTemplate"
-                            (eventClicked)="onEventClick($event, event)">
+                            (eventClicked)="onEventClick($event, event)"
+                            [container]="eventsContainer">
                         </calendar-scheduler-event>
                     </div>
                 </div>
@@ -89,6 +91,8 @@ export class CalendarSchedulerCellComponent implements OnInit {
     @Input() customTemplate: TemplateRef<any>;
 
     @Input() eventTemplate: TemplateRef<any>;
+
+    @Input() hourSegments: number = 2;
 
     @Output() highlightSegment: EventEmitter<any> = new EventEmitter();
 

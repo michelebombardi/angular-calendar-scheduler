@@ -218,14 +218,17 @@
                               display: -ms-flexbox;
                               display: flex;
                               flex-flow: column wrap;
+                              position: relative;
 
                               .cal-scheduler-event-container {
                                   flex: 1 0;
+                                  width: 100%;
                                   display: -webkit-box;
                                   display: -moz-box;
                                   display: -ms-flexbox;
                                   display: flex;
                                   flex-flow: column wrap;
+                                  position: absolute;
 
                                   .cal-scheduler-event {
                                       flex: 1 0;
@@ -233,7 +236,7 @@
                                       display: -moz-box;
                                       display: -ms-flexbox;
                                       display: flex;
-                                      flex-flow: row wrap;
+                                      flex-flow: column wrap;
                                       padding: 0 10px;
                                       font-size: 12px;
                                       margin: 0 2px;
@@ -282,8 +285,8 @@
                                       }
 
                                       .cal-scheduler-event-title-container {
-                                          position: relative;
                                           width: 100%;
+                                          position: relative;
 
                                           .cal-scheduler-event-title {
                                               font-size: 16px;
@@ -292,7 +295,7 @@
 
                                           .cal-scheduler-event-status {
                                               position: absolute;
-                                              top: 25%;
+                                              top: 24%;
                                               right: 1%;
 
                                               width: 16px;
@@ -318,6 +321,7 @@
                                       }
 
                                       .cal-scheduler-event-content-container {
+                                          flex: 1 auto;
                                           width: 100%;
 
                                           .cal-scheduler-event-content {
@@ -325,7 +329,7 @@
                                       }
 
                                       .cal-scheduler-event-actions-container {
-                                          flex: 1 0;
+                                          width: 100%;
                                           position: relative;
 
                                           .cal-scheduler-event-actions {
