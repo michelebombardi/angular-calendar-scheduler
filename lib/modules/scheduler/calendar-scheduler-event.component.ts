@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 import {
     SchedulerViewDay,
     SchedulerViewHour,
@@ -20,7 +20,7 @@ const moment = momentImported;
 /**
  * [class.cal-starts-within-segment]="!event.startsBeforeSegment"
  * [class.cal-ends-within-segment]="!event.endsAfterSegment"
- * 
+ *
  * <mwl-calendar-scheduler-event-title *ngIf="!event.startsBeforeSegment"
  *     [event]="event"
  *     view="week">
@@ -77,7 +77,7 @@ const moment = momentImported;
         'class': 'cal-scheduler-event-container'
     }
 })
-export class CalendarSchedulerEventComponent implements OnInit {
+export class CalendarSchedulerEventComponent implements OnInit, AfterViewInit {
     @ViewChild('calEvent') eventRef: ElementRef;
 
     @Input() title: string;
@@ -105,7 +105,7 @@ export class CalendarSchedulerEventComponent implements OnInit {
     constructor(private renderer: Renderer2) {   }
 
     public ngOnInit(): void {
-        this.segment.hasBorder = this.hour.hasBorder = true; //!this.event.endsAfterSegment;
+        this.segment.hasBorder = this.hour.hasBorder = true; // !this.event.endsAfterSegment;
 
         this.title = moment(this.event.start).format('dddd L');
 

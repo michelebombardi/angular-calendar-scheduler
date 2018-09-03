@@ -511,21 +511,21 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         const eventStart: Date = event.start;
         const eventEnd: Date = event.end || event.start;
 
-        //if (eventStart > periodStart && eventStart < periodEnd) {
+        // if (eventStart > periodStart && eventStart < periodEnd) {
         //    return true;
-        //}
+        // }
         if (eventEnd > periodStart && eventEnd < periodEnd) {   // QUESTO E' PER IL let eventsInWeek = this.getEventsInPeriod(...)
             return true;
         }
-        //if (eventEnd < periodStart && eventEnd > periodEnd) {
+        // if (eventEnd < periodStart && eventEnd > periodEnd) {
         //    return true;
-        //}
+        // }
         if (isSameSecond(eventStart, periodStart) || isSameSecond(eventStart, subSeconds(periodEnd, 1))) {
             return true;
         }
-        //if (isSameSecond(subSeconds(eventEnd, 1), periodStart) || isSameSecond(eventEnd, periodEnd)) {
+        // if (isSameSecond(subSeconds(eventEnd, 1), periodStart) || isSameSecond(eventEnd, periodEnd)) {
         //    return true;
-        //}
+        // }
         return false;
     }
 
