@@ -6,7 +6,8 @@ import {
     CalendarSchedulerEvent
 } from './calendar-scheduler-view.component';
 import {
-    isSameDay
+    isSameDay,
+    differenceInMinutes
 } from 'date-fns';
 
 // WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255
@@ -113,7 +114,11 @@ export class CalendarSchedulerEventComponent implements OnInit, AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        setTimeout(() => this.renderer.setStyle(this.eventRef.nativeElement, 'height', `${this.container.clientHeight * this.hourSegments}px`), 0);
+        setTimeout(() => {
+            let segmentDurationInMinutes: number = 60 / this.hourSegments;
+            let segmentsInEvent: number = differenceInMinutes(this.event.start, this.event.end) / segmentDurationInMinutes;
+            this.renderer.setStyle(this.eventRef.nativeElement, 'height', `${this.container.clientHeight * segmentsInEvent}px`);
+        }, 0);
     }
 
     private checkEnableState(): void {

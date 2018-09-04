@@ -562,7 +562,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             date: date,
             isPast: date < today,
             isToday: isSameDay(date, today),
-            isFuture: date > today,
+            isFuture: date >= addDays(today, 1),
             isWeekend: WEEKEND_DAY_NUMBERS.indexOf(getDay(date)) > -1,
             hours: []
         };
