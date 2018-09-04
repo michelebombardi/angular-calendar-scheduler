@@ -115,8 +115,8 @@ export class CalendarSchedulerEventComponent implements OnInit, AfterViewInit {
 
     public ngAfterViewInit(): void {
         setTimeout(() => {
-            let segmentDurationInMinutes: number = 60 / this.hourSegments;
-            let segmentsInEvent: number = differenceInMinutes(this.event.start, this.event.end) / segmentDurationInMinutes;
+            const segmentDurationInMinutes: number = 60 / this.hourSegments;
+            const segmentsInEvent: number = differenceInMinutes(this.event.start, this.event.end) / segmentDurationInMinutes;
             this.renderer.setStyle(this.eventRef.nativeElement, 'height', `${this.container.clientHeight * segmentsInEvent}px`);
         }, 0);
     }
