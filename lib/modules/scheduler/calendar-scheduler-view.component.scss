@@ -84,7 +84,6 @@
               display: -moz-box;
               display: -ms-flexbox;
               display: flex;
-              height: 7.25em;
 
               &:nth-child(odd) {
                   background-color: #fafafa;
@@ -137,6 +136,7 @@
               -webkit-flex-flow: column wrap;
               flex-flow: column wrap;
               flex: 1 0;
+              position: relative;
               border-right: 1px solid #e1e1e1;
               /*&:hover {
                   background-color: #fafafa;
@@ -161,6 +161,14 @@
                           filter: opacity(50%);
                           -webkit-filter: opacity(50%);
                       }
+                  }
+
+                  &.cal-odd {
+                      background: #ffffff;
+                  }
+
+                  &.cal-even {
+                      background: #fafafa;
                   }
 
                   .cal-scheduler-segments {
@@ -220,134 +228,125 @@
                               flex-flow: column wrap;
                               position: relative;
 
-                              .cal-scheduler-event-container {
-                                  flex: 1 0;
-                                  width: 100%;
-                                  display: -webkit-box;
-                                  display: -moz-box;
-                                  display: -ms-flexbox;
-                                  display: flex;
-                                  flex-flow: column wrap;
-                                  position: absolute;
-
-                                  .cal-scheduler-event {
-                                      flex: 1 0;
-                                      display: -webkit-box;
-                                      display: -moz-box;
-                                      display: -ms-flexbox;
-                                      display: flex;
-                                      flex-flow: column wrap;
-                                      padding: 0 10px;
-                                      font-size: 12px;
-                                      margin: 0 2px;
-                                      line-height: 30px;
-                                      overflow: hidden;
-                                      text-overflow: ellipsis;
-                                      white-space: nowrap;
-
-                                      -webkit-transition: all ease-out 0.2s;
-                                      -moz-transition: all ease-out 0.2s;
-                                      -o-transition: all ease-out 0.2s;
-                                      transition: all ease-out 0.2s;
-
-                                      filter: brightness(100%);
-                                      -webkit-filter: brightness(100%);
-                                      -webkit-backface-visibility: hidden; /* Fix for transition flickering */
-
-                                      &.cal-starts-within-segment {
-                                          border-top-left-radius: .3em;
-                                          border-top-right-radius: .3em;
-                                          margin-top: 2px;
-                                      }
-
-                                      &.cal-ends-within-segment {
-                                          border-bottom-left-radius: .3em;
-                                          border-bottom-right-radius: .3em;
-                                          margin-bottom: 2px;
-                                      }
-
-                                      &.cal-disabled {
-                                          background-color: gray !important;
-                                          // pointer-events: none;
-                                          filter: grayscale(100%);
-                                          -webkit-filter: grayscale(100%);
-                                      }
-
-                                      &.cal-not-clickable {
-                                          cursor: not-allowed !important;
-                                      }
-
-                                      &:not(.cal-disabled):hover,
-                                      &:not(.cal-disabled).hovered {
-                                          cursor: pointer;
-                                          filter: brightness(80%);
-                                          -webkit-filter: brightness(80%);
-                                      }
-
-                                      .cal-scheduler-event-title-container {
-                                          width: 100%;
-                                          position: relative;
-
-                                          .cal-scheduler-event-title {
-                                              font-size: 16px;
-                                              font-weight: bold;
-                                          }
-
-                                          .cal-scheduler-event-status {
-                                              position: absolute;
-                                              top: 24%;
-                                              right: 1%;
-
-                                              width: 16px;
-                                              height: 16px;
-                                              background: grey;
-                                              -moz-border-radius: 50px;
-                                              -webkit-border-radius: 50px;
-                                              border-radius: 50px;
-                                              border: 1px solid black;
-
-                                              &.ok {
-                                                  background: green;
-                                              }
-
-                                              &.warning {
-                                                  background: orange;
-                                              }
-
-                                              &.danger {
-                                                  background: red;
-                                              }
-                                          }
-                                      }
-
-                                      .cal-scheduler-event-content-container {
-                                          flex: 1 auto;
-                                          width: 100%;
-
-                                          .cal-scheduler-event-content {
-                                          }
-                                      }
-
-                                      .cal-scheduler-event-actions-container {
-                                          width: 100%;
-                                          position: relative;
-
-                                          .cal-scheduler-event-actions {
-                                              position: absolute;
-                                              bottom: 5px;
-                                              right: 0;
-
-                                              .cal-scheduler-event-action {
-                                                  text-decoration: none;
-                                              }
-                                          }
-                                      }
-                                  }
-                              }
+                              
                           }
                       }
                   }
               }
+
+              .cal-scheduler-event-container {
+                flex: 1 0;
+                width: 100%;
+                display: -webkit-box;
+                display: -moz-box;
+                display: -ms-flexbox;
+                display: flex;
+                flex-flow: column wrap;
+                position: absolute;
+
+                .cal-scheduler-event {
+                    flex: 1 0;
+                    display: -webkit-box;
+                    display: -moz-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    flex-flow: column wrap;
+                    padding: 0 10px;
+                    font-size: 12px;
+                    margin: 2px;
+                    line-height: 30px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    border-radius: .3em;
+
+                    -webkit-transition: all ease-out 0.2s;
+                    -moz-transition: all ease-out 0.2s;
+                    -o-transition: all ease-out 0.2s;
+                    transition: all ease-out 0.2s;
+
+                    filter: brightness(100%);
+                    -webkit-filter: brightness(100%);
+                    -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+
+                    &.cal-disabled {
+                        background-color: gray !important;
+                        // pointer-events: none;
+                        filter: grayscale(100%);
+                        -webkit-filter: grayscale(100%);
+                    }
+
+                    &.cal-not-clickable {
+                        cursor: not-allowed !important;
+                    }
+
+                    &:not(.cal-disabled):hover,
+                    &:not(.cal-disabled).hovered {
+                        cursor: pointer;
+                        filter: brightness(80%);
+                        -webkit-filter: brightness(80%);
+                    }
+
+                    .cal-scheduler-event-title-container {
+                        width: 100%;
+                        position: relative;
+
+                        .cal-scheduler-event-title {
+                            font-size: 16px;
+                            font-weight: bold;
+                        }
+
+                        .cal-scheduler-event-status {
+                            position: absolute;
+                            top: 24%;
+                            right: 1%;
+
+                            width: 16px;
+                            height: 16px;
+                            background: grey;
+                            -moz-border-radius: 50px;
+                            -webkit-border-radius: 50px;
+                            border-radius: 50px;
+                            border: 1px solid black;
+
+                            &.ok {
+                                background: green;
+                            }
+
+                            &.warning {
+                                background: orange;
+                            }
+
+                            &.danger {
+                                background: red;
+                            }
+                        }
+                    }
+
+                    .cal-scheduler-event-content-container {
+                        flex: 1 auto;
+                        width: 100%;
+
+                        .cal-scheduler-event-content {
+                        }
+                    }
+
+                    .cal-scheduler-event-actions-container {
+                        width: 100%;
+                        position: relative;
+
+                        .cal-scheduler-event-actions {
+                            position: absolute;
+                            bottom: 5px;
+                            right: 0;
+
+                            .cal-scheduler-event-action {
+                                text-decoration: none;
+                            }
+                        }
+                    }
+                }
+            }
           }
       }
   }

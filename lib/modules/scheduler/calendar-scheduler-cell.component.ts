@@ -25,25 +25,10 @@ const moment = momentImported;
                     [class.cal-disabled]="segment.isDisabled"
                     [style.backgroundColor]="segment.backgroundColor"
                     [class.no-border]="!segment.hasBorder"
+                    [style.height.px]="hourSegmentHeight"
                     (mwlClick)="onSegmentClick($event, segment)">
 
-                    <div #eventsContainer class="cal-scheduler-events" *ngIf="segment.events.length > 0">
-                        <calendar-scheduler-event
-                            *ngFor="let event of segment.events"
-                            [hourSegments]="hourSegments"
-                            [day]="day"
-                            [hour]="hour"
-                            [segment]="segment"
-                            [event]="event"
-                            (mouseenter)="onMouseEnter($event, segment, event)"
-                            (mouseleave)="onMouseLeave($event, segment, event)"
-                            [tooltipPlacement]="tooltipPlacement"
-                            [showActions]="showActions"
-                            [customTemplate]="eventTemplate"
-                            (eventClicked)="onEventClick($event, event)"
-                            [container]="eventsContainer">
-                        </calendar-scheduler-event>
-                    </div>
+                    
                 </div>
             </div>
         </ng-template>
@@ -74,6 +59,25 @@ const moment = momentImported;
         '[style.backgroundColor]': 'day.backgroundColor'
     }
 })
+/**
+ * <div #eventsContainer class="cal-scheduler-events" *ngIf="segment.events.length > 0">
+                        <calendar-scheduler-event
+                            *ngFor="let event of segment.events"
+                            [hourSegments]="hourSegments"
+                            [day]="day"
+                            [hour]="hour"
+                            [segment]="segment"
+                            [event]="event"
+                            (mouseenter)="onMouseEnter($event, segment, event)"
+                            (mouseleave)="onMouseLeave($event, segment, event)"
+                            [tooltipPlacement]="tooltipPlacement"
+                            [showActions]="showActions"
+                            [customTemplate]="eventTemplate"
+                            (eventClicked)="onEventClick($event, event)"
+                            [container]="eventsContainer">
+                        </calendar-scheduler-event>
+                    </div>
+ */
 export class CalendarSchedulerCellComponent implements OnInit {
 
     @Input() title: string;
@@ -93,6 +97,8 @@ export class CalendarSchedulerCellComponent implements OnInit {
     @Input() eventTemplate: TemplateRef<any>;
 
     @Input() hourSegments: number = 2;
+
+    @Input() hourSegmentHeight: number = 58;
 
     @Output() highlightSegment: EventEmitter<any> = new EventEmitter();
 

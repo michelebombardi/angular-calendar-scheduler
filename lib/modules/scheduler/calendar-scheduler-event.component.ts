@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import {
     SchedulerViewDay,
     SchedulerViewHour,
@@ -39,12 +39,12 @@ const moment = momentImported;
             <div #calEvent
                 class="cal-scheduler-event"
                 [title]="title"
-                [class.cal-starts-within-segment]="true"
-                [class.cal-ends-within-segment]="true"
                 [class.hovered]="event.isHovered"
-                [class.cal-disabled]="event.isDisabled || segment.isDisabled"
+                [class.cal-disabled]="event.isDisabled"
                 [class.cal-not-clickable]="!event.isClickable"
                 [style.backgroundColor]="event.color.primary"
+                [style.height.px]="event.height"
+                [style.marginTop.px]="event.top"
                 [ngClass]="event?.cssClass"
                 (mwlClick)="eventClicked.emit({event: event})"
                 (mouseenter)="highlightEvent()"
@@ -78,7 +78,7 @@ const moment = momentImported;
         'class': 'cal-scheduler-event-container'
     }
 })
-export class CalendarSchedulerEventComponent implements OnInit, AfterViewInit {
+export class CalendarSchedulerEventComponent implements OnInit {
     @ViewChild('calEvent') eventRef: ElementRef;
 
     @Input() title: string;
@@ -97,41 +97,12 @@ export class CalendarSchedulerEventComponent implements OnInit, AfterViewInit {
 
     @Input() customTemplate: TemplateRef<any>;
 
-    @Input() container: HTMLDivElement;
-
-    @Input() hourSegments: number = 2;
-
     @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
 
     constructor(private renderer: Renderer2) {   }
 
     public ngOnInit(): void {
-        this.segment.hasBorder = this.hour.hasBorder = true; // !this.event.endsAfterSegment;
-
         this.title = moment(this.event.start).format('dddd L');
-
-        this.checkEnableState();
-    }
-
-    public ngAfterViewInit(): void {
-        setTimeout(() => {
-            const segmentDurationInMinutes: number = 60 / this.hourSegments;
-            const segmentsInEvent: number = differenceInMinutes(this.event.start, this.event.end) / segmentDurationInMinutes;
-            this.renderer.setStyle(this.eventRef.nativeElement, 'height', `${this.container.clientHeight * segmentsInEvent}px`);
-        }, 0);
-    }
-
-    private checkEnableState(): void {
-        if (this.segment.isDisabled) {
-            this.day.hours.forEach((hour: SchedulerViewHour) => {
-                hour.segments.forEach((segment: SchedulerViewHourSegment) => {
-                    segment.events.filter((event: CalendarSchedulerEvent) => event.id === this.event.id && isSameDay(event.start, this.event.start))
-                        .forEach((event: CalendarSchedulerEvent) => {
-                            event.isDisabled = true;
-                        });
-                });
-            });
-        }
     }
 
     highlightEvent(): void {

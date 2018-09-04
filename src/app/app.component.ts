@@ -56,6 +56,7 @@ export class AppComponent implements OnInit {
     dayModifier: Function;
     hourModifier: Function;
     segmentModifier: Function;
+    eventModifier: Function;
     prevBtnDisabled: boolean = false;
     nextBtnDisabled: boolean = false;
 
@@ -86,6 +87,12 @@ export class AppComponent implements OnInit {
         this.segmentModifier = ((segment: SchedulerViewHourSegment): void => {
             if (!this.isDateValid(segment.date)) {
                 segment.isDisabled = true;
+            }
+        }).bind(this);
+
+        this.eventModifier = ((event: CalendarSchedulerEvent): void => {
+            if (!this.isDateValid(event.start)) {
+                event.isDisabled = true;
             }
         }).bind(this);
 
