@@ -497,14 +497,16 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             excluded: excluded
         });
         this.days.forEach((day: SchedulerViewDay, dayIndex: number) => {
-            day.events = this.getEventsInPeriod({ 
-                events: eventsInWeek, 
+            day.events = this.getEventsInPeriod({
+                events: eventsInWeek,
                 periodStart: startOfDay(day.date),
                 periodEnd: endOfDay(day.date)
             }).map((event: CalendarSchedulerEvent) => {
-                let segmentDuration: number = 60.0 / this.hourSegments;
-                let dayStartDate: Date = setSeconds(setMinutes(setHours(setDate(setMonth(setYear(new Date(), day.date.getFullYear()), day.date.getMonth()), day.date.getDate()), this.dayStartHour), this.dayStartMinute), 0);
-                let segmentsNumber: number = (differenceInMinutes(event.start, dayStartDate) / segmentDuration);
+                const segmentDuration: number = 60.0 / this.hourSegments;
+                const dayStartDate: Date =
+                    setSeconds(setMinutes(setHours(
+                    setDate(setMonth(setYear(new Date(), day.date.getFullYear()), day.date.getMonth()), day.date.getDate()), this.dayStartHour), this.dayStartMinute), 0);
+                const segmentsNumber: number = (differenceInMinutes(event.start, dayStartDate) / segmentDuration);
 
                 return <CalendarSchedulerEvent>{
                     id: event.id,
@@ -521,7 +523,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
                     isClickable: event.isClickable !== undefined && event.isClickable !== null ? event.isClickable : true,
                     height: this.hourSegmentHeight * (differenceInMinutes(event.end, event.start) / segmentDuration),
                     top: (this.hourSegmentHeight * segmentsNumber) + (segmentsNumber / 2) + 2 // 1px for each separator line
-                }
+                };
             });
 
             const hours: SchedulerViewHour[] = [];

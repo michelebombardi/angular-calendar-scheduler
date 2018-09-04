@@ -27,8 +27,6 @@ const moment = momentImported;
                     [class.no-border]="!segment.hasBorder"
                     [style.height.px]="hourSegmentHeight"
                     (mwlClick)="onSegmentClick($event, segment)">
-
-                    
                 </div>
             </div>
         </ng-template>
