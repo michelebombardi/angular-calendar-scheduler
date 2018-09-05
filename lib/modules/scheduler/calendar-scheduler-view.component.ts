@@ -405,14 +405,15 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         return '';
     }
     private getTimeClass(date: Date): string {
-        let hours: string = date.getHours() < 10 ? `0${date.getHours()}` : `${date.getHours()}`;
-        let minutes: string = date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
+        const hours: string = date.getHours() < 10 ? `0${date.getHours()}` : `${date.getHours()}`;
+        const minutes: string = date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
         return `time${hours}${minutes}`;
     }
     private getLengthClass(durationInMinutes: number): string {
         return `length${durationInMinutes}`;
     }
 
+    
     private refreshHeader(): void {
         this.headerDays = this.getSchedulerViewDays({
             viewDate: this.viewDate,
