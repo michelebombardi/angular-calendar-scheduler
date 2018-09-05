@@ -413,7 +413,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         return `length${durationInMinutes}`;
     }
 
-    
+
     private refreshHeader(): void {
         this.headerDays = this.getSchedulerViewDays({
             viewDate: this.viewDate,
