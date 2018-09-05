@@ -464,7 +464,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
 
     private getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
         let events: CalendarSchedulerEvent[] = args.events || [];
-        if (!events) events = [];
+        if (!events) { events = []; }
 
         const viewDate: Date = args.viewDate;
         const weekStartsOn: number = args.weekStartsOn;
