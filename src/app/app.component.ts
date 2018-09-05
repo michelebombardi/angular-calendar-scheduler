@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
         label: '<span class="valign-center"><i class="material-icons md-18 md-red-500">cancel</i></span>',
         title: 'Delete',
         onClick: (event: CalendarSchedulerEvent): void => {
-            console.log('Pressed action cancel on event ' + event.id);
+            console.log('Pressed action \'Delete\' on event ' + event.id);
         }
     }];
 

@@ -6,8 +6,7 @@ import {
     CalendarSchedulerEvent
 } from './calendar-scheduler-view.component';
 import {
-    isSameDay,
-    differenceInMinutes
+    isSameDay
 } from 'date-fns';
 
 // WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255

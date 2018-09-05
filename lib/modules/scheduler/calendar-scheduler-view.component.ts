@@ -27,14 +27,11 @@ import {
     addMinutes,
     addHours,
     addDays,
-    subSeconds,
-    setSeconds,
     setMinutes,
     setHours,
     setDate,
     setMonth,
     setYear,
-    isSameSecond,
     isSameDay,
     getDay,
     differenceInMinutes
@@ -103,8 +100,6 @@ export interface CalendarSchedulerEvent {
     isHovered?: boolean;
     isDisabled?: boolean;
     isClickable?: boolean;
-    // height?: number;
-    // top?: number;
 }
 
 export type CalendarSchedulerEventStatus = 'ok' | 'warning' | 'danger';
@@ -404,11 +399,13 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     private getDayClass(date: Date): string {
         return '';
     }
+
     private getTimeClass(date: Date): string {
         const hours: string = date.getHours() < 10 ? `0${date.getHours()}` : `${date.getHours()}`;
         const minutes: string = date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
         return `time${hours}${minutes}`;
     }
+
     private getLengthClass(durationInMinutes: number): string {
         return `length${durationInMinutes}`;
     }
@@ -467,19 +464,16 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
 
     private getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
         let events: CalendarSchedulerEvent[] = args.events || [];
+        if (!events) events = [];
+
         const viewDate: Date = args.viewDate;
         const weekStartsOn: number = args.weekStartsOn;
         const startsWithToday: boolean = args.startsWithToday;
         const excluded: number[] = args.excluded || [];
-        const precision: string = args.precision || 'days';
-
-        if (!events) {
-            events = [];
-        }
 
         const startOfViewWeek: Date = startsWithToday ? startOfDay(viewDate) : startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
         const endOfViewWeek: Date = startsWithToday ? addDays(endOfDay(viewDate), 6) : endOfWeek(viewDate, { weekStartsOn: weekStartsOn });
-        // let maxRange: number = DAYS_IN_WEEK - excluded.length;
+
         const eventsInWeek: CalendarSchedulerEvent[] = this.getEventsInPeriod({ events: events, periodStart: startOfViewWeek, periodEnd: endOfViewWeek });
 
         this.days = this.getSchedulerViewDays({
@@ -488,7 +482,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             startsWithToday: startsWithToday,
             excluded: excluded
         });
-        this.days.forEach((day: SchedulerViewDay, dayIndex: number) => {
+        this.days.forEach((day: SchedulerViewDay) => {
             day.events = this.getEventsInPeriod({
                 events: eventsInWeek,
                 periodStart: startOfDay(day.date),
@@ -509,9 +503,9 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             });
 
             const hours: SchedulerViewHour[] = [];
-            this.hours.forEach((hour: DayViewHour, hourIndex: number) => {
+            this.hours.forEach((hour: DayViewHour) => {
                 const segments: SchedulerViewHourSegment[] = [];
-                hour.segments.forEach((segment: DayViewHourSegment, segmentIndex: number) => {
+                hour.segments.forEach((segment: DayViewHourSegment) => {
                     segment.date = setDate(setMonth(setYear(segment.date, day.date.getFullYear()), day.date.getMonth()), day.date.getDate());
 
                     const startOfSegment: Date = segment.date;
@@ -522,6 +516,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
                         periodStart: startOfSegment,
                         periodEnd: endOfSegment
                     });
+
                     segments.push(<SchedulerViewHourSegment>{
                         segment: segment,
                         date: new Date(segment.date),
@@ -547,21 +542,16 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         const eventStart: Date = event.start;
         const eventEnd: Date = event.end || event.start;
 
-        // if (eventStart > periodStart && eventStart < periodEnd) {
-        //    return true;
-        // }
-        if (eventEnd > periodStart && eventEnd < periodEnd) {   // QUESTO E' PER IL let eventsInWeek = this.getEventsInPeriod(...)
+        if (eventStart >= periodStart && eventStart < periodEnd) {
             return true;
         }
-        // if (eventEnd < periodStart && eventEnd > periodEnd) {
-        //    return true;
-        // }
-        if (isSameSecond(eventStart, periodStart) || isSameSecond(eventStart, subSeconds(periodEnd, 1))) {
+        if (eventEnd <= periodEnd && eventEnd > periodStart) {
             return true;
         }
-        // if (isSameSecond(subSeconds(eventEnd, 1), periodStart) || isSameSecond(eventEnd, periodEnd)) {
-        //    return true;
-        // }
+        if (eventStart < periodStart && eventEnd > periodEnd) {
+            return true;
+        }
+
         return false;
     }
 
@@ -642,7 +632,6 @@ export interface GetSchedulerViewArgs {
     weekStartsOn: number;
     startsWithToday: boolean;
     excluded?: number[];
-    precision?: 'minutes' | 'days';
 }
 
 export interface GetSchedulerViewHourGridArgs {
