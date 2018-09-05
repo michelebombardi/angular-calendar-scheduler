@@ -7,7 +7,8 @@ import {
 import {
     addDays,
     startOfHour,
-    addHours
+    addHours,
+    setHours
 } from 'date-fns';
 
 @Injectable()
@@ -44,6 +45,30 @@ export class AppService {
                 end: addDays(addHours(startOfHour(new Date()), 3), 3),
                 title: 'Event 3',
                 content: 'NOT IMPORTANT MEETING',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
+                id: '4',
+                start: startOfHour(addHours(new Date(), 2)),
+                end: addHours(startOfHour(addHours(new Date(), 2)), 2),
+                title: 'Event 4',
+                content: 'TODAY MEETING',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
+                id: '5',
+                start: addDays(startOfHour(setHours(new Date(), 6)), 1),
+                end: addHours(addDays(startOfHour(setHours(new Date(), 6)), 1), 1),
+                title: 'Event 5',
+                content: 'EARLY MEETING',
                 color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
                 actions: actions,
                 status: 'ok' as CalendarSchedulerEventStatus,

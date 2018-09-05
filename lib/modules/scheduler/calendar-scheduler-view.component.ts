@@ -103,8 +103,8 @@ export interface CalendarSchedulerEvent {
     isHovered?: boolean;
     isDisabled?: boolean;
     isClickable?: boolean;
-    height?: number;
-    top?: number;
+    // height?: number;
+    // top?: number;
 }
 
 export type CalendarSchedulerEventStatus = 'ok' | 'warning' | 'danger';
@@ -145,6 +145,7 @@ export interface CalendarSchedulerEventAction {
                     <div class="cal-scheduler-col" *ngFor="let day of view.days">
                         <calendar-scheduler-event
                             *ngFor="let event of day.events"
+                            [ngClass]="getPositioningClasses(event)"
                             [day]="day"
                             [hour]="hour"
                             [segment]="segment"
@@ -159,8 +160,7 @@ export interface CalendarSchedulerEventAction {
                             [class.cal-even]="i % 2 === 0"
                             [class.cal-odd]="i % 2 === 1"
                             [ngClass]="day?.cssClass"
-                            [hourSegments]="hourSegments"
-                            [hourSegmentHeight]="hourSegmentHeight"
+                            [segmentHeight]="hourSegmentHeight"
                             [day]="day"
                             [hour]="hour"
                             [locale]="locale"
@@ -169,8 +169,6 @@ export interface CalendarSchedulerEventAction {
                             [customTemplate]="cellTemplate"
                             [eventTemplate]="eventTemplate"
                             (click)="dayClicked.emit({date: day})"
-                            (highlightSegment)="toggleSegmentHighlight($event.event, true)"
-                            (unhighlightSegment)="toggleSegmentHighlight($event.event, false)"
                             (segmentClicked)="segmentClicked.emit({segment: $event.segment})"
                             (eventClicked)="eventClicked.emit({event: $event.event})">
                         </calendar-scheduler-cell>
@@ -385,34 +383,6 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     /**
      * @hidden
      */
-    toggleSegmentHighlight(event: CalendarSchedulerEvent, isHighlighted: boolean): void {
-        // this.days.forEach((day: SchedulerViewDay) => {
-        //     day.hours.forEach((hour: SchedulerViewHour) => {
-        //         // hour.segments.forEach((segment: SchedulerViewHourSegment) => {
-        //         //    if (isHighlighted && segment.events.indexOf(event) > -1) {
-        //         //        segment.backgroundColor = event.color.secondary;
-        //         //    } else {
-        //         //        delete segment.backgroundColor;
-        //         //    }
-        //         // });
-        //         hour.segments.filter((segment: SchedulerViewHourSegment) => segment.events.some((ev: CalendarSchedulerEvent) => ev.id === event.id && ev.start.getDay() === event.start.getDay()))
-        //             .forEach((segment: SchedulerViewHourSegment) => {
-        //                 segment.events.filter((ev: CalendarSchedulerEvent) => ev.id === event.id && ev.start.getDay() === event.start.getDay())
-        //                     .forEach((e: CalendarSchedulerEvent) => {
-        //                         if (isHighlighted) {
-        //                             segment.backgroundColor = e.color.secondary;
-        //                         } else {
-        //                             delete segment.backgroundColor;
-        //                         }
-        //                 });
-        //         });
-        //     });
-        // });
-    }
-
-    /**
-     * @hidden
-     */
     onEventClick(mouseEvent: MouseEvent, event: CalendarSchedulerEvent): void {
         if (mouseEvent.stopPropagation) {
             mouseEvent.stopPropagation();
@@ -420,6 +390,27 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         if (event.isClickable) {
             this.eventClicked.emit({ event: event });
         }
+    }
+
+    getPositioningClasses(event: CalendarSchedulerEvent): string {
+        const classes: string[] = [
+            this.getDayClass(event.start),
+            this.getTimeClass(event.start),
+            this.getLengthClass(differenceInMinutes(event.end, event.start))
+        ];
+        return classes.join(' ');
+    }
+
+    private getDayClass(date: Date): string {
+        return '';
+    }
+    private getTimeClass(date: Date): string {
+        let hours: string = date.getHours() < 10 ? `0${date.getHours()}` : `${date.getHours()}`;
+        let minutes: string = date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
+        return `time${hours}${minutes}`;
+    }
+    private getLengthClass(durationInMinutes: number): string {
+        return `length${durationInMinutes}`;
     }
 
     private refreshHeader(): void {
@@ -501,29 +492,19 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
                 events: eventsInWeek,
                 periodStart: startOfDay(day.date),
                 periodEnd: endOfDay(day.date)
-            }).map((event: CalendarSchedulerEvent) => {
-                const segmentDuration: number = 60.0 / this.hourSegments;
-                const dayStartDate: Date =
-                    setSeconds(setMinutes(setHours(
-                    setDate(setMonth(setYear(new Date(), day.date.getFullYear()), day.date.getMonth()), day.date.getDate()), this.dayStartHour), this.dayStartMinute), 0);
-                const segmentsNumber: number = (differenceInMinutes(event.start, dayStartDate) / segmentDuration);
-
-                return <CalendarSchedulerEvent>{
-                    id: event.id,
-                    start: event.start,
-                    end: event.end,
-                    title: event.title,
-                    content: event.content,
-                    color: event.color,
-                    actions: event.actions,
-                    status: event.status,
-                    cssClass: event.cssClass,
-                    isHovered: false,
-                    isDisabled: event.isDisabled || false,
-                    isClickable: event.isClickable !== undefined && event.isClickable !== null ? event.isClickable : true,
-                    height: this.hourSegmentHeight * (differenceInMinutes(event.end, event.start) / segmentDuration),
-                    top: (this.hourSegmentHeight * segmentsNumber) + (segmentsNumber / 2) + 2 // 1px for each separator line
-                };
+            }).map((event: CalendarSchedulerEvent) => <CalendarSchedulerEvent>{
+                id: event.id,
+                start: event.start,
+                end: event.end,
+                title: event.title,
+                content: event.content,
+                color: event.color,
+                actions: event.actions,
+                status: event.status,
+                cssClass: event.cssClass,
+                isHovered: false,
+                isDisabled: event.isDisabled || false,
+                isClickable: event.isClickable !== undefined && event.isClickable !== null ? event.isClickable : true
             });
 
             const hours: SchedulerViewHour[] = [];

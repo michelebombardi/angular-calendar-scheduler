@@ -1,353 +1,438 @@
 .cal-scheduler-view {
-  .cal-scheduler-headers {
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-flex-flow: row wrap;
-      flex-flow: row wrap;
-      margin-bottom: 3px;
-      border: 1px solid #e1e1e1;
+    * {
+        box-sizing: border-box;
+    }
 
-      .aside {
-          flex: 1 0;
+    .cal-scheduler-headers {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-flow: row wrap;
+        flex-flow: row wrap;
+        margin-bottom: 3px;
+        border: 1px solid #e1e1e1;
 
-          &.cal-header-clock {
-              max-width: 5em;
-          }
-      }
+        .aside {
+            flex: 1 0;
 
-      .cal-header {
-          flex: 1;
-          text-align: center;
-          padding: 5px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+            &.cal-header-clock {
+                max-width: 5em;
+            }
+        }
 
-          &:not(:last-child) {
-              border-right: 1px solid #e1e1e1;
-          }
+        .cal-header {
+            flex: 1;
+            text-align: center;
+            padding: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
 
-          &:hover {
-              background-color: #ededed;
-          }
+            &:not(:last-child) {
+                border-right: 1px solid #e1e1e1;
+            }
 
-          &.cal-today {
-              background-color: #e8fde7;
-          }
+            &:hover {
+                background-color: #ededed;
+            }
 
-          &.cal-weekend span {
-              color: #8b0000;
-          }
+            &.cal-today {
+                background-color: #e8fde7;
+            }
 
-          span {
-              font-weight: 400;
-              opacity: 0.5;
-          }
-      }
+            &.cal-weekend span {
+                color: #8b0000;
+            }
 
-      .cal-header-cols {
-          display: -webkit-box;
-          display: -moz-box;
-          display: -ms-flexbox;
-          display: flex;
-          -webkit-flex-flow: row wrap;
-          flex-flow: row wrap;
-      }
-  }
+            span {
+                font-weight: 400;
+                opacity: 0.5;
+            }
+        }
 
-  .cal-scheduler {
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-flex-flow: row wrap;
-      flex-flow: row wrap;
+        .cal-header-cols {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+            flex-flow: row wrap;
+        }
+    }
 
-      .aside {
-          flex: 1 0;
+    .cal-scheduler {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-flow: row wrap;
+        flex-flow: row wrap;
 
-          &.cal-scheduler-hour-rows {
-              max-width: 5em; //5.12em
-          }
-      }
+        .aside {
+            flex: 1 0;
 
-      .cal-scheduler-hour-rows {
-          width: auto !important;
-          border: solid 1px #e1e1e1;
-          overflow: hidden;
-          position: relative;
+            &.cal-scheduler-hour-rows {
+                max-width: 5em; //5.12em
+            }
+        }
 
-          .cal-scheduler-hour {
-              display: -webkit-box;
-              display: -moz-box;
-              display: -ms-flexbox;
-              display: flex;
+        .cal-scheduler-hour-rows {
+            width: auto !important;
+            border: solid 1px #e1e1e1;
+            overflow: hidden;
+            position: relative;
 
-              &:nth-child(odd) {
-                  background-color: #fafafa;
-              }
-
-              &:not(:last-child) {
-                  border-bottom: 1px solid #e1e1e1;
-              }
-
-              .cal-scheduler-time {
-                  display: -webkit-box;
-                  display: -moz-box;
-                  display: -ms-flexbox;
-                  display: flex;
-                  -webkit-flex-flow: column wrap;
-                  flex-flow: column wrap;
-                  width: 100%;
-                  font-weight: bold;
-                  text-align: center;
-
-                  .cal-scheduler-hour-segment {
-                      flex: 1 0;
-
-                      &:hover {
-                          background-color: #ededed;
-                      }
-
-                      &:not(:last-child) {
-                          border-bottom: thin dashed #e1e1e1;
-                      }
-                  }
-              }
-          }
-      }
-
-      .cal-scheduler-cols {
-          display: -webkit-box;
-          display: -moz-box;
-          display: -ms-flexbox;
-          display: flex;
-          -webkit-flex-flow: row wrap;
-          flex-flow: row wrap;
-          border-top: 1px solid #e1e1e1;
-
-          .cal-scheduler-col {
-              display: -webkit-box;
-              display: -moz-box;
-              display: -ms-flexbox;
-              display: flex;
-              -webkit-flex-flow: column wrap;
-              flex-flow: column wrap;
-              flex: 1 0;
-              position: relative;
-              border-right: 1px solid #e1e1e1;
-              /*&:hover {
-                  background-color: #fafafa;
-              }*/
-              .cal-scheduler-cell {
-                  display: -webkit-box;
-                  display: -moz-box;
-                  display: -ms-flexbox;
-                  display: flex;
-                  flex-flow: column wrap;
-                  flex: 1 0;
-
-                  &.cal-today {
-                      background-color: #e8fde7;
-                  }
-
-                  &.cal-disabled {
-                      background-color: #eee;
-                      pointer-events: none;
-
-                      .cal-scheduler-events {
-                          filter: opacity(50%);
-                          -webkit-filter: opacity(50%);
-                      }
-                  }
-
-                  &.cal-odd {
-                      background: #ffffff;
-                  }
-
-                  &.cal-even {
-                      background: #fafafa;
-                  }
-
-                  .cal-scheduler-segments {
-                      display: -webkit-box;
-                      display: -moz-box;
-                      display: -ms-flexbox;
-                      display: flex;
-                      flex-flow: column wrap;
-                      flex: 1 0;
-                      border-bottom: 1px solid #e1e1e1;
-
-                      &.no-border {
-                          border-bottom: 0 !important;
-                      }
-
-                      &.cal-disabled {
-                          background-color: #eee;
-                          pointer-events: none;
-
-                          .cal-scheduler-event {
-                              filter: opacity(50%);
-                              -webkit-filter: opacity(50%);
-                          }
-                      }
-
-                      .cal-scheduler-segment {
-                          flex: 1 0;
-                          display: -webkit-box;
-                          display: -moz-box;
-                          display: -ms-flexbox;
-                          display: flex;
-                          flex-flow: column wrap;
-
-                          &:not(.has-events):hover {
-                              background-color: #ededed;
-                          }
-
-                          &:not(:last-child) {
-                              border-bottom: thin dashed #e1e1e1;
-                          }
-
-                          &.no-border {
-                              border-bottom: 0 !important;
-                          }
-
-                          &.cal-disabled {
-                              background-color: #eee;
-                              pointer-events: none;
-                          }
-
-                          .cal-scheduler-events {
-                              flex: 1 0;
-                              display: -webkit-box;
-                              display: -moz-box;
-                              display: -ms-flexbox;
-                              display: flex;
-                              flex-flow: column wrap;
-                              position: relative;
-
-                              
-                          }
-                      }
-                  }
-              }
-
-              .cal-scheduler-event-container {
-                flex: 1 0;
-                width: 100%;
+            .cal-scheduler-hour {
                 display: -webkit-box;
                 display: -moz-box;
                 display: -ms-flexbox;
                 display: flex;
-                flex-flow: column wrap;
-                position: absolute;
 
-                .cal-scheduler-event {
-                    flex: 1 0;
+                &:nth-child(odd) {
+                    background-color: #fafafa;
+                }
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid #e1e1e1;
+                }
+
+                .cal-scheduler-time {
+                    display: -webkit-box;
+                    display: -moz-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-flex-flow: column wrap;
+                    flex-flow: column wrap;
+                    width: 100%;
+                    font-weight: bold;
+                    text-align: center;
+
+                    .cal-scheduler-hour-segment {
+                        flex: 1 0;
+
+                        &:hover {
+                            background-color: #ededed;
+                        }
+
+                        &:not(:last-child) {
+                            border-bottom: thin dashed #e1e1e1;
+                        }
+                    }
+                }
+            }
+        }
+
+        .cal-scheduler-cols {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+            flex-flow: row wrap;
+            border-top: 1px solid #e1e1e1;
+
+            .cal-scheduler-col {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-flex-flow: column wrap;
+                flex-flow: column wrap;
+                flex: 1 0;
+                position: relative;
+                border-right: 1px solid #e1e1e1;
+                /*&:hover {
+                    background-color: #fafafa;
+                }*/
+                .cal-scheduler-cell {
                     display: -webkit-box;
                     display: -moz-box;
                     display: -ms-flexbox;
                     display: flex;
                     flex-flow: column wrap;
-                    padding: 0 10px;
-                    font-size: 12px;
-                    margin: 2px;
-                    line-height: 30px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    border-radius: .3em;
+                    flex: 1 0;
 
-                    -webkit-transition: all ease-out 0.2s;
-                    -moz-transition: all ease-out 0.2s;
-                    -o-transition: all ease-out 0.2s;
-                    transition: all ease-out 0.2s;
-
-                    filter: brightness(100%);
-                    -webkit-filter: brightness(100%);
-                    -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+                    &.cal-today {
+                        background-color: #e8fde7;
+                    }
 
                     &.cal-disabled {
-                        background-color: gray !important;
-                        // pointer-events: none;
-                        filter: grayscale(100%);
-                        -webkit-filter: grayscale(100%);
-                    }
+                        background-color: #eee;
+                        pointer-events: none;
 
-                    &.cal-not-clickable {
-                        cursor: not-allowed !important;
-                    }
-
-                    &:not(.cal-disabled):hover,
-                    &:not(.cal-disabled).hovered {
-                        cursor: pointer;
-                        filter: brightness(80%);
-                        -webkit-filter: brightness(80%);
-                    }
-
-                    .cal-scheduler-event-title-container {
-                        width: 100%;
-                        position: relative;
-
-                        .cal-scheduler-event-title {
-                            font-size: 16px;
-                            font-weight: bold;
-                        }
-
-                        .cal-scheduler-event-status {
-                            position: absolute;
-                            top: 24%;
-                            right: 1%;
-
-                            width: 16px;
-                            height: 16px;
-                            background: grey;
-                            -moz-border-radius: 50px;
-                            -webkit-border-radius: 50px;
-                            border-radius: 50px;
-                            border: 1px solid black;
-
-                            &.ok {
-                                background: green;
-                            }
-
-                            &.warning {
-                                background: orange;
-                            }
-
-                            &.danger {
-                                background: red;
-                            }
+                        .cal-scheduler-events {
+                            filter: opacity(50%);
+                            -webkit-filter: opacity(50%);
                         }
                     }
 
-                    .cal-scheduler-event-content-container {
-                        flex: 1 auto;
-                        width: 100%;
-
-                        .cal-scheduler-event-content {
-                        }
+                    &.cal-odd {
+                        background: #ffffff;
                     }
 
-                    .cal-scheduler-event-actions-container {
-                        width: 100%;
-                        position: relative;
+                    &.cal-even {
+                        background: #fafafa;
+                    }
 
-                        .cal-scheduler-event-actions {
-                            position: absolute;
-                            bottom: 5px;
-                            right: 0;
+                    .cal-scheduler-segments {
+                        display: -webkit-box;
+                        display: -moz-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        flex-flow: column wrap;
+                        flex: 1 0;
+                        border-bottom: 1px solid #e1e1e1;
 
-                            .cal-scheduler-event-action {
-                                text-decoration: none;
+                        &.no-border {
+                            border-bottom: 0 !important;
+                        }
+
+                        &.cal-disabled {
+                            background-color: #eee;
+                            pointer-events: none;
+
+                            .cal-scheduler-event {
+                                filter: opacity(50%);
+                                -webkit-filter: opacity(50%);
+                            }
+                        }
+
+                        .cal-scheduler-segment {
+                            flex: 1 0;
+                            display: -webkit-box;
+                            display: -moz-box;
+                            display: -ms-flexbox;
+                            display: flex;
+                            flex-flow: column wrap;
+
+                            &:not(.has-events):hover {
+                                background-color: #ededed;
+                            }
+
+                            &:not(:last-child) {
+                                border-bottom: thin dashed #e1e1e1;
+                            }
+
+                            &.no-border {
+                                border-bottom: 0 !important;
+                            }
+
+                            &.cal-disabled {
+                                background-color: #eee;
+                                pointer-events: none;
+                            }
+
+                            .cal-scheduler-events {
+                                flex: 1 0;
+                                display: -webkit-box;
+                                display: -moz-box;
+                                display: -ms-flexbox;
+                                display: flex;
+                                flex-flow: column wrap;
+                                position: relative;
+
+                                
                             }
                         }
                     }
                 }
+
+                .cal-scheduler-event-container {
+                    flex: 1 0;
+                    width: 100%;
+                    display: -webkit-box;
+                    display: -moz-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    flex-flow: column wrap;
+                    position: absolute;
+
+                    .cal-scheduler-event {
+                        flex: 1 0;
+                        display: -webkit-box;
+                        display: -moz-box;
+                        display: -ms-flexbox;
+                        display: flex;
+                        flex-flow: column wrap;
+                        padding: 0 10px;
+                        font-size: 12px;
+                        margin: 2px;
+                        line-height: 30px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        border-radius: .3em;
+
+                        -webkit-transition: all ease-out 0.2s;
+                        -moz-transition: all ease-out 0.2s;
+                        -o-transition: all ease-out 0.2s;
+                        transition: all ease-out 0.2s;
+
+                        filter: brightness(100%);
+                        -webkit-filter: brightness(100%);
+                        -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+
+                        &.cal-disabled {
+                            background-color: gray !important;
+                            // pointer-events: none;
+                            filter: grayscale(100%);
+                            -webkit-filter: grayscale(100%);
+                        }
+
+                        &.cal-not-clickable {
+                            cursor: not-allowed !important;
+                        }
+
+                        &:not(.cal-disabled):hover,
+                        &:not(.cal-disabled).hovered {
+                            cursor: pointer;
+                            filter: brightness(80%);
+                            -webkit-filter: brightness(80%);
+                        }
+
+                        .cal-scheduler-event-title-container {
+                            width: 100%;
+                            position: relative;
+
+                            .cal-scheduler-event-title {
+                                font-size: 16px;
+                                font-weight: bold;
+                            }
+
+                            .cal-scheduler-event-status {
+                                position: absolute;
+                                top: 24%;
+                                right: 1%;
+
+                                width: 16px;
+                                height: 16px;
+                                background: grey;
+                                -moz-border-radius: 50px;
+                                -webkit-border-radius: 50px;
+                                border-radius: 50px;
+                                border: 1px solid black;
+
+                                &.ok {
+                                    background: green;
+                                }
+
+                                &.warning {
+                                    background: orange;
+                                }
+
+                                &.danger {
+                                    background: red;
+                                }
+                            }
+                        }
+
+                        .cal-scheduler-event-content-container {
+                            flex: 1 auto;
+                            width: 100%;
+
+                            .cal-scheduler-event-content {
+                            }
+                        }
+
+                        .cal-scheduler-event-actions-container {
+                            width: 100%;
+                            position: relative;
+
+                            .cal-scheduler-event-actions {
+                                position: absolute;
+                                bottom: 5px;
+                                right: 0;
+
+                                .cal-scheduler-event-action {
+                                    text-decoration: none;
+                                }
+                            }
+                        }
+                    }
+
+                    @mixin day-x($attr, $attr-count: 7, $attr-steps: 1, $unit: '%') {
+                        $attr-list: null;
+                
+                        @for $i from 1 through $attr-count {
+                            $attr-value: $attr-steps * $i;
+                    
+                            &.day#{$i} {
+                                #{$attr}: #{$attr-value}#{$unit};
+                            }
+                    
+                            $attr-list: append($attr-list, unquote(".#{$attr}-#{$attr-value}"), comma);
+                        }
+                    
+                        #{$attr-list} {
+                            //append style to all classes
+                        }
+                    }
+                
+                    @mixin time-x($attr, $start-hour: 0, $end-hour: 23, $attr-steps: 2, $minutes-steps: 15, $unit: '%') {
+                        $attr-list: null;
+                        $hours: $start-hour;
+                        $minutes: 0;
+                        $attr-count: ((($end-hour + 1) - $start-hour) * 60) / $minutes-steps;
+                
+                        @for $i from 0 through $attr-count {
+                            $attr-value: $attr-steps * $i;
+                            
+                            @if($i > 0) {
+                                $minutes: $minutes + $minutes-steps;
+                                @if($minutes == 60) {
+                                    $minutes: 0;
+                                    $hours: $hours + 1;
+                                }
+                            }
+                
+                            $hoursString: '#{$hours}';
+                            @if($hours < 10) {
+                                $hoursString: '0#{$hours}';
+                            }
+                
+                            $minutesString: '#{$minutes}';
+                            @if($minutes < 10) {
+                                $minutesString: '0#{$minutes}';
+                            }
+                
+                            &.time#{$hoursString}#{$minutesString} {
+                                #{$attr}: #{$attr-value}#{$unit};
+                            }
+                
+                            $attr-list: append($attr-list, unquote(".#{$attr}-#{$attr-value}"), comma);
+                        }
+                    
+                        #{$attr-list} {
+                            //append style to all classes
+                        }
+                    }
+                
+                    @mixin length-x($attr, $attr-steps: 2, $minutes-steps: 15, $unit: '%') {
+                        $attr-list: null;
+                        $attr-count: 24 * 60 / $minutes-steps;
+                
+                        @for $i from 0 through $attr-count {
+                            $attr-name: $minutes-steps * $i;
+                            $attr-value: $attr-steps * $i;
+                            
+                            &.length#{$attr-name} {
+                                #{$attr}: #{$attr-value}#{$unit};
+                            }
+                    
+                            $attr-list: append($attr-list, unquote(".#{$attr}-#{$attr-value}"), comma);
+                        }
+                    
+                        #{$attr-list} {
+                            //append style to all classes
+                        }
+                    }
+                
+                    @include day-x('left', 7, 5);
+                    @include time-x('top', 6, 22, 1.47);
+                    @include length-x('height', 1.47);
+                }
             }
-          }
-      }
-  }
+        }
+    }
 }

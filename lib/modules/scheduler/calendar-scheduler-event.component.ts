@@ -18,20 +18,6 @@ const moment = momentImported;
  * [mwlCalendarTooltip]="event.title | calendarEventTitle:'weekTooltip':event"
  * [tooltipPlacement]="tooltipPlacement"
  */
-/**
- * [class.cal-starts-within-segment]="!event.startsBeforeSegment"
- * [class.cal-ends-within-segment]="!event.endsAfterSegment"
- *
- * <mwl-calendar-scheduler-event-title *ngIf="!event.startsBeforeSegment"
- *     [event]="event"
- *     view="week">
- * </mwl-calendar-scheduler-event-title>
- * <mwl-calendar-scheduler-event-content *ngIf="!event.startsBeforeSegment"
- *     [event]="event">
- * </mwl-calendar-scheduler-event-content>
- * <mwl-calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isClickable && !event.endsAfterSegment"></mwl-calendar-scheduler-event-actions>
- * <mwl-calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isDisabled && !event.endsAfterSegment"></mwl-calendar-scheduler-event-actions>
- */
 @Component({
     selector: 'calendar-scheduler-event',
     template: `
@@ -43,8 +29,6 @@ const moment = momentImported;
                 [class.cal-disabled]="event.isDisabled"
                 [class.cal-not-clickable]="!event.isClickable"
                 [style.backgroundColor]="event.color.primary"
-                [style.height.px]="event.height"
-                [style.marginTop.px]="event.top"
                 [ngClass]="event?.cssClass"
                 (mwlClick)="eventClicked.emit({event: event})"
                 (mouseenter)="highlightEvent()"
@@ -135,40 +119,4 @@ export class CalendarSchedulerEventComponent implements OnInit {
             });
         });
     }
-
-    // private sameEventInPreviousHour(day: SchedulerViewDay, hour: SchedulerViewHour): CalendarSchedulerEvent {
-    //    let hourIndex: number = day.hours.indexOf(hour);
-    //    let previousHour = day.hours[hourIndex - 1];
-    //    if (previousHour) {
-    //        let previousSegment: SchedulerViewHourSegment = previousHour.segments[previousHour.segments.length - 1];
-    //        return previousSegment.events[previousSegment.events.length - 1];
-    //    }
-    //    return null;
-    // }
-
-    // private sameEventInPreviousSegment(segmentIndex: number): CalendarSchedulerEvent {
-    //    let previousSegment: SchedulerViewHourSegment = this.hour.segments[segmentIndex - 1];
-    //    if (previousSegment) {
-    //        return previousSegment.events[previousSegment.events.length - 1];
-    //    }
-    //    return null;
-    // }
-
-    // private sameEventInNextHour(): CalendarSchedulerEvent {
-    //    let hourIndex: number = this.day.hours.indexOf(this.hour);
-    //    let nextHour: SchedulerViewHour = this.day.hours[hourIndex + 1];
-    //    if (nextHour) {
-    //        let nextSegment: SchedulerViewHourSegment = nextHour.segments[0];
-    //        return nextSegment.events[0];
-    //    }
-    //    return null;
-    // }
-
-    // private sameEventInNextSegment(segmentIndex: number): CalendarSchedulerEvent {
-    //    let nextSegment: SchedulerViewHourSegment = this.hour.segments[segmentIndex + 1];
-    //    if (nextSegment) {
-    //        return nextSegment.events[0];
-    //    }
-    //    return null;
-    // }
 }
