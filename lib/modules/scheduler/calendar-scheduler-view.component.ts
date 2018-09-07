@@ -6,11 +6,14 @@ import {
     ChangeDetectorRef,
     OnChanges,
     OnInit,
+    AfterViewInit,
     OnDestroy,
     LOCALE_ID,
     Inject,
     TemplateRef,
-    ViewEncapsulation
+    ViewEncapsulation,
+    ViewChild,
+    ElementRef
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import {
@@ -27,6 +30,7 @@ import {
     addMinutes,
     addHours,
     addDays,
+    subDays,
     setMinutes,
     setHours,
     setDate,
@@ -34,10 +38,14 @@ import {
     setYear,
     isSameDay,
     getDay,
-    differenceInMinutes
+    differenceInMinutes,
+    isBefore
 } from 'date-fns';
 import { SchedulerConfig } from './scheduler-config';
 
+const DEFAULT_SEGMENT_HEIGHT_PX = 58;
+const DEFAULT_EVENT_WIDTH_PX = 150;
+const DEFAULT_SEGMENT_HOURS = 2;
 
 const WEEKEND_DAY_NUMBERS = [0, 6];
 const DAYS_IN_WEEK = 7;
@@ -100,6 +108,11 @@ export interface CalendarSchedulerEvent {
     isHovered?: boolean;
     isDisabled?: boolean;
     isClickable?: boolean;
+    top?: number;
+    height?: number;
+    left?: number;
+    width?: number;
+    isProcessed?: boolean;
 }
 
 export type CalendarSchedulerEventStatus = 'ok' | 'warning' | 'danger';
@@ -112,11 +125,19 @@ export interface CalendarSchedulerEventAction {
     onClick(event: CalendarSchedulerEvent): void;
 }
 
- // https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+/**
+ *  [ngClass]="getPositioningClasses(event)"
+ * 
+ *  [style.top.%]="event.top"
+ *  [style.height.%]="event.height"
+ *  [style.left.px]="event.left"
+ *  [style.width.px]="event.width - 1"
+ */
+// https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 @Component({
     selector: 'calendar-scheduler-view',
     template: `
-        <div class="cal-scheduler-view" #weekViewContainer>
+        <div class="cal-scheduler-view">
             <calendar-scheduler-header
                 [days]="headerDays"
                 [locale]="locale"
@@ -124,23 +145,26 @@ export interface CalendarSchedulerEventAction {
                 (dayClicked)="dayClicked.emit($event)">
             </calendar-scheduler-header>
 
-            <div class="cal-scheduler">
+            <div class="cal-scheduler" #calendarContainer>
                 <div class="cal-scheduler-hour-rows aside">
                     <div class="cal-scheduler-hour align-center horizontal" *ngFor="let hour of hours">
                       <div class="cal-scheduler-time">
                         <div class="cal-scheduler-hour-segment" *ngFor="let segment of hour.segments"
-                            [style.height.px]="hourSegmentHeight">
+                            [style.height.px]="segmentHeight">
                             {{ segment.date | calendarDate:'dayViewHour':locale }}
                         </div>
                       </div>
                     </div>
                 </div>
 
-                <div class="cal-scheduler-cols aside">
+                <div class="cal-scheduler-cols aside" #calendarColumnsContainer>
                     <div class="cal-scheduler-col" *ngFor="let day of view.days">
                         <calendar-scheduler-event
                             *ngFor="let event of day.events"
-                            [ngClass]="getPositioningClasses(event)"
+                            [style.top.px]="event.top"
+                            [style.height.px]="event.height"
+                            [style.left.px]="event.left"
+                            [style.width.px]="event.width - 1"
                             [day]="day"
                             [hour]="hour"
                             [segment]="segment"
@@ -155,7 +179,7 @@ export interface CalendarSchedulerEventAction {
                             [class.cal-even]="i % 2 === 0"
                             [class.cal-odd]="i % 2 === 1"
                             [ngClass]="day?.cssClass"
-                            [segmentHeight]="hourSegmentHeight"
+                            [segmentHeight]="segmentHeight"
                             [day]="day"
                             [hour]="hour"
                             [locale]="locale"
@@ -175,7 +199,10 @@ export interface CalendarSchedulerEventAction {
     styleUrls: ['./calendar-scheduler-view.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDestroy {
+export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
+    @ViewChild('calendarColumnsContainer') calendarColumnsContainer: ElementRef;
+    private calendarColumnsHeight: number;
+    
     /**
      * The current view date
      */
@@ -187,14 +214,14 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     @Input() events: CalendarSchedulerEvent[] = [];
 
     /**
-     * The number of segments in an hour. Must be <= 6
+     * The number of segments in an hour. Must be one of 1, 2, 4, 6
      */
-    @Input() hourSegments: number = 2;
+    @Input() hourSegments: 1 | 2 | 4 | 6 = DEFAULT_SEGMENT_HOURS;
 
     /**
     * The height in pixels of each hour segment
     */
-    @Input() hourSegmentHeight: number = 58;
+    @Input() segmentHeight: number = DEFAULT_SEGMENT_HEIGHT_PX;
 
     /**
      * An array of day indexes (0 = sunday, 1 = monday etc) that will be hidden on the view
@@ -282,6 +309,11 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     @Input() dayEndMinute: number = 59;
 
     /**
+     * The width in pixels of each event on the view
+     */
+    @Input() eventWidth: number = DEFAULT_EVENT_WIDTH_PX;
+
+    /**
      * Called when a header week day is clicked
      */
     @Output() dayClicked: EventEmitter<{ date: Date }> = new EventEmitter<{ date: Date }>();
@@ -343,6 +375,15 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     /**
      * @hidden
      */
+    ngAfterViewInit(): void {
+        const calendarColumnsContainerDOM = this.calendarColumnsContainer.nativeElement as HTMLDivElement;
+        this.eventWidth = calendarColumnsContainerDOM.children[0].clientWidth;
+        this.cdr.markForCheck();
+    }
+
+    /**
+     * @hidden
+     */
     ngOnChanges(changes: any): void {
         this.hours = this.getSchedulerViewHourGrid({
             viewDate: this.viewDate,
@@ -361,7 +402,15 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             this.refreshHeader();
         }
 
-        if (changes.events || changes.viewDate || changes.excludeDays || changes.dayStartHour || changes.dayEndHour || changes.dayStartMinute || changes.dayEndMinute) {
+        if (changes.events || 
+            changes.viewDate || 
+            changes.excludeDays || 
+            changes.dayStartHour || 
+            changes.dayEndHour || 
+            changes.dayStartMinute || 
+            changes.dayEndMinute || 
+            changes.eventWidth
+        ) {
             this.refreshBody();
         }
     }
@@ -387,11 +436,11 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         }
     }
 
-    getPositioningClasses(event: CalendarSchedulerEvent): string {
+    getPositioningClasses(day: SchedulerViewDay, event: CalendarSchedulerEvent): string {
         const classes: string[] = [
             this.getDayClass(event.start),
-            this.getTimeClass(event.start),
-            this.getLengthClass(differenceInMinutes(event.end, event.start))
+            this.getTimeClass(day.date, event),
+            this.getLengthClass(day.date, event)
         ];
         return classes.join(' ');
     }
@@ -400,14 +449,33 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         return '';
     }
 
-    private getTimeClass(date: Date): string {
-        const hours: string = date.getHours() < 10 ? `0${date.getHours()}` : `${date.getHours()}`;
-        const minutes: string = date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
-        return `time${hours}${minutes}`;
+    private getTimeClass(date: Date, event: CalendarSchedulerEvent): string {
+        if (isSameDay(date, event.start)) {
+            let hours: number = event.start.getHours();
+            if (this.dayStartHour > 0) { hours = event.start.getHours() - this.dayStartHour; }
+            const hoursString: string = hours < 10 ? `0${hours}` : `${hours}`;
+            const minutesString: string = event.start.getMinutes() < 10 ? `0${event.start.getMinutes()}` : `${event.start.getMinutes()}`;
+            return `time${hoursString}${minutesString}`;
+        } else if (isBefore(event.start, startOfDay(date))) {
+            return `time0000`;
+        }
     }
 
-    private getLengthClass(durationInMinutes: number): string {
-        return `length${durationInMinutes}`;
+    private getLengthClass(date: Date, event: CalendarSchedulerEvent): string {
+        if (isSameDay(date, event.start)) {
+            const durationInMinutes: number = differenceInMinutes(event.end, event.start);
+            const leftToEndOfDay: number = differenceInMinutes(setMinutes(setHours(event.start, this.dayEndHour + 1), 0), event.start);
+            return leftToEndOfDay > durationInMinutes ? `length${durationInMinutes}` : `length${leftToEndOfDay}`;
+        } else if (isBefore(event.start, startOfDay(date))) {
+            let leftDurationInMinutes: number = 0;
+            if(isSameDay(date, event.end)) {
+                leftDurationInMinutes = differenceInMinutes(event.end, startOfDay(date));
+                if (this.dayStartHour > 0) { leftDurationInMinutes = (event.end.getHours() - this.dayStartHour) * MINUTES_IN_HOUR; }
+            } else {
+                leftDurationInMinutes = ((this.dayEndHour + 1) - this.dayStartHour) * MINUTES_IN_HOUR;
+            }
+            return `length${leftDurationInMinutes}`;
+        }
     }
 
 
@@ -424,9 +492,26 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         this.view = this.getSchedulerView({
             events: this.events,
             viewDate: this.viewDate,
+            hourSegments: this.hourSegments,
             weekStartsOn: this.weekStartsOn,
             startsWithToday: this.startsWithToday,
-            excluded: this.excludeDays
+            dayStart: {
+                hour: this.dayStartHour,
+                minute: this.dayStartMinute
+            },
+            dayEnd: {
+                hour: this.dayEndHour,
+                minute: this.dayEndMinute
+            },
+            excluded: this.excludeDays,
+            eventWidth: this.eventWidth,
+            segmentHeight: this.segmentHeight
+        });
+
+        this.view.days.forEach((day: SchedulerViewDay) => {
+            day.events.forEach((event: CalendarSchedulerEvent) => {
+                this.scaleOverlappingEvents(event.start, event.end, day.events);
+            });
         });
 
         if (this.dayModifier) {
@@ -470,6 +555,10 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         const weekStartsOn: number = args.weekStartsOn;
         const startsWithToday: boolean = args.startsWithToday;
         const excluded: number[] = args.excluded || [];
+        const hourSegments: number = args.hourSegments || DEFAULT_SEGMENT_HOURS;
+        const segmentHeight: number = args.segmentHeight || DEFAULT_SEGMENT_HEIGHT_PX;
+        const eventWidth: number = args.eventWidth || DEFAULT_EVENT_WIDTH_PX;
+        const dayStart: any = args.dayStart, dayEnd: any = args.dayEnd;
 
         const startOfViewWeek: Date = startsWithToday ? startOfDay(viewDate) : startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
         const endOfViewWeek: Date = startsWithToday ? addDays(endOfDay(viewDate), 6) : endOfWeek(viewDate, { weekStartsOn: weekStartsOn });
@@ -483,23 +572,72 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             excluded: excluded
         });
         this.days.forEach((day: SchedulerViewDay) => {
+            const startOfView: Date = setMinutes(setHours(startOfDay(day.date), dayStart.hour), dayStart.minute);
+            const endOfView: Date = setMinutes(setHours(startOfMinute(endOfDay(day.date)), dayEnd.hour), dayEnd.minute);
+            const previousDayEvents: CalendarSchedulerEvent[] = [];
             day.events = this.getEventsInPeriod({
                 events: eventsInWeek,
                 periodStart: startOfDay(day.date),
                 periodEnd: endOfDay(day.date)
-            }).map((event: CalendarSchedulerEvent) => <CalendarSchedulerEvent>{
-                id: event.id,
-                start: event.start,
-                end: event.end,
-                title: event.title,
-                content: event.content,
-                color: event.color,
-                actions: event.actions,
-                status: event.status,
-                cssClass: event.cssClass,
-                isHovered: false,
-                isDisabled: event.isDisabled || false,
-                isClickable: event.isClickable !== undefined && event.isClickable !== null ? event.isClickable : true
+            }).sort((eventA: CalendarSchedulerEvent, eventB: CalendarSchedulerEvent) => {
+                return eventA.start.valueOf() - eventB.start.valueOf();
+            }).map((ev: CalendarSchedulerEvent) => {
+                const eventStart: Date = ev.start;
+                const eventEnd: Date = ev.end || eventStart;
+                const startsBeforeDay: boolean = eventStart < startOfView;
+                const endsAfterDay: boolean = eventEnd > endOfView;
+                const hourHeightModifier: number = ((hourSegments * segmentHeight) + 1) / MINUTES_IN_HOUR; // +1 for the 1px top border
+
+                let top: number = 0;
+                if (eventStart > startOfView) {
+                    top += differenceInMinutes(eventStart, startOfView);
+                }
+                top *= hourHeightModifier;
+
+                const startDate: Date = startsBeforeDay ? startOfView : eventStart;
+                const endDate: Date = endsAfterDay ? endOfView : eventEnd;
+                let height: number = differenceInMinutes(endDate, startDate);
+                if (!ev.end) {
+                    height = segmentHeight;
+                } else {
+                    height *= hourHeightModifier;
+                }
+
+                const bottom: number = top + height;
+                const overlappingPreviousEvents = this.getOverLappingDayViewEvents(
+                    previousDayEvents,
+                    top,
+                    bottom
+                );
+
+                let left: number = 0;
+                while (overlappingPreviousEvents.some(previousEvent => previousEvent.left === left)) {
+                    left += eventWidth;
+                }
+
+                const event: CalendarSchedulerEvent =  
+                <CalendarSchedulerEvent>{
+                    id: ev.id,
+                    start: ev.start,
+                    end: ev.end,
+                    title: ev.title,
+                    content: ev.content,
+                    color: ev.color,
+                    actions: ev.actions,
+                    status: ev.status,
+                    cssClass: ev.cssClass,
+                    isHovered: false,
+                    isDisabled: ev.isDisabled || false,
+                    isClickable: ev.isClickable !== undefined && ev.isClickable !== null ? ev.isClickable : true,
+                    top: top,
+                    height: height,
+                    width: eventWidth,
+                    left: left
+                };
+
+                previousDayEvents.push(event);
+
+                return event;
             });
 
             const hours: SchedulerViewHour[] = [];
@@ -560,7 +698,59 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         return events.filter((event) => this.isEventInPeriod({ event: event, periodStart: periodStart, periodEnd: periodEnd }));
     }
 
-    private getSchedulerViewDays(args: GetSchedulerViewArgs): SchedulerViewDay[] {
+    private scaleOverlappingEvents(startTime: Date, endTime: Date, events: CalendarSchedulerEvent[]): void {
+        let newStartTime: Date = startTime;
+        let newEndTime: Date = endTime;
+        const overlappingEvents: CalendarSchedulerEvent[] = [];
+        let maxLeft = 0;
+        events.forEach((event: CalendarSchedulerEvent) => {
+            if (event.isProcessed) {
+                return;
+            }
+            if (event.start < startTime && event.end > startTime) {
+                newStartTime = event.start;
+            } else if (event.end > endTime && event.start < endTime) {
+                newEndTime = event.end;
+            } else if (event.end <= endTime && event.start >= startTime) {
+                // Nothing, but remove condition and add equals to above two for overlapping effect
+            } else {
+                return;
+            }
+            if (event.left > maxLeft) {
+                maxLeft = event.left;
+            }
+            overlappingEvents.push(event);
+        });
+        if (startTime === newStartTime && endTime === newEndTime) {
+            const divisorFactor = Math.floor(maxLeft / this.eventWidth) + 1;
+            overlappingEvents.forEach((event: CalendarSchedulerEvent) => {
+                event.isProcessed = true;
+                event.left /= divisorFactor;
+                event.width /= divisorFactor;
+            });
+        } else {
+            this.scaleOverlappingEvents(newStartTime, newEndTime, events);
+        }
+    }
+
+    private getOverLappingDayViewEvents(events: CalendarSchedulerEvent[], top: number, bottom: number): CalendarSchedulerEvent[] {
+        return events.filter((previousEvent: CalendarSchedulerEvent) => {
+            const previousEventTop: number = previousEvent.top;
+            const previousEventBottom: number =
+                previousEvent.top + previousEvent.height;
+        
+            if (top < previousEventBottom && previousEventBottom < bottom) {
+                return true;
+            } else if (previousEventTop <= top && bottom <= previousEventBottom) {
+                return true;
+            }
+        
+            return false;
+        });
+    }
+
+
+    private getSchedulerViewDays(args: GetSchedulerViewDayArgs): SchedulerViewDay[] {
         const viewDate: Date = args.viewDate;
         const weekStartsOn: number = args.weekStartsOn;
         const startsWithToday: boolean = args.startsWithToday;
@@ -626,17 +816,41 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     }
 }
 
-export interface GetSchedulerViewArgs {
-    events?: CalendarSchedulerEvent[];
+export interface GetSchedulerViewDayArgs {
     viewDate: Date;
     weekStartsOn: number;
     startsWithToday: boolean;
     excluded?: number[];
 }
 
+export interface GetSchedulerViewArgs {
+    events?: CalendarSchedulerEvent[];
+    viewDate: Date;
+    hourSegments: 1 | 2 | 4 | 6;
+    weekStartsOn: number;
+    startsWithToday: boolean;
+    dayStart: {
+        hour: number;
+        minute: number;
+    };
+    dayEnd: {
+        hour: number;
+        minute: number;
+    };
+    excluded?: number[];
+    eventWidth: number;
+    segmentHeight: number;
+}
+
 export interface GetSchedulerViewHourGridArgs {
     viewDate: Date;
     hourSegments: number;
-    dayStart: any;
-    dayEnd: any;
+    dayStart: {
+        hour: number;
+        minute: number;
+    };
+    dayEnd: {
+        hour: number;
+        minute: number;
+    };
 }

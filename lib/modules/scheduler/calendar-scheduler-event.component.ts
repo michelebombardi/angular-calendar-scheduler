@@ -89,15 +89,6 @@ export class CalendarSchedulerEventComponent implements OnInit {
     }
 
     highlightEvent(): void {
-        // let events: CalendarSchedulerEvent[] = this.day.hours
-        //    .filter(h => h.segments.some(s => s.events.some(e => e.id === this.event.id)))
-        //    .map(h =>
-        //        h.segments.map(s =>
-        //            s.events.filter(e => e.id === this.event.id)
-        //        ).reduce((prev, curr) => prev.concat(curr))
-        //    )
-        //    .reduce((prev, curr) => prev.concat(curr));
-
         this.day.hours.forEach((hour: SchedulerViewHour) => {
             hour.segments.forEach((segment: SchedulerViewHourSegment) => {
                 segment.events.filter((event: CalendarSchedulerEvent) => event.id === this.event.id && isSameDay(event.start, this.event.start))

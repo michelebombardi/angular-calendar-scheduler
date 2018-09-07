@@ -240,7 +240,7 @@
 
                 .cal-scheduler-event-container {
                     flex: 1 0;
-                    width: 100%;
+                    // width: 100%;
                     display: -webkit-box;
                     display: -moz-box;
                     display: -ms-flexbox;
@@ -351,8 +351,9 @@
                         }
                     }
 
-                    @mixin day-x($attr, $attr-count: 7, $attr-steps: 1, $unit: '%') {
+                    @mixin day-x($attr, $attr-steps: 1, $unit: '%') {
                         $attr-list: null;
+                        $attr-count: 7;
                 
                         @for $i from 1 through $attr-count {
                             $attr-value: $attr-steps * $i;
@@ -369,11 +370,11 @@
                         }
                     }
                 
-                    @mixin time-x($attr, $start-hour: 0, $end-hour: 23, $attr-steps: 2, $minutes-steps: 15, $unit: '%') {
+                    @mixin time-x($attr, $attr-steps: 2, $minutes-steps: 15, $unit: '%') {
                         $attr-list: null;
-                        $hours: $start-hour;
+                        $hours: 0;
                         $minutes: 0;
-                        $attr-count: ((($end-hour + 1) - $start-hour) * 60) / $minutes-steps;
+                        $attr-count: 24 * 60 / $minutes-steps;
                 
                         @for $i from 0 through $attr-count {
                             $attr-value: $attr-steps * $i;
@@ -428,8 +429,8 @@
                         }
                     }
                 
-                    @include day-x('left', 7, 5);
-                    @include time-x('top', 6, 22, 1.47);
+                    @include day-x('left', 5);
+                    @include time-x('top', 1.47); 
                     @include length-x('height', 1.47);
                 }
             }
