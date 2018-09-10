@@ -47,7 +47,21 @@ const DEFAULT_SEGMENT_HEIGHT_PX = 58;
 const DEFAULT_EVENT_WIDTH_PX = 150;
 const DEFAULT_SEGMENT_HOURS = 2;
 
-const WEEKEND_DAY_NUMBERS = [0, 6];
+export enum DAYS_OF_WEEK {
+    SUNDAY = 0,
+    MONDAY = 1,
+    TUESDAY = 2,
+    WEDNESDAY = 3,
+    THURSDAY = 4,
+    FRIDAY = 5,
+    SATURDAY = 6
+}
+
+const DEFAULT_WEEKEND_DAYS: number[] = [
+    DAYS_OF_WEEK.SUNDAY,
+    DAYS_OF_WEEK.SATURDAY
+];
+
 const DAYS_IN_WEEK = 7;
 const HOURS_IN_DAY = 24;
 const MINUTES_IN_HOUR = 60;
@@ -127,7 +141,7 @@ export interface CalendarSchedulerEventAction {
 
 /**
  *  [ngClass]="getPositioningClasses(event)"
- * 
+ *
  *  [style.top.%]="event.top"
  *  [style.height.%]="event.height"
  *  [style.left.px]="event.left"
@@ -201,8 +215,7 @@ export interface CalendarSchedulerEventAction {
 })
 export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     @ViewChild('calendarColumnsContainer') calendarColumnsContainer: ElementRef;
-    private calendarColumnsHeight: number;
-    
+
     /**
      * The current view date
      */
@@ -283,10 +296,9 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
     @Input() eventTemplate: TemplateRef<any>;
 
     /**
-     * The precision to display events.
-     * `days` will round event start and end dates to the nearest day and `minutes` will not do this rounding
+     * An array of day indexes (0 = sunday, 1 = monday etc) that indicate which days are weekends
      */
-    @Input() precision: 'days' | 'minutes' = 'days';
+    @Input() weekendDays: number[];
 
     /**
      * The day start hours in 24 hour time. Must be 0-23
@@ -376,41 +388,29 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
      * @hidden
      */
     ngAfterViewInit(): void {
-        const calendarColumnsContainerDOM = this.calendarColumnsContainer.nativeElement as HTMLDivElement;
-        this.eventWidth = calendarColumnsContainerDOM.children[0].clientWidth;
-        this.cdr.markForCheck();
+        // const calendarColumnsContainerDOM = this.calendarColumnsContainer.nativeElement as HTMLDivElement;
+        // this.eventWidth = calendarColumnsContainerDOM.children[0].clientWidth;
+        // this.refreshBody();
     }
 
     /**
      * @hidden
      */
     ngOnChanges(changes: any): void {
-        this.hours = this.getSchedulerViewHourGrid({
-            viewDate: this.viewDate,
-            hourSegments: this.hourSegments,
-            dayStart: {
-                hour: this.dayStartHour,
-                minute: this.dayStartMinute
-            },
-            dayEnd: {
-                hour: this.dayEndHour,
-                minute: this.dayEndMinute
-            }
-        });
-
-        if (changes.viewDate || changes.excludeDays) {
+        if (changes.viewDate || changes.excludeDays || changes.weekendDays) {
             this.refreshHeader();
         }
 
-        if (changes.events || 
-            changes.viewDate || 
-            changes.excludeDays || 
-            changes.dayStartHour || 
-            changes.dayEndHour || 
-            changes.dayStartMinute || 
-            changes.dayEndMinute || 
+        if (changes.viewDate ||
+            changes.events ||
+            changes.dayStartHour ||
+            changes.dayEndHour ||
+            changes.dayStartMinute ||
+            changes.dayEndMinute ||
+            changes.excludeDays ||
             changes.eventWidth
         ) {
+            this.refreshHourGrid();
             this.refreshBody();
         }
     }
@@ -468,7 +468,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
             return leftToEndOfDay > durationInMinutes ? `length${durationInMinutes}` : `length${leftToEndOfDay}`;
         } else if (isBefore(event.start, startOfDay(date))) {
             let leftDurationInMinutes: number = 0;
-            if(isSameDay(date, event.end)) {
+            if (isSameDay(date, event.end)) {
                 leftDurationInMinutes = differenceInMinutes(event.end, startOfDay(date));
                 if (this.dayStartHour > 0) { leftDurationInMinutes = (event.end.getHours() - this.dayStartHour) * MINUTES_IN_HOUR; }
             } else {
@@ -479,12 +479,28 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
     }
 
 
+    private refreshHourGrid(): void {
+        this.hours = this.getSchedulerViewHourGrid({
+            viewDate: this.viewDate,
+            hourSegments: this.hourSegments,
+            dayStart: {
+                hour: this.dayStartHour,
+                minute: this.dayStartMinute
+            },
+            dayEnd: {
+                hour: this.dayEndHour,
+                minute: this.dayEndMinute
+            }
+        });
+    }
+
     private refreshHeader(): void {
         this.headerDays = this.getSchedulerViewDays({
             viewDate: this.viewDate,
             weekStartsOn: this.weekStartsOn,
             startsWithToday: this.startsWithToday,
-            excluded: this.excludeDays
+            excluded: this.excludeDays,
+            weekendDays: this.weekendDays
         });
     }
 
@@ -543,6 +559,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
 
     private refreshAll(): void {
         this.refreshHeader();
+        this.refreshHourGrid();
         this.refreshBody();
     }
 
@@ -615,7 +632,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
                     left += eventWidth;
                 }
 
-                const event: CalendarSchedulerEvent =  
+                const event: CalendarSchedulerEvent =
                 <CalendarSchedulerEvent>{
                     id: ev.id,
                     start: ev.start,
@@ -738,13 +755,13 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
             const previousEventTop: number = previousEvent.top;
             const previousEventBottom: number =
                 previousEvent.top + previousEvent.height;
-        
+
             if (top < previousEventBottom && previousEventBottom < bottom) {
                 return true;
             } else if (previousEventTop <= top && bottom <= previousEventBottom) {
                 return true;
             }
-        
+
             return false;
         });
     }
@@ -755,13 +772,14 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
         const weekStartsOn: number = args.weekStartsOn;
         const startsWithToday: boolean = args.startsWithToday;
         const excluded: number[] = args.excluded || [];
+        const weekendDays: number[] = args.weekendDays || DEFAULT_WEEKEND_DAYS;
 
         const start = startsWithToday ? new Date(viewDate) : startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
         const days: SchedulerViewDay[] = [];
         const loop = (i: number) => {
             const date = addDays(start, i);
             if (!excluded.some((e: number) => date.getDay() === e)) {
-                days.push(this.getSchedulerDay({ date: date }));
+                days.push(this.getSchedulerDay({ date, weekendDays }));
             }
         };
         for (let i = 0; i < DAYS_IN_WEEK; i++) {
@@ -770,7 +788,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
         return days;
     }
 
-    private getSchedulerDay(args: { date: Date }): SchedulerViewDay {
+    private getSchedulerDay(args: { date: Date, weekendDays: number[] }): SchedulerViewDay {
         const date: Date = args.date;
         const today: Date = startOfDay(new Date());
 
@@ -779,7 +797,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
             isPast: date < today,
             isToday: isSameDay(date, today),
             isFuture: date >= addDays(today, 1),
-            isWeekend: WEEKEND_DAY_NUMBERS.indexOf(getDay(date)) > -1,
+            isWeekend: args.weekendDays.indexOf(getDay(date)) > -1,
             hours: []
         };
     }
@@ -821,6 +839,7 @@ export interface GetSchedulerViewDayArgs {
     weekStartsOn: number;
     startsWithToday: boolean;
     excluded?: number[];
+    weekendDays?: number[];
 }
 
 export interface GetSchedulerViewArgs {
