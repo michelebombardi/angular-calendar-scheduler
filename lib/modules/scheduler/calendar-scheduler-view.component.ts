@@ -44,7 +44,7 @@ import {
 import { SchedulerConfig } from './scheduler-config';
 
 const DEFAULT_SEGMENT_HEIGHT_PX = 58;
-const DEFAULT_EVENT_WIDTH_PX = 150;
+const DEFAULT_EVENT_WIDTH_PERCENT = 100;
 const DEFAULT_SEGMENT_HOURS = 2;
 
 export enum DAYS_OF_WEEK {
@@ -142,10 +142,10 @@ export interface CalendarSchedulerEventAction {
 /**
  *  [ngClass]="getPositioningClasses(event)"
  *
- *  [style.top.%]="event.top"
- *  [style.height.%]="event.height"
- *  [style.left.px]="event.left"
- *  [style.width.px]="event.width - 1"
+ *  [style.top.px]="event.top"
+ *  [style.height.px]="event.height"
+ *  [style.left.%]="event.left"
+ *  [style.width.%]="event.width"
  */
 // https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 @Component({
@@ -177,8 +177,8 @@ export interface CalendarSchedulerEventAction {
                             *ngFor="let event of day.events"
                             [style.top.px]="event.top"
                             [style.height.px]="event.height"
-                            [style.left.px]="event.left"
-                            [style.width.px]="event.width - 1"
+                            [style.left.%]="event.left"
+                            [style.width.%]="event.width"
                             [day]="day"
                             [hour]="hour"
                             [segment]="segment"
@@ -323,7 +323,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
     /**
      * The width in pixels of each event on the view
      */
-    @Input() eventWidth: number = DEFAULT_EVENT_WIDTH_PX;
+    @Input() eventWidthPercent: number = DEFAULT_EVENT_WIDTH_PERCENT;
 
     /**
      * Called when a header week day is clicked
@@ -520,7 +520,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
                 minute: this.dayEndMinute
             },
             excluded: this.excludeDays,
-            eventWidth: this.eventWidth,
+            eventWidth: this.eventWidthPercent,
             segmentHeight: this.segmentHeight
         });
 
@@ -574,7 +574,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
         const excluded: number[] = args.excluded || [];
         const hourSegments: number = args.hourSegments || DEFAULT_SEGMENT_HOURS;
         const segmentHeight: number = args.segmentHeight || DEFAULT_SEGMENT_HEIGHT_PX;
-        const eventWidth: number = args.eventWidth || DEFAULT_EVENT_WIDTH_PX;
+        const eventWidth: number = args.eventWidth || DEFAULT_EVENT_WIDTH_PERCENT;
         const dayStart: any = args.dayStart, dayEnd: any = args.dayEnd;
 
         const startOfViewWeek: Date = startsWithToday ? startOfDay(viewDate) : startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
@@ -596,9 +596,9 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
                 events: eventsInWeek,
                 periodStart: startOfDay(day.date),
                 periodEnd: endOfDay(day.date)
-            }).sort((eventA: CalendarSchedulerEvent, eventB: CalendarSchedulerEvent) => {
-                return eventA.start.valueOf() - eventB.start.valueOf();
-            }).map((ev: CalendarSchedulerEvent) => {
+            })
+            .sort((eventA: CalendarSchedulerEvent, eventB: CalendarSchedulerEvent) => eventA.start.valueOf() - eventB.start.valueOf())
+            .map((ev: CalendarSchedulerEvent) => {
                 const eventStart: Date = ev.start;
                 const eventEnd: Date = ev.end || eventStart;
                 const startsBeforeDay: boolean = eventStart < startOfView;
@@ -739,7 +739,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
             overlappingEvents.push(event);
         });
         if (startTime === newStartTime && endTime === newEndTime) {
-            const divisorFactor = Math.floor(maxLeft / this.eventWidth) + 1;
+            const divisorFactor = Math.floor(maxLeft / this.eventWidthPercent) + 1;
             overlappingEvents.forEach((event: CalendarSchedulerEvent) => {
                 event.isProcessed = true;
                 event.left /= divisorFactor;
