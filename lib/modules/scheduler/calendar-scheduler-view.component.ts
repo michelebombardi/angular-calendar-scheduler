@@ -6,7 +6,6 @@ import {
     ChangeDetectorRef,
     OnChanges,
     OnInit,
-    AfterViewInit,
     OnDestroy,
     LOCALE_ID,
     Inject,
@@ -45,7 +44,7 @@ import { SchedulerConfig } from './scheduler-config';
 
 const DEFAULT_SEGMENT_HEIGHT_PX = 58;
 const DEFAULT_EVENT_WIDTH_PERCENT = 100;
-const DEFAULT_SEGMENT_HOURS = 2;
+const DEFAULT_HOUR_SEGMENTS = 2;
 
 export enum DAYS_OF_WEEK {
     SUNDAY = 0,
@@ -213,7 +212,7 @@ export interface CalendarSchedulerEventAction {
     styleUrls: ['./calendar-scheduler-view.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
+export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDestroy {
     @ViewChild('calendarColumnsContainer') calendarColumnsContainer: ElementRef;
 
     /**
@@ -229,7 +228,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
     /**
      * The number of segments in an hour. Must be one of 1, 2, 4, 6
      */
-    @Input() hourSegments: 1 | 2 | 4 | 6 = DEFAULT_SEGMENT_HOURS;
+    @Input() hourSegments: 1 | 2 | 4 | 6 = DEFAULT_HOUR_SEGMENTS;
 
     /**
     * The height in pixels of each hour segment
@@ -382,15 +381,6 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
                 this.cdr.markForCheck();
             });
         }
-    }
-
-    /**
-     * @hidden
-     */
-    ngAfterViewInit(): void {
-        // const calendarColumnsContainerDOM = this.calendarColumnsContainer.nativeElement as HTMLDivElement;
-        // this.eventWidth = calendarColumnsContainerDOM.children[0].clientWidth;
-        // this.refreshBody();
     }
 
     /**
@@ -572,7 +562,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, AfterV
         const weekStartsOn: number = args.weekStartsOn;
         const startsWithToday: boolean = args.startsWithToday;
         const excluded: number[] = args.excluded || [];
-        const hourSegments: number = args.hourSegments || DEFAULT_SEGMENT_HOURS;
+        const hourSegments: number = args.hourSegments || DEFAULT_HOUR_SEGMENTS;
         const segmentHeight: number = args.segmentHeight || DEFAULT_SEGMENT_HEIGHT_PX;
         const eventWidth: number = args.eventWidth || DEFAULT_EVENT_WIDTH_PERCENT;
         const dayStart: any = args.dayStart, dayEnd: any = args.dayEnd;
