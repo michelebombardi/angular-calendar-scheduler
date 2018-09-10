@@ -47,8 +47,6 @@ const moment = momentImported;
             [ngTemplateOutlet]="customTemplate || defaultTemplate"
             [ngTemplateOutletContext]="{
                 day: day,
-                hour: hour,
-                segment: segment,
                 event: event,
                 tooltipPlacement: tooltipPlacement,
                 showActions: showActions,
@@ -67,10 +65,6 @@ export class CalendarSchedulerEventComponent implements OnInit {
     @Input() title: string;
 
     @Input() day: SchedulerViewDay;
-
-    @Input() hour: SchedulerViewHour;
-
-    @Input() segment: SchedulerViewHourSegment;
 
     @Input() event: CalendarSchedulerEvent;
 

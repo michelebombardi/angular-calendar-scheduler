@@ -179,8 +179,6 @@ export interface CalendarSchedulerEventAction {
                             [style.left.%]="event.left"
                             [style.width.%]="event.width"
                             [day]="day"
-                            [hour]="hour"
-                            [segment]="segment"
                             [event]="event"
                             [tooltipPlacement]="tooltipPlacement"
                             [showActions]="showActions"
