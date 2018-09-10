@@ -102,6 +102,7 @@ export class AppComponent implements OnInit {
     startsWithToday: boolean = true;
     activeDayIsOpen: boolean = true;
     excludeDays: number[] = []; // [0];
+    weekendDays: number[] = [0,6];
     dayStartHour: number = 6;
     dayEndHour: number = 22;
 
@@ -213,8 +214,10 @@ export class AppComponent implements OnInit {
                              [excludeDays]="excludeDays"
                              [startsWithToday]="startsWithToday"
                              [hourSegments]="2"
+                             [weekendDays]="weekendDays"
                              [dayStartHour]="dayStartHour"
                              [dayEndHour]="dayEndHour"
+                             [eventWidthPercent]="50"
                              [dayModifier]="dayModifier"
                              [hourModifier]="hourModifier"
                              [segmentModifier]="segmentModifier"
