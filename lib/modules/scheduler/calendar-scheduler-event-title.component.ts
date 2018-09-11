@@ -10,7 +10,7 @@ import {
             class="cal-scheduler-event-title"
             [innerHTML]="event.title | schedulerEventTitle:view:event">
         </div>
-        <div *ngIf="event.status"
+        <div *ngIf="event.status && showStatus"
             class="cal-scheduler-event-status"
             [class.ok]="event.status === 'ok'"
             [class.warning]="event.status === 'warning'"
@@ -26,4 +26,6 @@ export class CalendarSchedulerEventTitleComponent {
     @Input() event: CalendarSchedulerEvent;
 
     @Input() view: string;
+
+    @Input() showStatus: boolean = true;
 }

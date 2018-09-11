@@ -45,6 +45,10 @@
                 color: #8b0000;
             }
 
+            &.cal-drag-over {
+                background-color: #ededed;
+            }
+
             span {
                 font-weight: 400;
                 opacity: 0.5;
@@ -223,6 +227,10 @@
                                 pointer-events: none;
                             }
 
+                            &.cal-drag-over {
+                                background-color: #ededed;
+                            }
+
                             .cal-scheduler-events {
                                 flex: 1 0;
                                 display: -webkit-box;
@@ -231,8 +239,12 @@
                                 display: flex;
                                 flex-flow: column wrap;
                                 position: relative;
+                            }
 
-                                
+                            .cal-scheduler-time {
+                                font-weight: bold;
+                                font-size: .7em;
+                                color: #6c757d;
                             }
                         }
                     }
@@ -288,6 +300,10 @@
                             cursor: pointer;
                             filter: brightness(80%);
                             -webkit-filter: brightness(80%);
+                        }
+
+                        &:not(.cal-disabled).cal-draggable {
+                            cursor: move;
                         }
 
                         .cal-scheduler-event-title-container {

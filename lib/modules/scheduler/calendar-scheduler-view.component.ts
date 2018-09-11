@@ -29,7 +29,6 @@ import {
     addMinutes,
     addHours,
     addDays,
-    subDays,
     setMinutes,
     setHours,
     setDate,
@@ -40,6 +39,9 @@ import {
     differenceInMinutes,
     isBefore
 } from 'date-fns';
+import { ResizeEvent } from 'angular-resizable-element';
+import { CalendarResizeHelper } from 'angular-calendar/modules/common/calendar-resize-helper.provider';
+import { CalendarDragHelper } from 'angular-calendar/modules/common/calendar-drag-helper.provider';
 import { SchedulerConfig } from './scheduler-config';
 
 const DEFAULT_SEGMENT_HEIGHT_PX = 58;
@@ -104,6 +106,7 @@ export interface SchedulerViewHourSegment {
     isFuture: boolean;
     isDisabled: boolean;
     hasBorder: boolean;
+    dragOver: boolean;
     backgroundColor?: string;
     cssClass?: string;
 }
@@ -121,6 +124,11 @@ export interface CalendarSchedulerEvent {
     isHovered?: boolean;
     isDisabled?: boolean;
     isClickable?: boolean;
+    resizable?: {
+        beforeStart?: boolean;
+        afterEnd?: boolean;
+    };
+    draggable?: boolean;
     top?: number;
     height?: number;
     left?: number;
@@ -136,6 +144,18 @@ export interface CalendarSchedulerEventAction {
     title: string;
     cssClass?: string;
     onClick(event: CalendarSchedulerEvent): void;
+}
+
+export interface SchedulerEventTimesChangedEvent {
+    event: CalendarSchedulerEvent;
+    newStart: Date;
+    newEnd?: Date;
+}
+
+export interface SchedulerEventResize {
+    originalTop: number;
+    originalHeight: number;
+    edge: string;
 }
 
 /**
@@ -155,7 +175,8 @@ export interface CalendarSchedulerEventAction {
                 [days]="headerDays"
                 [locale]="locale"
                 [customTemplate]="headerTemplate"
-                (dayClicked)="dayClicked.emit($event)">
+                (dayHeaderClicked)="dayHeaderClicked.emit($event)"
+                (eventDropped)="eventTimesChanged.emit($event)">
             </calendar-scheduler-header>
 
             <div class="cal-scheduler" #calendarContainer>
@@ -170,20 +191,34 @@ export interface CalendarSchedulerEventAction {
                     </div>
                 </div>
 
-                <div class="cal-scheduler-cols aside" #calendarColumnsContainer>
-                    <div class="cal-scheduler-col" *ngFor="let day of view.days">
-                        <calendar-scheduler-event
+                <div class="cal-scheduler-cols aside">
+                    <div class="cal-scheduler-col" *ngFor="let day of view.days" #dayContainer>
+                        <calendar-scheduler-event #eventContainer
                             *ngFor="let event of day.events"
                             [style.top.px]="event.top"
                             [style.height.px]="event.height"
                             [style.left.%]="event.left"
                             [style.width.%]="event.width"
+                            mwlResizable
+                            [resizeEdges]="{top: event?.resizable?.beforeStart, bottom: event?.resizable?.afterEnd}"
+                            [resizeSnapGrid]="{top: eventSnapSize, bottom: eventSnapSize}"
+                            [validateResize]="validateResize"
+                            (resizeStart)="resizeStarted(event, $event, dayContainer)"
+                            (resizing)="resizing(event, $event)"
+                            (resizeEnd)="resizeEnded(event)"
+                            mwlDraggable
+                            [dragAxis]="{x: false, y: event.draggable && currentResizes.size === 0}"
+                            [dragSnapGrid]="{y: eventSnapSize}"
+                            [validateDrag]="validateDrag"
+                            (dragStart)="dragStart(eventContainer, dayContainer)"
+                            (dragEnd)="eventDragged(event, $event.y)"
                             [day]="day"
                             [event]="event"
                             [tooltipPlacement]="tooltipPlacement"
                             [showActions]="showActions"
+                            [showStatus]="showEventStatus"
                             [customTemplate]="eventTemplate"
-                            (eventClicked)="onEventClick($event, event)">
+                            (eventClicked)="eventClicked.emit($event)">
                         </calendar-scheduler-event>
                         <calendar-scheduler-cell
                             *ngFor="let hour of day.hours; let i = index"
@@ -195,12 +230,12 @@ export interface CalendarSchedulerEventAction {
                             [hour]="hour"
                             [locale]="locale"
                             [tooltipPlacement]="tooltipPlacement"
-                            [showActions]="showActions"
+                            [showHour]="showSegmentHour"
                             [customTemplate]="cellTemplate"
                             [eventTemplate]="eventTemplate"
-                            (click)="dayClicked.emit({date: day})"
-                            (segmentClicked)="segmentClicked.emit({segment: $event.segment})"
-                            (eventClicked)="eventClicked.emit({event: $event.event})">
+                            (click)="hourClicked.emit({hour: hour})"
+                            (segmentClicked)="segmentClicked.emit($event)"
+                            (eventClicked)="eventClicked.emit($event)">
                         </calendar-scheduler-cell>
                     </div>
                 </div>
@@ -211,8 +246,6 @@ export interface CalendarSchedulerEventAction {
     encapsulation: ViewEncapsulation.None
 })
 export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDestroy {
-    @ViewChild('calendarColumnsContainer') calendarColumnsContainer: ElementRef;
-
     /**
      * The current view date
      */
@@ -249,6 +282,16 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     @Input() showActions: boolean = true;
 
     /**
+     * Specify if status must be shown or not
+     */
+    @Input() showEventStatus: boolean = true;
+
+    /**
+     * Specify if hour must be shown on segment or not
+     */
+    @Input() showSegmentHour: boolean = false;
+
+    /**
      * A function that will be called before each cell is rendered. The first argument will contain the calendar (day, hour or segment) cell.
      * If you add the `cssClass` property to the cell it will add that class to the cell in the template
      */
@@ -266,6 +309,11 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * The locale used to format dates
      */
     @Input() locale: string;
+
+    /**
+     * The grid size to snap resizing and dragging of events to
+     */
+    @Input() eventSnapSize: number = this.segmentHeight;
 
     /**
      * The placement of the event tooltip
@@ -325,7 +373,12 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     /**
      * Called when a header week day is clicked
      */
-    @Output() dayClicked: EventEmitter<{ date: Date }> = new EventEmitter<{ date: Date }>();
+    @Output() dayHeaderClicked: EventEmitter<{ day: SchedulerViewDay }> = new EventEmitter<{ day: SchedulerViewDay }>();
+
+    /**
+     * Called when the hour is clicked
+     */
+    @Output() hourClicked: EventEmitter<{ hour: SchedulerViewHour }> = new EventEmitter<{ hour: SchedulerViewHour }>();
 
     /**
      * Called when the segment is clicked
@@ -336,6 +389,11 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * Called when the event is clicked
      */
     @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
+
+    /**
+     * Called when an event is resized or dragged and dropped
+     */
+    @Output() eventTimesChanged: EventEmitter<SchedulerEventTimesChangedEvent> = new EventEmitter<SchedulerEventTimesChangedEvent>();
 
     /**
      * @hidden
@@ -361,6 +419,21 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * @hidden
      */
     hours: DayViewHour[] = [];
+
+    /**
+     * @hidden
+     */
+    currentResizes: Map<CalendarSchedulerEvent, SchedulerEventResize> = new Map();
+
+    /**
+     * @hidden
+     */
+    validateResize: (args: any) => boolean;
+
+    /**
+     * @hidden
+     */
+    validateDrag: (args: any) => boolean;
 
     /**
      * @hidden
@@ -409,18 +482,6 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     ngOnDestroy(): void {
         if (this.refreshSubscription) {
             this.refreshSubscription.unsubscribe();
-        }
-    }
-
-    /**
-     * @hidden
-     */
-    onEventClick(mouseEvent: MouseEvent, event: CalendarSchedulerEvent): void {
-        if (mouseEvent.stopPropagation) {
-            mouseEvent.stopPropagation();
-        }
-        if (event.isClickable) {
-            this.eventClicked.emit({ event: event });
         }
     }
 
@@ -634,6 +695,8 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
                     isHovered: false,
                     isDisabled: ev.isDisabled || false,
                     isClickable: ev.isClickable !== undefined && ev.isClickable !== null ? ev.isClickable : true,
+                    draggable: ev.draggable || false,
+                    resizable: ev.resizable || { beforeStart: false, afterEnd: false },
                     top: top,
                     height: height,
                     width: eventWidth,
@@ -819,6 +882,81 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             }
         });
         return hours;
+    }
+
+
+    resizeStarted(event: CalendarSchedulerEvent, resizeEvent: ResizeEvent, dayContainer: HTMLElement): void {
+        this.currentResizes.set(event, {
+            originalTop: event.top,
+            originalHeight: event.height,
+            edge: typeof resizeEvent.edges.top !== 'undefined' ? 'top' : 'bottom'
+        });
+        const resizeHelper: CalendarResizeHelper = new CalendarResizeHelper(dayContainer);
+        this.validateResize = ({rectangle}) => resizeHelper.validateResize({rectangle});
+        this.cdr.markForCheck();
+    }
+
+    resizing(event: CalendarSchedulerEvent, resizeEvent: ResizeEvent): void {
+        const currentResize: SchedulerEventResize = this.currentResizes.get(event);
+        if (resizeEvent.edges.top) {
+            event.top = currentResize.originalTop + +resizeEvent.edges.top;
+            event.height = currentResize.originalHeight - +resizeEvent.edges.top;
+        } else if (resizeEvent.edges.bottom) {
+            event.height = currentResize.originalHeight + +resizeEvent.edges.bottom;
+        }
+    }
+
+    resizeEnded(event: CalendarSchedulerEvent): void {
+        const currentResize: SchedulerEventResize = this.currentResizes.get(event);
+
+        let pixelsMoved: number;
+        if (currentResize.edge === 'top') {
+            pixelsMoved = event.top - currentResize.originalTop;
+        } else {
+            pixelsMoved = event.height - currentResize.originalHeight;
+        }
+
+        event.top = currentResize.originalTop;
+        event.height = currentResize.originalHeight;
+
+        const pixelAmountInMinutes: number =
+            MINUTES_IN_HOUR / (this.hourSegments * this.segmentHeight);
+        const minutesMoved: number = pixelsMoved * pixelAmountInMinutes;
+        let newStart: Date = event.start;
+        let newEnd: Date = event.end;
+        if (currentResize.edge === 'top') {
+            newStart = addMinutes(newStart, minutesMoved);
+        } else if (newEnd) {
+            newEnd = addMinutes(newEnd, minutesMoved);
+        }
+
+        this.eventTimesChanged.emit({newStart, newEnd, event: event});
+        this.currentResizes.delete(event);
+    }
+
+    dragStart(eventContainer: HTMLElement, dayContainer: HTMLElement): void {
+        const dragHelper: CalendarDragHelper = new CalendarDragHelper(
+            dayContainer,
+            eventContainer
+        );
+        this.validateDrag = ({x, y}) =>
+            this.currentResizes.size === 0 && dragHelper.validateDrag({x, y});
+        this.cdr.markForCheck();
+    }
+
+    eventDragged(event: CalendarSchedulerEvent, draggedInPixels: number): void {
+        const pixelAmountInMinutes: number =
+            MINUTES_IN_HOUR / (this.hourSegments * this.segmentHeight);
+        const minutesMoved: number = draggedInPixels * pixelAmountInMinutes;
+        // TODO - remove this check once https://github.com/mattlewis92/angular-draggable-droppable/issues/21 is fixed
+        if (minutesMoved !== 0) {
+            const newStart: Date = addMinutes(event.start, minutesMoved);
+            let newEnd: Date;
+            if (event.end) {
+                newEnd = addMinutes(event.end, minutesMoved);
+            }
+            this.eventTimesChanged.emit({newStart, newEnd, event: event});
+        }
     }
 }
 

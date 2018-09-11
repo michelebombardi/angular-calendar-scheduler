@@ -84,21 +84,23 @@
                               [locale]="locale"
                               [weekStartsOn]="weekStartsOn"
                               [tooltipPlacement]="'top'"
-                              [refresh]="refreshSubject"
                               [excludeDays]="excludeDays"
                               [startsWithToday]="startsWithToday"
                               [hourSegments]="2"
                               [dayStartHour]="dayStartHour"
                               [dayEndHour]="dayEndHour"
-
                               [dayModifier]="dayModifier"
                               [hourModifier]="hourModifier"
                               [segmentModifier]="segmentModifier"
                               [eventModifier]="eventModifier"
                               [showActions]="true"
-                              (dayClicked)="dayClicked($event.day)"
+                              [showSegmentHour]="false"
+                              (dayHeaderClicked)="dayHeaderClicked($event.day)"
+                              (hourClicked)="hourClicked($event.hour)"
                               (segmentClicked)="segmentClicked('Clicked', $event.segment)"
-                              (eventClicked)="eventClicked('Clicked', $event.event)">
+                              (eventClicked)="eventClicked('Clicked', $event.event)"
+                              (eventTimesChanged)="eventTimesChanged($event)"
+                              [refresh]="refresh">
       </calendar-scheduler-view>
   </div>
 </div>

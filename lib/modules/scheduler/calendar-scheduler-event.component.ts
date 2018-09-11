@@ -27,6 +27,7 @@ const moment = momentImported;
                 [class.hovered]="event.isHovered"
                 [class.cal-disabled]="event.isDisabled"
                 [class.cal-not-clickable]="!event.isClickable"
+                [class.cal-draggable]="event.draggable"
                 [style.backgroundColor]="event.color.primary"
                 [ngClass]="event?.cssClass"
                 (mwlClick)="eventClicked.emit({event: event})"
@@ -34,7 +35,8 @@ const moment = momentImported;
                 (mouseleave)="unhighlightEvent()">
                 <calendar-scheduler-event-title
                     [event]="event"
-                    view="week">
+                    view="week"
+                    [showStatus]="showStatus">
                 </calendar-scheduler-event-title>
                 <calendar-scheduler-event-content
                     [event]="event">
@@ -60,8 +62,6 @@ const moment = momentImported;
     }
 })
 export class CalendarSchedulerEventComponent implements OnInit {
-    @ViewChild('calEvent') eventRef: ElementRef;
-
     @Input() title: string;
 
     @Input() day: SchedulerViewDay;
@@ -71,6 +71,8 @@ export class CalendarSchedulerEventComponent implements OnInit {
     @Input() tooltipPlacement: string;
 
     @Input() showActions: boolean = true;
+
+    @Input() showStatus: boolean = true;
 
     @Input() customTemplate: TemplateRef<any>;
 

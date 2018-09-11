@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
-import { SchedulerViewDay } from './calendar-scheduler-view.component';
+import { SchedulerViewDay, CalendarSchedulerEvent } from './calendar-scheduler-view.component';
 
 @Component({
     selector: 'calendar-scheduler-header',
@@ -19,7 +19,11 @@ import { SchedulerViewDay } from './calendar-scheduler-view.component';
                         [class.cal-future]="day.isFuture"
                         [class.cal-weekend]="day.isWeekend"
                         [class.cal-drag-over]="day.dragOver"
-                        (mwlClick)="dayClicked.emit({date: day.date})">
+                        (mwlClick)="dayHeaderClicked.emit({day: day})"
+                        mwlDroppable
+                        (dragEnter)="day.dragOver = true"
+                        (dragLeave)="day.dragOver = false"
+                        (drop)="day.dragOver = false; eventDropped.emit({event: $event.dropData.event, newStart: day.date})">
                         <b>{{ day.date | calendarDate:'weekViewColumnHeader':locale }}</b><br>
                         <span>{{ day.date | calendarDate:'weekViewColumnSubHeader':locale }}</span>
                     </div>
@@ -28,7 +32,7 @@ import { SchedulerViewDay } from './calendar-scheduler-view.component';
         </ng-template>
         <ng-template
             [ngTemplateOutlet]="customTemplate || defaultTemplate"
-            [ngTemplateOutletContext]="{days: days, locale: locale, dayClicked: dayClicked}">
+            [ngTemplateOutletContext]="{days: days, locale: locale, dayHeaderClicked: dayHeaderClicked, eventDropped: eventDropped}">
         </ng-template>
     `
 })
@@ -40,5 +44,7 @@ export class CalendarSchedulerHeaderComponent {
 
     @Input() customTemplate: TemplateRef<any>;
 
-    @Output() dayClicked: EventEmitter<{ date: Date }> = new EventEmitter<{ date: Date }>();
+    @Output() dayHeaderClicked: EventEmitter<{ day: SchedulerViewDay }> = new EventEmitter<{ day: SchedulerViewDay }>();
+
+    @Output() eventDropped: EventEmitter<{ event: CalendarSchedulerEvent; newStart: Date; }> = new EventEmitter<{ event: CalendarSchedulerEvent; newStart: Date }>();
 }

@@ -2,10 +2,7 @@ import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import {
-    startOfHour,
     endOfDay,
-    addHours,
-    addDays,
     addMonths,
 } from 'date-fns';
 import {
@@ -20,7 +17,8 @@ import {
     endOfPeriod,
     addPeriod,
     subPeriod,
-    SchedulerDateFormatter
+    SchedulerDateFormatter,
+    SchedulerEventTimesChangedEvent
 } from 'angular-calendar-scheduler';
 import {
     CalendarDateFormatter
@@ -42,7 +40,7 @@ export class AppComponent implements OnInit {
 
     view: CalendarPeriod = 'week';
     viewDate: Date = new Date();
-    refreshSubject: Subject<any> = new Subject();
+    refresh: Subject<any> = new Subject();
     locale: string = 'en';
     weekStartsOn: number = 1;
     startsWithToday: boolean = true;
@@ -136,9 +134,17 @@ export class AppComponent implements OnInit {
         return /*isToday(date) ||*/ date >= this.minDate && date <= this.maxDate;
     }
 
-    dayClicked({ date, events }: { date: Date, events: CalendarSchedulerEvent[] }): void {
-        console.log('dayClicked Date', date);
-        console.log('dayClicked Events', events);
+    dayHeaderClicked(day: SchedulerViewDay): void {
+        console.log('dayHeaderClicked Day', day);
+    }
+
+    hourClicked(hour: SchedulerViewHour): void {
+        console.log('hourClicked Hour', hour);
+    }
+
+    segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
+        console.log('segmentClicked Action', action);
+        console.log('segmentClicked Segment', segment);
     }
 
     eventClicked(action: string, event: CalendarSchedulerEvent): void {
@@ -146,8 +152,12 @@ export class AppComponent implements OnInit {
         console.log('eventClicked Event', event);
     }
 
-    segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
-        console.log('segmentClicked Action', action);
-        console.log('segmentClicked Segment', segment);
+    eventTimesChanged({ event, newStart, newEnd }: SchedulerEventTimesChangedEvent): void {
+        console.log('eventTimesChanged Event', event);
+        console.log('eventTimesChanged New Times', newStart, newEnd);
+        const ev: CalendarSchedulerEvent = this.events.find(e => e.id === event.id);
+        ev.start = newStart;
+        ev.end = newEnd;
+        this.refresh.next();
     }
 }

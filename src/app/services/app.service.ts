@@ -25,7 +25,12 @@ export class AppService {
                 actions: actions,
                 status: 'danger' as CalendarSchedulerEventStatus,
                 isClickable: true,
-                isDisabled: false
+                isDisabled: false,
+                draggable: true,
+                resizable: {
+                    beforeStart: true,
+                    afterEnd: true
+                }
             },
             <CalendarSchedulerEvent>{
                 id: '2',

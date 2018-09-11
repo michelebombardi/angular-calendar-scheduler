@@ -184,9 +184,17 @@ export class AppComponent implements OnInit {
         return /*isToday(date) ||*/ date >= this.minDate && date <= this.maxDate;
     }
 
-    dayClicked({ date, events }: { date: Date, events: CalendarSchedulerEvent[] }): void {
-        console.log('dayClicked Date', date);
-        console.log('dayClicked Events', events);
+    dayHeaderClicked(day: SchedulerViewDay): void {
+        console.log('dayHeaderClicked Day', day);
+    }
+
+    hourClicked(hour: SchedulerViewHour): void {
+        console.log('hourClicked Hour', hour);
+    }
+
+    segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
+        console.log('segmentClicked Action', action);
+        console.log('segmentClicked Segment', segment);
     }
 
     eventClicked(action: string, event: CalendarSchedulerEvent): void {
@@ -194,9 +202,13 @@ export class AppComponent implements OnInit {
         console.log('eventClicked Event', event);
     }
 
-    segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
-        console.log('segmentClicked Action', action);
-        console.log('segmentClicked Segment', segment);
+    eventTimesChanged({ event, newStart, newEnd }: SchedulerEventTimesChangedEvent): void {
+        console.log('eventTimesChanged Event', event);
+        console.log('eventTimesChanged New Times', newStart, newEnd);
+        let ev = this.events.find(e => e.id === event.id);
+        ev.start = newStart;
+        ev.end = newEnd;
+        this.refresh.next();
     }
 }
 ```
@@ -205,27 +217,30 @@ export class AppComponent implements OnInit {
 
 ```html
     ...
-    <calendar-scheduler-view [viewDate]="viewDate"
-                             [events]="events"
-                             [locale]="locale"
-                             [weekStartsOn]="weekStartsOn"
-                             [tooltipPlacement]="'top'"
-                             [refresh]="refreshSubject"
-                             [excludeDays]="excludeDays"
-                             [startsWithToday]="startsWithToday"
-                             [hourSegments]="2"
-                             [weekendDays]="weekendDays"
-                             [dayStartHour]="dayStartHour"
-                             [dayEndHour]="dayEndHour"
-                             [eventWidthPercent]="50"
-                             [dayModifier]="dayModifier"
-                             [hourModifier]="hourModifier"
-                             [segmentModifier]="segmentModifier"
-                             [showActions]="true"
-                             (dayClicked)="dayClicked($event.day)"
-                             (segmentClicked)="segmentClicked('Clicked', $event.segment)"
-                             (eventClicked)="eventClicked('Clicked', $event.event)">
-    </calendar-scheduler-view>
+    <calendar-scheduler-view *ngSwitchCase="'week'"
+                              [viewDate]="viewDate"
+                              [events]="events"
+                              [locale]="locale"
+                              [weekStartsOn]="weekStartsOn"
+                              [tooltipPlacement]="'top'"
+                              [excludeDays]="excludeDays"
+                              [startsWithToday]="startsWithToday"
+                              [hourSegments]="2"
+                              [dayStartHour]="dayStartHour"
+                              [dayEndHour]="dayEndHour"
+                              [dayModifier]="dayModifier"
+                              [hourModifier]="hourModifier"
+                              [segmentModifier]="segmentModifier"
+                              [eventModifier]="eventModifier"
+                              [showActions]="true"
+                              [showSegmentHour]="false"
+                              (dayHeaderClicked)="dayHeaderClicked($event.day)"
+                              (hourClicked)="hourClicked($event.hour)"
+                              (segmentClicked)="segmentClicked('Clicked', $event.segment)"
+                              (eventClicked)="eventClicked('Clicked', $event.event)"
+                              (eventTimesChanged)="eventTimesChanged($event)"
+                              [refresh]="refresh">
+      </calendar-scheduler-view>
     ...
 ```
 
