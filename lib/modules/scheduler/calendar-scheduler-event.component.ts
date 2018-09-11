@@ -36,7 +36,8 @@ const moment = momentImported;
                 <calendar-scheduler-event-title
                     [event]="event"
                     view="week"
-                    [showStatus]="showStatus">
+                    [showStatus]="showStatus"
+                    [customTemplate]="eventTitleTemplate">
                 </calendar-scheduler-event-title>
                 <calendar-scheduler-event-content
                     [event]="event">
@@ -53,6 +54,7 @@ const moment = momentImported;
                 tooltipPlacement: tooltipPlacement,
                 showActions: showActions,
                 customTemplate: customTemplate,
+                eventTitleTemplate: eventTitleTemplate,
                 eventClicked: eventClicked
             }">
         </ng-template>
@@ -75,6 +77,8 @@ export class CalendarSchedulerEventComponent implements OnInit {
     @Input() showStatus: boolean = true;
 
     @Input() customTemplate: TemplateRef<any>;
+
+    @Input() eventTitleTemplate: TemplateRef<any>;
 
     @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
 

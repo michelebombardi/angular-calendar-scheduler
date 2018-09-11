@@ -47,7 +47,6 @@ const moment = momentImported;
                 locale: locale,
                 tooltipPlacement: tooltipPlacement,
                 showHour: showHour,
-                eventTemplate: eventTemplate,
                 highlightSegment: highlightSegment,
                 unhighlightSegment: unhighlightSegment,
                 segmentClicked: segmentClicked,
@@ -79,8 +78,6 @@ export class CalendarSchedulerCellComponent implements OnInit {
     @Input() tooltipPlacement: string;
 
     @Input() customTemplate: TemplateRef<any>;
-
-    @Input() eventTemplate: TemplateRef<any>;
 
     @Input() segmentHeight: number = 58;
 

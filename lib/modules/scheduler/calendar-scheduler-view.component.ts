@@ -121,6 +121,7 @@ export interface CalendarSchedulerEvent {
     actions?: CalendarSchedulerEventAction[];
     status?: CalendarSchedulerEventStatus;
     cssClass?: string;
+    allDay?: boolean;
     isHovered?: boolean;
     isDisabled?: boolean;
     isClickable?: boolean;
@@ -193,6 +194,7 @@ export interface SchedulerEventResize {
 
                 <div class="cal-scheduler-cols aside">
                     <div class="cal-scheduler-col" *ngFor="let day of view.days" #dayContainer>
+                        //TODO ALLDAY
                         <calendar-scheduler-event #eventContainer
                             *ngFor="let event of day.events"
                             [style.top.px]="event.top"
@@ -218,6 +220,7 @@ export interface SchedulerEventResize {
                             [showActions]="showActions"
                             [showStatus]="showEventStatus"
                             [customTemplate]="eventTemplate"
+                            [eventTitleTemplate]="eventTitleTemplate"
                             (eventClicked)="eventClicked.emit($event)">
                         </calendar-scheduler-event>
                         <calendar-scheduler-cell
@@ -232,7 +235,6 @@ export interface SchedulerEventResize {
                             [tooltipPlacement]="tooltipPlacement"
                             [showHour]="showSegmentHour"
                             [customTemplate]="cellTemplate"
-                            [eventTemplate]="eventTemplate"
                             (click)="hourClicked.emit({hour: hour})"
                             (segmentClicked)="segmentClicked.emit($event)"
                             (eventClicked)="eventClicked.emit($event)">
@@ -339,6 +341,16 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * A custom template to use for week view events
      */
     @Input() eventTemplate: TemplateRef<any>;
+
+    /**
+     * A custom template to use for event titles
+     */
+    @Input() eventTitleTemplate: TemplateRef<any>;
+
+    /**
+     * A custom template to use for all day events
+     */
+    @Input() allDayEventTemplate: TemplateRef<any>;
 
     /**
      * An array of day indexes (0 = sunday, 1 = monday etc) that indicate which days are weekends
@@ -692,6 +704,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
                     actions: ev.actions,
                     status: ev.status,
                     cssClass: ev.cssClass,
+                    allDay: ev.allDay || false,
                     isHovered: false,
                     isDisabled: ev.isDisabled || false,
                     isClickable: ev.isClickable !== undefined && ev.isClickable !== null ? ev.isClickable : true,
@@ -736,6 +749,36 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             });
             day.hours = hours;
         });
+        /** https://github.com/mattlewis92/calendar-utils/blob/9892be8375187cafa3566d3d9f7774c6da459e02/src/calendar-utils.ts
+         * const width: number = Math.max(
+                ...dayViewEvents.map((event: DayViewEvent) => event.left + event.width)
+            );
+            const allDayEvents: CalendarEvent[] = getEventsInPeriod(dateAdapter, {
+                events: events.filter((event: CalendarEvent) => event.allDay),
+                periodStart: startOfDay(startOfView),
+                periodEnd: endOfDay(endOfView)
+            });
+
+            return {
+                events: dayViewEvents,
+                width,
+                allDayEvents,
+                period: {
+                events: eventsInPeriod,
+                start: startOfView,
+                end: endOfView
+                }
+            };
+
+            INCLUDI ANCHE <mwl-calendar-all-day-event
+                            *ngFor="let event of view.allDayEvents"
+                            [event]="event"
+                            [customTemplate]="allDayEventTemplate"
+                            [eventTitleTemplate]="eventTitleTemplate"
+                            (eventClicked)="eventClicked.emit({event: event})">
+                        </mwl-calendar-all-day-event>
+            IN 'TODO ALLDAY'
+         */
 
         return <SchedulerView>{
             days: this.days
