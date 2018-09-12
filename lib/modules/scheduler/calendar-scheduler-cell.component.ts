@@ -20,15 +20,15 @@ const moment = momentImported;
                 [class.no-border]="!hour.hasBorder">
                 <div class="cal-scheduler-segment"
                     *ngFor="let segment of hour.segments; let si = index"
-                    [title]="title"
+                    [title]="getTitle(segment)"
                     [ngClass]="segment?.cssClass"
                     [class.has-events]="segment.events.length > 0"
                     [class.cal-disabled]="segment.isDisabled"
+                    [class.cal-drag-over]="segment.dragOver"
                     [style.backgroundColor]="segment.backgroundColor"
                     [class.no-border]="!segment.hasBorder"
                     [style.height.px]="segmentHeight"
                     (mwlClick)="onSegmentClick($event, segment)"
-                    [class.cal-drag-over]="segment.dragOver"
                     mwlDroppable
                     (dragEnter)="segment.dragOver = true"
                     (dragLeave)="segment.dragOver = false"
@@ -67,8 +67,6 @@ const moment = momentImported;
 })
 export class CalendarSchedulerCellComponent implements OnInit {
 
-    @Input() title: string;
-
     @Input() day: SchedulerViewDay;
 
     @Input() hour: SchedulerViewHour;
@@ -97,8 +95,10 @@ export class CalendarSchedulerCellComponent implements OnInit {
     @Output() eventTimesChanged: EventEmitter<SchedulerEventTimesChangedEvent> = new EventEmitter<SchedulerEventTimesChangedEvent>();
 
 
-    ngOnInit(): void {
-        this.title = moment(this.day.date).format('dddd L');
+    ngOnInit(): void { }
+
+    getTitle(segment: SchedulerViewHourSegment): string {
+        return moment(segment.date).format('dddd L, LT');
     }
 
     onMouseEnter(mouseEvent: MouseEvent, segment: SchedulerViewHourSegment, event: CalendarSchedulerEvent): void {

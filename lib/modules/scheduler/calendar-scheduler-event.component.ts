@@ -21,30 +21,17 @@ const moment = momentImported;
     selector: 'calendar-scheduler-event',
     template: `
         <ng-template #defaultTemplate>
-            <div #calEvent
-                class="cal-scheduler-event"
-                [title]="title"
-                [class.hovered]="event.isHovered"
-                [class.cal-disabled]="event.isDisabled"
-                [class.cal-not-clickable]="!event.isClickable"
-                [class.cal-draggable]="event.draggable"
-                [style.backgroundColor]="event.color.primary"
-                [ngClass]="event?.cssClass"
-                (mwlClick)="eventClicked.emit({event: event})"
-                (mouseenter)="highlightEvent()"
-                (mouseleave)="unhighlightEvent()">
-                <calendar-scheduler-event-title
-                    [event]="event"
-                    view="week"
-                    [showStatus]="showStatus"
-                    [customTemplate]="eventTitleTemplate">
-                </calendar-scheduler-event-title>
-                <calendar-scheduler-event-content
-                    [event]="event">
-                </calendar-scheduler-event-content>
-                <calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isClickable"></calendar-scheduler-event-actions>
-                <calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isDisabled"></calendar-scheduler-event-actions>
-            </div>
+            <calendar-scheduler-event-title
+                [event]="event"
+                view="week"
+                [showStatus]="showStatus"
+                [customTemplate]="eventTitleTemplate">
+            </calendar-scheduler-event-title>
+            <calendar-scheduler-event-content
+                [event]="event">
+            </calendar-scheduler-event-content>
+            <calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isClickable"></calendar-scheduler-event-actions>
+            <calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isDisabled"></calendar-scheduler-event-actions>
         </ng-template>
         <ng-template
             [ngTemplateOutlet]="customTemplate || defaultTemplate"
@@ -53,13 +40,25 @@ const moment = momentImported;
                 event: event,
                 tooltipPlacement: tooltipPlacement,
                 showActions: showActions,
+                showStatus: showStatus,
                 eventTitleTemplate: eventTitleTemplate,
                 eventClicked: eventClicked
             }">
         </ng-template>
     `,
     host: {
-        'class': 'cal-scheduler-event-container'
+        'class': 'cal-scheduler-event',
+        '[title]': 'title',
+        '[class.hovered]': 'event.isHovered',
+        '[class.cal-disabled]': 'event.isDisabled',
+        '[class.cal-not-clickable]': '!event.isClickable',
+        '[class.cal-draggable]': 'event.draggable',
+        '[class.cal-starts-before-day]': 'event.startsBeforeDay',
+        '[class.cal-ends-after-day]': 'event.endsAfterDay',
+        '[style.backgroundColor]': 'event.color.primary',
+        '(mwlClick)': 'eventClicked.emit({event: event})',
+        '(mouseenter)': 'highlightEvent()',
+        '(mouseleave)': 'unhighlightEvent()'
     }
 })
 export class CalendarSchedulerEventComponent implements OnInit {
@@ -84,7 +83,7 @@ export class CalendarSchedulerEventComponent implements OnInit {
     constructor(private renderer: Renderer2) {   }
 
     public ngOnInit(): void {
-        this.title = moment(this.event.start).format('dddd L');
+        this.title = moment(this.event.start).format('dddd L, LT');
     }
 
     highlightEvent(): void {
