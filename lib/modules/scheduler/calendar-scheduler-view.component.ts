@@ -194,7 +194,7 @@ export interface SchedulerEventResize {
 
                 <div class="cal-scheduler-cols aside">
                     <div class="cal-scheduler-col" *ngFor="let day of view.days" #dayContainer>
-                        //TODO ALLDAY
+
                         <calendar-scheduler-event #eventContainer
                             *ngFor="let event of day.events"
                             [style.top.px]="event.top"

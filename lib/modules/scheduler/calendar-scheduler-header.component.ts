@@ -32,7 +32,12 @@ import { SchedulerViewDay, CalendarSchedulerEvent } from './calendar-scheduler-v
         </ng-template>
         <ng-template
             [ngTemplateOutlet]="customTemplate || defaultTemplate"
-            [ngTemplateOutletContext]="{days: days, locale: locale, dayHeaderClicked: dayHeaderClicked, eventDropped: eventDropped}">
+            [ngTemplateOutletContext]="{
+                days: days,
+                locale: locale,
+                dayHeaderClicked: dayHeaderClicked,
+                eventDropped: eventDropped
+            }">
         </ng-template>
     `
 })

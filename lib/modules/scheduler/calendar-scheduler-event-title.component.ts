@@ -1,4 +1,4 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, Input, TemplateRef } from '@angular/core';
 import {
     CalendarSchedulerEvent
 } from './calendar-scheduler-view.component';
@@ -6,16 +6,26 @@ import {
 @Component({
     selector: 'calendar-scheduler-event-title',
     template: `
-        <div
-            class="cal-scheduler-event-title"
-            [innerHTML]="event.title | schedulerEventTitle:view:event">
-        </div>
-        <div *ngIf="event.status && showStatus"
-            class="cal-scheduler-event-status"
-            [class.ok]="event.status === 'ok'"
-            [class.warning]="event.status === 'warning'"
-            [class.danger]="event.status === 'danger'">
-        </div>
+        <ng-template #defaultTemplate>
+            <div
+                class="cal-scheduler-event-title"
+                [innerHTML]="event.title | schedulerEventTitle:view:event">
+            </div>
+            <div *ngIf="event.status && showStatus"
+                class="cal-scheduler-event-status"
+                [class.ok]="event.status === 'ok'"
+                [class.warning]="event.status === 'warning'"
+                [class.danger]="event.status === 'danger'">
+            </div>
+        </ng-template>
+        <ng-template
+            [ngTemplateOutlet]="customTemplate || defaultTemplate"
+            [ngTemplateOutletContext]="{
+                view: view,
+                event: event,
+                showStatus: showStatus
+            }">
+        </ng-template>
     `,
     host: {
         'class': 'cal-scheduler-event-title-container'
@@ -28,4 +38,6 @@ export class CalendarSchedulerEventTitleComponent {
     @Input() view: string;
 
     @Input() showStatus: boolean = true;
+
+    @Input() customTemplate: TemplateRef<any>;
 }

@@ -53,7 +53,6 @@ const moment = momentImported;
                 event: event,
                 tooltipPlacement: tooltipPlacement,
                 showActions: showActions,
-                customTemplate: customTemplate,
                 eventTitleTemplate: eventTitleTemplate,
                 eventClicked: eventClicked
             }">
