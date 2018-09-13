@@ -5,6 +5,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { CalendarSchedulerViewComponent } from './calendar-scheduler-view.component';
+import { CalendarSchedulerHourSegmentComponent } from './calendar-scheduler-hour-segment.component';
 import { CalendarSchedulerCellComponent } from './calendar-scheduler-cell.component';
 import { CalendarSchedulerHeaderComponent } from './calendar-scheduler-header.component';
 import { CalendarSchedulerEventComponent } from './calendar-scheduler-event.component';
@@ -58,6 +59,7 @@ export function provideAuthConfig(config: SchedulerConfig) {
   declarations: [
     CalendarSchedulerViewComponent,
     CalendarSchedulerCellComponent,
+    CalendarSchedulerHourSegmentComponent,
     CalendarSchedulerHeaderComponent,
     CalendarSchedulerEventComponent,
     CalendarSchedulerEventTitleComponent,
@@ -73,6 +75,7 @@ export function provideAuthConfig(config: SchedulerConfig) {
   exports: [
     CalendarSchedulerViewComponent,
     CalendarSchedulerCellComponent,
+    CalendarSchedulerHourSegmentComponent,
     CalendarSchedulerHeaderComponent,
     CalendarSchedulerEventComponent,
     CalendarSchedulerEventTitleComponent,

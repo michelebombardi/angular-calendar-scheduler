@@ -36,7 +36,8 @@ import {
     getDay,
     differenceInMinutes,
     isBefore,
-    subMinutes
+    subMinutes,
+    isSameMonth
 } from 'date-fns';
 import { ResizeEvent } from 'angular-resizable-element';
 import { CalendarResizeHelper } from './helpers/calendar-resize-helper.provider';
@@ -175,6 +176,24 @@ export interface SchedulerResizeEvent extends ResizeEvent {
  *
  *  DRAG & DROP & RESIZE -> https://github.com/mattlewis92/angular-calendar/blob/master/projects/angular-calendar/src/modules/week/calendar-week-view.component.ts
  *  FLEXBOX -> https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ *
+ * <calendar-scheduler-cell
+                            *ngFor="let hour of day.hours; let i = index; trackBy:trackByHour"
+                            [class.cal-even]="i % 2 === 0"
+                            [class.cal-odd]="i % 2 === 1"
+                            [ngClass]="hour?.cssClass"
+                            [style.backgroundColor]="hour.backgroundColor"
+                            [hourSegmentHeight]="hourSegmentHeight"
+                            [day]="day"
+                            [hour]="hour"
+                            [locale]="locale"
+                            [tooltipPlacement]="tooltipPlacement"
+                            [showHour]="showSegmentHour"
+                            [customTemplate]="cellTemplate"
+                            (click)="hourClicked.emit({hour: hour})"
+                            (segmentClicked)="segmentClicked.emit($event)"
+                            (eventClicked)="eventClicked.emit($event)">
+                        </calendar-scheduler-cell>
  */
 @Component({
     selector: 'calendar-scheduler-view',
@@ -263,23 +282,40 @@ export interface SchedulerResizeEvent extends ResizeEvent {
                                 }">
                             </div>
                         </div>
-                        <calendar-scheduler-cell
+
+                        <div class="cal-scheduler-hour"
                             *ngFor="let hour of day.hours; let i = index; trackBy:trackByHour"
                             [class.cal-even]="i % 2 === 0"
                             [class.cal-odd]="i % 2 === 1"
-                            [ngClass]="hour?.cssClass"
+                            [ngClass]="hour.cssClass"
                             [style.backgroundColor]="hour.backgroundColor"
-                            [hourSegmentHeight]="hourSegmentHeight"
-                            [day]="day"
-                            [hour]="hour"
-                            [locale]="locale"
-                            [tooltipPlacement]="tooltipPlacement"
-                            [showHour]="showSegmentHour"
-                            [customTemplate]="cellTemplate"
-                            (click)="hourClicked.emit({hour: hour})"
-                            (segmentClicked)="segmentClicked.emit($event)"
-                            (eventClicked)="eventClicked.emit($event)">
-                        </calendar-scheduler-cell>
+                            (mwlClick)="hourClicked.emit({hour: hour})"
+                            [class.cal-past]="day.isPast"
+                            [class.cal-today]="day.isToday"
+                            [class.cal-future]="day.isFuture"
+                            [class.cal-weekend]="day.isWeekend"
+                            [class.cal-in-month]="day.inMonth"
+                            [class.cal-out-month]="!day.inMonth">
+                            <div class="cal-scheduler-segments">
+                                <calendar-scheduler-hour-segment
+                                    *ngFor="let segment of hour.segments; trackBy:trackByHourSegment"
+                                    [day]="day"
+                                    [segment]="segment"
+                                    [locale]="locale"
+                                    [tooltipPlacement]="tooltipPlacement"
+                                    [customTemplate]="cellTemplate"
+                                    [hourSegmentHeight]="hourSegmentHeight"
+                                    [showHour]="showSegmentHour"
+                                    (segmentClicked)="segmentClicked.emit($event)"
+                                    mwlDroppable
+                                    [dragOverClass]="!dragActive || !snapDraggedEvents ? 'cal-drag-over' : null"
+                                    (dragEnter)="segment.dragOver = true"
+                                    (dragLeave)="segment.dragOver = false"
+                                    dragActiveClass="cal-drag-active"
+                                    (drop)="segment.dragOver = false; eventDropped($event, segment.date, false)">
+                                </calendar-scheduler-hour-segment>
+                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -528,6 +564,11 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * @hidden
      */
     trackByHour = (index: number, hour: DayViewHour) => hour.segments[0].date.toISOString();
+
+    /**
+     * @hidden
+     */
+    trackByHourSegment = (index: number, segment: DayViewHourSegment) => segment.date.toISOString();
 
     /**
      * @hidden
@@ -1004,6 +1045,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             isToday: isSameDay(date, today),
             isFuture: date >= addDays(today, 1),
             isWeekend: args.weekendDays.indexOf(getDay(date)) > -1,
+            inMonth: isSameMonth(date, today),
             hours: []
         };
     }

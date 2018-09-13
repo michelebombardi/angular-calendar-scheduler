@@ -1,7 +1,6 @@
 ﻿import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import {
     SchedulerViewDay,
-    SchedulerViewHour,
     SchedulerViewHourSegment,
     CalendarSchedulerEvent,
     SchedulerEventTimesChangedEvent
@@ -13,30 +12,20 @@ import { CalendarEventTimesChangedEventType } from 'angular-calendar';
 const moment = momentImported;
 
 @Component({
-    selector: 'calendar-scheduler-cell',
+    selector: 'calendar-scheduler-hour-segment',
     template: `
         <ng-template #defaultTemplate>
-            <div class="cal-scheduler-segments" *ngIf="hour.segments.length > 0"
-                [ngClass]="hour?.cssClass">
-                <div class="cal-scheduler-segment"
-                    *ngFor="let segment of hour.segments"
-                    [title]="getTitle(segment)"
-                    [ngClass]="segment?.cssClass"
-                    [class.has-events]="segment.events.length > 0"
-                    [class.cal-disabled]="segment.isDisabled"
-                    [class.cal-drag-over]="segment.dragOver"
-                    [style.backgroundColor]="segment.backgroundColor"
-                    [style.height.px]="hourSegmentHeight"
-                    (mwlClick)="onSegmentClick($event, segment)"
-                    mwlDroppable
-                    dragOverClass="cal-drag-over"
-                    dragActiveClass="cal-drag-active"
-                    (dragEnter)="segment.dragOver = true"
-                    (dragLeave)="segment.dragOver = false"
-                    (drop)="segment.dragOver = false; onEventDropped($event, segment)">
-                    <div class="cal-scheduler-time" *ngIf="showHour">
-                        {{ segment.date | calendarDate:'dayViewHour':locale }}
-                    </div>
+            <div class="cal-scheduler-segment"
+                [title]="title"
+                [ngClass]="segment?.cssClass"
+                [class.has-events]="segment.events.length > 0"
+                [class.cal-disabled]="segment.isDisabled"
+                [class.cal-drag-over]="segment.dragOver"
+                [style.backgroundColor]="segment.backgroundColor"
+                [style.height.px]="hourSegmentHeight"
+                (mwlClick)="onSegmentClick($event, segment)">
+                <div class="cal-scheduler-time" *ngIf="showHour">
+                    {{ segment.date | calendarDate:'dayViewHour':locale }}
                 </div>
             </div>
         </ng-template>
@@ -44,7 +33,6 @@ const moment = momentImported;
             [ngTemplateOutlet]="customTemplate || defaultTemplate"
             [ngTemplateOutletContext]="{
                 day: day,
-                hour: hour,
                 locale: locale,
                 tooltipPlacement: tooltipPlacement,
                 showHour: showHour,
@@ -54,23 +42,13 @@ const moment = momentImported;
                 eventClicked: eventClicked
             }">
         </ng-template>
-    `,
-    host: {
-        'class': 'cal-scheduler-hour',
-        '[class.cal-past]': 'day.isPast',
-        '[class.cal-today]': 'day.isToday',
-        '[class.cal-future]': 'day.isFuture',
-        '[class.cal-weekend]': 'day.isWeekend',
-        '[class.cal-in-month]': 'day.inMonth',
-        '[class.cal-out-month]': '!day.inMonth',
-        '[style.backgroundColor]': 'day.backgroundColor'
-    }
+    `
 })
-export class CalendarSchedulerCellComponent implements OnInit {
+export class CalendarSchedulerHourSegmentComponent implements OnInit {
 
     @Input() day: SchedulerViewDay;
 
-    @Input() hour: SchedulerViewHour;
+    @Input() segment: SchedulerViewHourSegment;
 
     @Input() locale: string;
 
@@ -84,18 +62,15 @@ export class CalendarSchedulerCellComponent implements OnInit {
 
     @Output() segmentClicked: EventEmitter<{ segment: SchedulerViewHourSegment }> = new EventEmitter<{ segment: SchedulerViewHourSegment }>();
 
-    @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
-
     /**
      * Called when an event is resized or dragged and dropped
      */
     @Output() eventTimesChanged: EventEmitter<SchedulerEventTimesChangedEvent> = new EventEmitter<SchedulerEventTimesChangedEvent>();
 
+    title: string;
 
-    ngOnInit(): void { }
-
-    getTitle(segment: SchedulerViewHourSegment): string {
-        return moment(segment.date).format('dddd L, LT');
+    ngOnInit(): void {
+        this.title = moment(this.segment.date).format('dddd L, LT');
     }
 
     /**
@@ -126,20 +101,6 @@ export class CalendarSchedulerCellComponent implements OnInit {
 
         if (segment.events.length === 0) {
             this.segmentClicked.emit({ segment: segment });
-        }
-    }
-
-    /**
-     * @hidden
-     */
-    onEventDropped(dropEvent: { dropData?: { event?: CalendarSchedulerEvent } }, segment: SchedulerViewHourSegment): void {
-        if (dropEvent.dropData && dropEvent.dropData.event) {
-            this.eventTimesChanged.emit({
-                type: CalendarEventTimesChangedEventType.Drop,
-                event: dropEvent.dropData.event,
-                newStart: segment.date,
-                newEnd: null
-            });
         }
     }
 }

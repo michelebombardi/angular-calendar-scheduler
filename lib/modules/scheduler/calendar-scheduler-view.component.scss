@@ -147,7 +147,7 @@
                 /*&:hover {
                     background-color: #fafafa;
                 }*/
-                .cal-scheduler-cell {
+                .cal-scheduler-hour {
                     display: -webkit-box;
                     display: -moz-box;
                     display: -ms-flexbox;
@@ -200,6 +200,10 @@
                             }
                         }
 
+                        :not(:last-child) .cal-scheduler-segment {
+                            border-bottom: thin dashed #e1e1e1;
+                        }
+
                         .cal-scheduler-segment {
                             flex: 1 0;
                             display: -webkit-box;
@@ -210,10 +214,6 @@
 
                             &:not(.has-events):hover {
                                 background-color: #ededed;
-                            }
-
-                            &:not(:last-child) {
-                                border-bottom: thin dashed #e1e1e1;
                             }
 
                             &.no-border {
