@@ -75,25 +75,17 @@ export class AppComponent implements OnInit {
         this.locale = locale;
 
         this.dayModifier = ((day: SchedulerViewDay): void => {
-            if (!this.isDateValid(day.date)) {
-                day.cssClass = 'cal-disabled';
-            }
+            day.cssClass = this.isDateValid(day.date) ? '' : 'cal-disabled';
         }).bind(this);
         this.hourModifier = ((hour: SchedulerViewHour): void => {
-            if (!this.isDateValid(hour.date)) {
-                hour.cssClass = 'cal-disabled';
-            }
+            hour.cssClass = this.isDateValid(hour.date) ? '' : 'cal-disabled';
         }).bind(this);
         this.segmentModifier = ((segment: SchedulerViewHourSegment): void => {
-            if (!this.isDateValid(segment.date)) {
-                segment.isDisabled = true;
-            }
+            segment.isDisabled = !this.isDateValid(segment.date);
         }).bind(this);
 
         this.eventModifier = ((event: CalendarSchedulerEvent): void => {
-            if (!this.isDateValid(event.start)) {
-                event.isDisabled = true;
-            }
+            event.isDisabled = !this.isDateValid(event.start);
         }).bind(this);
 
         this.dateOrViewChanged();
@@ -154,7 +146,8 @@ export class AppComponent implements OnInit {
         console.log('eventClicked Event', event);
     }
 
-    eventTimesChanged({ event, newStart, newEnd }: SchedulerEventTimesChangedEvent): void {
+    eventTimesChanged({ event, newStart, newEnd, type }: SchedulerEventTimesChangedEvent): void {
+        console.log('eventTimesChanged Type', type);
         console.log('eventTimesChanged Event', event);
         console.log('eventTimesChanged New Times', newStart, newEnd);
         const ev: CalendarSchedulerEvent = this.events.find(e => e.id === event.id);

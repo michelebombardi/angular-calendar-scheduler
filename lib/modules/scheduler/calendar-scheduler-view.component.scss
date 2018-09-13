@@ -46,10 +46,6 @@
                 color: #8b0000;
             }
 
-            &.cal-drag-over {
-                background-color: #ededed;
-            }
-
             span {
                 font-weight: 400;
                 opacity: 0.5;
@@ -499,5 +495,14 @@
                 }
             }
         }
+
+        .cal-drag-active {
+            pointer-events: none;
+            z-index: 1;
+        
+            & * {
+              pointer-events: none;
+            }
+          }
     }
 }

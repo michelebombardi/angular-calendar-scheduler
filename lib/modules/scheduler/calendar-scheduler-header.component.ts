@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { SchedulerViewDay, CalendarSchedulerEvent } from './calendar-scheduler-view.component';
+import { CalendarEventTimesChangedEventType } from 'angular-calendar';
 
 @Component({
     selector: 'calendar-scheduler-header',
@@ -18,12 +19,7 @@ import { SchedulerViewDay, CalendarSchedulerEvent } from './calendar-scheduler-v
                         [class.cal-today]="day.isToday"
                         [class.cal-future]="day.isFuture"
                         [class.cal-weekend]="day.isWeekend"
-                        [class.cal-drag-over]="day.dragOver"
-                        (mwlClick)="onDayHeaderClick($event, day)"
-                        mwlDroppable
-                        (dragEnter)="day.dragOver = true"
-                        (dragLeave)="day.dragOver = false"
-                        (drop)="day.dragOver = false; eventDropped.emit({event: $event.dropData.event, newStart: day.date})">
+                        (mwlClick)="onDayHeaderClick($event, day)">
                         <b>{{ day.date | calendarDate:'weekViewColumnHeader':locale }}</b><br>
                         <span>{{ day.date | calendarDate:'weekViewColumnSubHeader':locale }}</span>
                     </div>

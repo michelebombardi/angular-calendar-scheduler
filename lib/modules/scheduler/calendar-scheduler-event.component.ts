@@ -27,8 +27,8 @@ const moment = momentImported;
                 [class.cal-disabled]="event.event.isDisabled"
                 [class.cal-not-clickable]="!event.event.isClickable"
                 [class.cal-draggable]="event.event.draggable"
-                [class.cal-starts-before-day]="event.event.startsBeforeDay"
-                [class.cal-ends-after-day]="event.event.endsAfterDay"
+                [class.cal-starts-before-day]="event.startsBeforeDay"
+                [class.cal-ends-after-day]="event.endsAfterDay"
                 [style.backgroundColor]="event.event.color?.secondary"
                 [style.borderColor]="event.event.color?.primary"
                 (mwlClick)="onEventClick($event, event.event)"
@@ -86,12 +86,16 @@ export class CalendarSchedulerEventComponent implements OnInit {
     constructor(private renderer: Renderer2) {   }
 
     public ngOnInit(): void {
-        this.title = moment(this.event.event.start).format('dddd L, LT');
+        this.title = `${this.event.event.title}, ${moment(this.event.event.start).format('dddd L, LT')}`;
     }
 
-    onMouseEnter(): void { }
+    onMouseEnter(): void {
+        // Maybe do something
+    }
 
-    onMouseLeave(): void { }
+    onMouseLeave(): void {
+        // Maybe do something
+    }
 
     /**
      * @hidden

@@ -9,6 +9,7 @@ import {
 
 // WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255
 import * as momentImported from 'moment';
+import { CalendarEventTimesChangedEventType } from 'angular-calendar';
 const moment = momentImported;
 
 @Component({
@@ -25,9 +26,11 @@ const moment = momentImported;
                     [class.cal-disabled]="segment.isDisabled"
                     [class.cal-drag-over]="segment.dragOver"
                     [style.backgroundColor]="segment.backgroundColor"
-                    [style.height.px]="segmentHeight"
+                    [style.height.px]="hourSegmentHeight"
                     (mwlClick)="onSegmentClick($event, segment)"
                     mwlDroppable
+                    dragOverClass="cal-drag-over"
+                    dragActiveClass="cal-drag-active"
                     (dragEnter)="segment.dragOver = true"
                     (dragLeave)="segment.dragOver = false"
                     (drop)="segment.dragOver = false; onEventDropped($event, segment)">
@@ -75,13 +78,9 @@ export class CalendarSchedulerCellComponent implements OnInit {
 
     @Input() customTemplate: TemplateRef<any>;
 
-    @Input() segmentHeight: number = 58;
+    @Input() hourSegmentHeight: number = 58;
 
     @Input() showHour: boolean = false;
-
-    @Output() highlightSegment: EventEmitter<any> = new EventEmitter();
-
-    @Output() unhighlightSegment: EventEmitter<any> = new EventEmitter();
 
     @Output() segmentClicked: EventEmitter<{ segment: SchedulerViewHourSegment }> = new EventEmitter<{ segment: SchedulerViewHourSegment }>();
 
@@ -99,15 +98,21 @@ export class CalendarSchedulerCellComponent implements OnInit {
         return moment(segment.date).format('dddd L, LT');
     }
 
+    /**
+     * @hidden
+     */
     onMouseEnter(mouseEvent: MouseEvent, segment: SchedulerViewHourSegment, event: CalendarSchedulerEvent): void {
         if (!event.isDisabled && !segment.isDisabled) {
-            this.highlightSegment.emit({ event: event });
+            // Maybe do something
         }
     }
 
+    /**
+     * @hidden
+     */
     onMouseLeave(mouseEvent: MouseEvent, segment: SchedulerViewHourSegment, event: CalendarSchedulerEvent): void {
         if (!event.isDisabled && !segment.isDisabled) {
-            this.unhighlightSegment.emit({ event: event });
+            // Maybe do something
         }
     }
 
@@ -124,11 +129,16 @@ export class CalendarSchedulerCellComponent implements OnInit {
         }
     }
 
+    /**
+     * @hidden
+     */
     onEventDropped(dropEvent: { dropData?: { event?: CalendarSchedulerEvent } }, segment: SchedulerViewHourSegment): void {
         if (dropEvent.dropData && dropEvent.dropData.event) {
             this.eventTimesChanged.emit({
+                type: CalendarEventTimesChangedEventType.Drop,
                 event: dropEvent.dropData.event,
-                newStart: segment.date
+                newStart: segment.date,
+                newEnd: null
             });
         }
     }
