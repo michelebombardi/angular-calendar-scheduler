@@ -203,8 +203,7 @@ export interface SchedulerResizeEvent extends ResizeEvent {
                 [days]="headerDays"
                 [locale]="locale"
                 [customTemplate]="headerTemplate"
-                (dayHeaderClicked)="dayHeaderClicked.emit($event)"
-                (eventDropped)="eventDropped({dropData: $event}, $event.newStart)">
+                (dayHeaderClicked)="dayHeaderClicked.emit($event)">
             </calendar-scheduler-header>
 
             <div class="cal-scheduler" #calendarContainer>
@@ -312,7 +311,7 @@ export interface SchedulerResizeEvent extends ResizeEvent {
                                     (dragEnter)="segment.dragOver = true"
                                     (dragLeave)="segment.dragOver = false"
                                     dragActiveClass="cal-drag-active"
-                                    (drop)="segment.dragOver = false; eventDropped($event, segment.date, false)">
+                                    (drop)="segment.dragOver = false; eventDropped($event, segment.date)">
                                 </calendar-scheduler-hour-segment>
                              </div>
                         </div>
@@ -548,7 +547,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     /**
      * @hidden
      */
-    calendarId: Symbol = Symbol('angular calendar scheduler view id');
+    calendarId: symbol = Symbol('angular calendar scheduler view id');
 
     /**
      * @hidden
@@ -594,6 +593,14 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             (period.start <= end && end <= period.end)
         );
     }
+
+    shouldFireDroppedEvent = (dropEvent: { dropData?: { event?: CalendarSchedulerEvent; calendarId?: symbol } }, date: Date, calendarId: symbol): boolean => {
+        return (
+          dropEvent.dropData &&
+          dropEvent.dropData.event &&
+          dropEvent.dropData.calendarId !== calendarId
+        );
+      }
 
     /**
      * @hidden
@@ -1250,6 +1257,20 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         (dragStart)="dragStart(eventContainer, dayColumns)"
         (dragEnd)="eventDragged(event, $event.y)">
     */
+
+    /**
+   * @hidden
+   */
+    eventDropped(dropEvent: DropEvent<{ event?: CalendarSchedulerEvent; calendarId?: symbol }>, date: Date): void {
+        if (this.shouldFireDroppedEvent(dropEvent, date, this.calendarId)) {
+            this.eventTimesChanged.emit({
+                type: CalendarEventTimesChangedEventType.Drop,
+                event: dropEvent.dropData.event,
+                newStart: date,
+                newEnd: null
+            });
+        }
+    }
 
     /**
      * @hidden

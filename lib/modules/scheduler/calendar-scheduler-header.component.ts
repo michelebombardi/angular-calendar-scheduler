@@ -47,8 +47,6 @@ export class CalendarSchedulerHeaderComponent {
 
     @Output() dayHeaderClicked: EventEmitter<{ day: SchedulerViewDay }> = new EventEmitter<{ day: SchedulerViewDay }>();
 
-    @Output() eventDropped: EventEmitter<{ event: CalendarSchedulerEvent; newStart: Date; }> = new EventEmitter<{ event: CalendarSchedulerEvent; newStart: Date }>();
-
     /**
      * @hidden
      */
