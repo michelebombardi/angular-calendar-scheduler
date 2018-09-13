@@ -11,13 +11,12 @@ import {
 import * as momentImported from 'moment';
 const moment = momentImported;
 
-@Component({ // [class.no-border]': '!day.hasBorder
+@Component({
     selector: 'calendar-scheduler-cell',
     template: `
         <ng-template #defaultTemplate>
             <div class="cal-scheduler-segments" *ngIf="hour.segments.length > 0"
-                [ngClass]="hour?.cssClass"
-                [class.no-border]="!hour.hasBorder">
+                [ngClass]="hour?.cssClass">
                 <div class="cal-scheduler-segment"
                     *ngFor="let segment of hour.segments; let si = index"
                     [title]="getTitle(segment)"
@@ -26,13 +25,12 @@ const moment = momentImported;
                     [class.cal-disabled]="segment.isDisabled"
                     [class.cal-drag-over]="segment.dragOver"
                     [style.backgroundColor]="segment.backgroundColor"
-                    [class.no-border]="!segment.hasBorder"
                     [style.height.px]="segmentHeight"
                     (mwlClick)="onSegmentClick($event, segment)"
                     mwlDroppable
                     (dragEnter)="segment.dragOver = true"
                     (dragLeave)="segment.dragOver = false"
-                    (drop)="segment.dragOver = false; eventDropped($event, segment)">
+                    (drop)="segment.dragOver = false; onEventDropped($event, segment)">
                     <div class="cal-scheduler-time" *ngIf="showHour">
                         {{ segment.date | calendarDate:'dayViewHour':locale }}
                     </div>
@@ -126,19 +124,7 @@ export class CalendarSchedulerCellComponent implements OnInit {
         }
     }
 
-    /**
-     * @hidden
-     */
-    onEventClick(mouseEvent: MouseEvent, event: CalendarSchedulerEvent): void {
-        if (mouseEvent.stopPropagation) {
-            mouseEvent.stopPropagation();
-        }
-        if (event.isClickable) {
-            this.eventClicked.emit({ event: event });
-        }
-    }
-
-    eventDropped(dropEvent: { dropData?: { event?: CalendarSchedulerEvent } }, segment: SchedulerViewHourSegment): void {
+    onEventDropped(dropEvent: { dropData?: { event?: CalendarSchedulerEvent } }, segment: SchedulerViewHourSegment): void {
         if (dropEvent.dropData && dropEvent.dropData.event) {
             this.eventTimesChanged.emit({
                 event: dropEvent.dropData.event,

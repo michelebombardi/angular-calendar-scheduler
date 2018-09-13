@@ -12,7 +12,6 @@ import {
     CalendarSchedulerEvent,
     CalendarSchedulerEventStatus,
     CalendarSchedulerEventAction,
-    CalendarPeriod,
     startOfPeriod,
     endOfPeriod,
     addPeriod,
@@ -21,6 +20,7 @@ import {
     SchedulerEventTimesChangedEvent
 } from 'angular-calendar-scheduler';
 import {
+    CalendarView,
     CalendarDateFormatter
 } from 'angular-calendar';
 
@@ -38,7 +38,9 @@ import { AppService } from './services/app.service';
 export class AppComponent implements OnInit {
     title = 'Angular Calendar Scheduler Demo';
 
-    view: CalendarPeriod = 'week';
+    CalendarView = CalendarView;
+
+    view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
     refresh: Subject<any> = new Subject();
     locale: string = 'en';
@@ -108,7 +110,7 @@ export class AppComponent implements OnInit {
         this.dateOrViewChanged();
     }
 
-    changeView(view: CalendarPeriod): void {
+    changeView(view: CalendarView): void {
         console.log('changeView', view);
         this.view = view;
         this.dateOrViewChanged();

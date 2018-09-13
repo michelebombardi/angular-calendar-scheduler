@@ -3,7 +3,8 @@ import {
     SchedulerViewDay,
     SchedulerViewHour,
     SchedulerViewHourSegment,
-    CalendarSchedulerEvent
+    CalendarSchedulerEvent,
+    SchedulerViewEvent
 } from './calendar-scheduler-view.component';
 import {
     isSameDay
@@ -21,17 +22,30 @@ const moment = momentImported;
     selector: 'calendar-scheduler-event',
     template: `
         <ng-template #defaultTemplate>
-            <calendar-scheduler-event-title
-                [event]="event"
-                view="week"
-                [showStatus]="showStatus"
-                [customTemplate]="eventTitleTemplate">
-            </calendar-scheduler-event-title>
-            <calendar-scheduler-event-content
-                [event]="event">
-            </calendar-scheduler-event-content>
-            <calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isClickable"></calendar-scheduler-event-actions>
-            <calendar-scheduler-event-actions [event]="event" *ngIf="showActions && event.isDisabled"></calendar-scheduler-event-actions>
+            <div class="cal-scheduler-event"
+                [title]="title"
+                [class.cal-disabled]="event.event.isDisabled"
+                [class.cal-not-clickable]="!event.event.isClickable"
+                [class.cal-draggable]="event.event.draggable"
+                [class.cal-starts-before-day]="event.event.startsBeforeDay"
+                [class.cal-ends-after-day]="event.event.endsAfterDay"
+                [style.backgroundColor]="event.event.color?.secondary"
+                [style.borderColor]="event.event.color?.primary"
+                (mwlClick)="onEventClick($event, event.event)"
+                (mouseenter)="onMouseEnter()"
+                (mouseleave)="onMouseLeave()">
+                <calendar-scheduler-event-title
+                    view="week"
+                    [event]="event.event"
+                    [showStatus]="showStatus"
+                    [customTemplate]="eventTitleTemplate">
+                </calendar-scheduler-event-title>
+                <calendar-scheduler-event-content
+                    [event]="event.event">
+                </calendar-scheduler-event-content>
+                <calendar-scheduler-event-actions [event]="event.event" *ngIf="showActions && event.event.isClickable"></calendar-scheduler-event-actions>
+                <calendar-scheduler-event-actions [event]="event.event" *ngIf="showActions && event.event.isDisabled"></calendar-scheduler-event-actions>
+            </div>
         </ng-template>
         <ng-template
             [ngTemplateOutlet]="customTemplate || defaultTemplate"
@@ -47,18 +61,7 @@ const moment = momentImported;
         </ng-template>
     `,
     host: {
-        'class': 'cal-scheduler-event',
-        '[title]': 'title',
-        '[class.hovered]': 'event.isHovered',
-        '[class.cal-disabled]': 'event.isDisabled',
-        '[class.cal-not-clickable]': '!event.isClickable',
-        '[class.cal-draggable]': 'event.draggable',
-        '[class.cal-starts-before-day]': 'event.startsBeforeDay',
-        '[class.cal-ends-after-day]': 'event.endsAfterDay',
-        '[style.backgroundColor]': 'event.color.primary',
-        '(mwlClick)': 'eventClicked.emit({event: event})',
-        '(mouseenter)': 'highlightEvent()',
-        '(mouseleave)': 'unhighlightEvent()'
+        '[style.height.%]': '100'
     }
 })
 export class CalendarSchedulerEventComponent implements OnInit {
@@ -66,7 +69,7 @@ export class CalendarSchedulerEventComponent implements OnInit {
 
     @Input() day: SchedulerViewDay;
 
-    @Input() event: CalendarSchedulerEvent;
+    @Input() event: SchedulerViewEvent;
 
     @Input() tooltipPlacement: string;
 
@@ -83,28 +86,22 @@ export class CalendarSchedulerEventComponent implements OnInit {
     constructor(private renderer: Renderer2) {   }
 
     public ngOnInit(): void {
-        this.title = moment(this.event.start).format('dddd L, LT');
+        this.title = moment(this.event.event.start).format('dddd L, LT');
     }
 
-    highlightEvent(): void {
-        this.day.hours.forEach((hour: SchedulerViewHour) => {
-            hour.segments.forEach((segment: SchedulerViewHourSegment) => {
-                segment.events.filter((event: CalendarSchedulerEvent) => event.id === this.event.id && isSameDay(event.start, this.event.start))
-                    .forEach((event: CalendarSchedulerEvent) => {
-                        event.isHovered = true;
-                    });
-            });
-        });
-    }
+    onMouseEnter(): void { }
 
-    unhighlightEvent(): void {
-        this.day.hours.forEach((hour: SchedulerViewHour) => {
-            hour.segments.forEach((segment: SchedulerViewHourSegment) => {
-                segment.events.filter((event: CalendarSchedulerEvent) => event.id === this.event.id && isSameDay(event.start, this.event.start))
-                    .forEach((event: CalendarSchedulerEvent) => {
-                        event.isHovered = false;
-                    });
-            });
-        });
+    onMouseLeave(): void { }
+
+    /**
+     * @hidden
+     */
+    onEventClick(mouseEvent: MouseEvent, event: CalendarSchedulerEvent): void {
+        if (mouseEvent.stopPropagation) {
+            mouseEvent.stopPropagation();
+        }
+        if (event.isClickable) {
+            this.eventClicked.emit({ event: event });
+        }
     }
 }

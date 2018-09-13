@@ -510,26 +510,25 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-angular-calendar@^0.25.2:
-  version "0.25.2"
-  resolved "https://registry.yarnpkg.com/angular-calendar/-/angular-calendar-0.25.2.tgz#2655dfa6108cd1a35d4429907ff4ab804c135df9"
+angular-calendar@^0.26.0:
+  version "0.26.0"
+  resolved "https://registry.yarnpkg.com/angular-calendar/-/angular-calendar-0.26.0.tgz#657dbf0ad8688580a0c2b18ca02c2f3668acd070"
   dependencies:
-    angular-draggable-droppable "^3.0.0"
-    angular-resizable-element "^3.0.0"
-    calendar-utils "^0.1.2"
-    date-fns "^1.28.5"
-    positioning "^1.3.1"
+    angular-draggable-droppable "^4.0.1"
+    angular-resizable-element "^3.2.2"
+    calendar-utils "^0.2.0"
+    positioning "^1.4.0"
     tslib "^1.9.0"
 
-angular-draggable-droppable@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/angular-draggable-droppable/-/angular-draggable-droppable-3.0.1.tgz#72df5dab23b0932cdcd57264194cbba1f045dbab"
+angular-draggable-droppable@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/angular-draggable-droppable/-/angular-draggable-droppable-4.0.1.tgz#f21f1377f328a875e1b59ec4be0588d4989ac53f"
   dependencies:
     tslib "^1.9.0"
 
-angular-resizable-element@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/angular-resizable-element/-/angular-resizable-element-3.1.0.tgz#ee1b66216f48014a930e8074198cd01de16a346c"
+angular-resizable-element@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/angular-resizable-element/-/angular-resizable-element-3.2.2.tgz#3135083c9cc695d0f6d5fa22d3e014f68c3d8254"
   dependencies:
     tslib "^1.9.0"
 
@@ -1171,9 +1170,9 @@ cache-loader@^1.2.2:
     neo-async "^2.5.0"
     schema-utils "^0.4.2"
 
-calendar-utils@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/calendar-utils/-/calendar-utils-0.1.2.tgz#79642f1beb49dc0c8719e2b5d480f7730501d74a"
+calendar-utils@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/calendar-utils/-/calendar-utils-0.2.1.tgz#4b5e15116fb108321047c9fa1f38a6420aaa700e"
 
 call-me-maybe@^1.0.1:
   version "1.0.1"
@@ -1968,7 +1967,7 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-date-fns@^1.28.5:
+date-fns@^1.29.0:
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
 
@@ -5542,7 +5541,7 @@ portfinder@^1.0.13, portfinder@^1.0.9:
     debug "^2.2.0"
     mkdirp "0.5.x"
 
-positioning@^1.3.1:
+positioning@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/positioning/-/positioning-1.4.0.tgz#4aeca0eed70a50e38766348a89ebec7df1b6a2e7"
 

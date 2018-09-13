@@ -1,7 +1,9 @@
 import { NgModule, ModuleWithProviders, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CalendarModule } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
+import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { CalendarSchedulerViewComponent } from './calendar-scheduler-view.component';
 import { CalendarSchedulerCellComponent } from './calendar-scheduler-cell.component';
 import { CalendarSchedulerHeaderComponent } from './calendar-scheduler-header.component';
@@ -48,7 +50,10 @@ export function provideAuthConfig(config: SchedulerConfig) {
 @NgModule({
   imports: [
     CommonModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   declarations: [
     CalendarSchedulerViewComponent,

@@ -12,10 +12,9 @@
     subWeeks,
     subMonths
 } from 'date-fns';
+import { CalendarView } from 'angular-calendar';
 
-export type CalendarPeriod = 'day' | 'week' | 'month';
-
-export function addPeriod(period: CalendarPeriod, date: Date, amount: number): Date {
+export function addPeriod(period: CalendarView, date: Date, amount: number): Date {
     return {
         day: addDays,
         week: addWeeks,
@@ -23,7 +22,7 @@ export function addPeriod(period: CalendarPeriod, date: Date, amount: number): D
     }[period](date, amount);
 }
 
-export function subPeriod(period: CalendarPeriod, date: Date, amount: number): Date {
+export function subPeriod(period: CalendarView, date: Date, amount: number): Date {
     return {
         day: subDays,
         week: subWeeks,
@@ -31,7 +30,7 @@ export function subPeriod(period: CalendarPeriod, date: Date, amount: number): D
     }[period](date, amount);
 }
 
-export function startOfPeriod(period: CalendarPeriod, date: Date): Date {
+export function startOfPeriod(period: CalendarView, date: Date): Date {
     return {
         day: startOfDay,
         week: startOfWeek,
@@ -39,7 +38,7 @@ export function startOfPeriod(period: CalendarPeriod, date: Date): Date {
     }[period](date);
 }
 
-export function endOfPeriod(period: CalendarPeriod, date: Date): Date {
+export function endOfPeriod(period: CalendarView, date: Date): Date {
     return {
         day: endOfDay,
         week: endOfWeek,

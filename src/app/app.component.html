@@ -78,7 +78,7 @@
   </div>
   <br>
   <div [ngSwitch]="view">
-      <calendar-scheduler-view *ngSwitchCase="'week'"
+      <calendar-scheduler-view *ngSwitchCase="CalendarView.Week"
                               [viewDate]="viewDate"
                               [events]="events"
                               [locale]="locale"

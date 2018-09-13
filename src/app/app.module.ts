@@ -7,7 +7,9 @@ registerLocaleData(localeIt);
 
 import { AppComponent } from './app.component';
 
-import { CalendarModule } from 'angular-calendar';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 import { SchedulerModule } from 'angular-calendar-scheduler';
 
 import { AppService } from './services/app.service';
@@ -20,7 +22,10 @@ import { MatProgressSpinnerModule } from '@angular/material';
   ],
   imports: [
     BrowserModule,
-    CalendarModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
     SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' }),
     MatProgressSpinnerModule
   ],

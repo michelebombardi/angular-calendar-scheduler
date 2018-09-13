@@ -276,6 +276,8 @@
                         text-overflow: ellipsis;
                         white-space: nowrap;
                         border-radius: .3em;
+                        border: 1px solid #1e90ff;
+                        height: calc(100% - 4px);
 
                         -webkit-transition: all ease-out 0.2s;
                         -moz-transition: all ease-out 0.2s;
@@ -297,8 +299,7 @@
                             cursor: not-allowed !important;
                         }
 
-                        &:not(.cal-disabled):hover,
-                        &:not(.cal-disabled).hovered {
+                        &:not(.cal-disabled):hover {
                             cursor: pointer;
                             filter: brightness(80%);
                             -webkit-filter: brightness(80%);

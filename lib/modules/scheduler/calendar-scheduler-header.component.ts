@@ -19,7 +19,7 @@ import { SchedulerViewDay, CalendarSchedulerEvent } from './calendar-scheduler-v
                         [class.cal-future]="day.isFuture"
                         [class.cal-weekend]="day.isWeekend"
                         [class.cal-drag-over]="day.dragOver"
-                        (mwlClick)="dayHeaderClicked.emit({day: day})"
+                        (mwlClick)="onDayHeaderClick($event, day)"
                         mwlDroppable
                         (dragEnter)="day.dragOver = true"
                         (dragLeave)="day.dragOver = false"
@@ -52,4 +52,15 @@ export class CalendarSchedulerHeaderComponent {
     @Output() dayHeaderClicked: EventEmitter<{ day: SchedulerViewDay }> = new EventEmitter<{ day: SchedulerViewDay }>();
 
     @Output() eventDropped: EventEmitter<{ event: CalendarSchedulerEvent; newStart: Date; }> = new EventEmitter<{ event: CalendarSchedulerEvent; newStart: Date }>();
+
+    /**
+     * @hidden
+     */
+    onDayHeaderClick(mouseEvent: MouseEvent, day: SchedulerViewDay): void {
+        if (mouseEvent.stopPropagation) {
+            mouseEvent.stopPropagation();
+        }
+
+        this.dayHeaderClicked.emit({ day: day });
+    }
 }
