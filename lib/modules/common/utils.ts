@@ -16,7 +16,9 @@ import {
     SchedulerViewPeriod,
     SchedulerViewEvent,
     SchedulerViewDay,
-    CalendarSchedulerEvent
+    CalendarSchedulerEvent,
+    SchedulerViewHour,
+    SchedulerViewHourSegment
 } from '../scheduler/models';
 import {
     DayViewHour,
@@ -66,10 +68,10 @@ export const trackByDayOrEvent = (index: number, event: SchedulerViewEvent ) =>
 export const trackByHourColumn = (index: number, day: SchedulerViewDay) =>
     day.hours[0] ? day.hours[0].segments[0].date.toISOString() : day;
 
-export const trackByHour = (index: number, hour: DayViewHour) =>
+export const trackByHour = (index: number, hour: DayViewHour | SchedulerViewHour) =>
     hour.segments[0].date.toISOString();
 
-export const trackByHourSegment = (index: number, segment: DayViewHourSegment) =>
+export const trackByHourSegment = (index: number, segment: DayViewHourSegment | SchedulerViewHourSegment) =>
     segment.date.toISOString();
 
 

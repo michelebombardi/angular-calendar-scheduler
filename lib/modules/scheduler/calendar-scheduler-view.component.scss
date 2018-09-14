@@ -109,7 +109,7 @@
                     font-weight: bold;
                     text-align: center;
 
-                    .cal-scheduler-hour-segment {
+                    .cal-scheduler-time-segment {
                         flex: 1 0;
                         cursor: default;
 
@@ -213,9 +213,9 @@
                             display: flex;
                             flex-flow: column wrap;
 
-                            &:not(.has-events):hover {
-                                background-color: #ededed;
-                            }
+                            // &:not(.has-events):hover {
+                            //     background-color: #ededed;
+                            // }
 
                             &.no-border {
                                 border-bottom: 0 !important;
@@ -402,6 +402,16 @@
                         }
                     }
 
+                    &.cal-drag-active {
+                        pointer-events: none;
+                        z-index: 999;
+                    
+                        & * {
+                          pointer-events: none;
+                        }
+                    }
+                    
+
                     @mixin day-x($attr, $attr-steps: 1, $unit: '%') {
                         $attr-list: null;
                         $attr-count: 7;
@@ -486,14 +496,5 @@
                 }
             }
         }
-
-        .cal-drag-active {
-            pointer-events: none;
-            z-index: 1;
-        
-            & * {
-              pointer-events: none;
-            }
-          }
     }
 }

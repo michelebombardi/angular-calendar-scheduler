@@ -4,32 +4,17 @@
     SchedulerViewDay,
     SchedulerViewEvent,
     SchedulerViewHourSegment,
-    SchedulerView
+    SchedulerView,
+    SchedulerViewPeriod
 } from '../models';
 import {
     DayViewHour,
     DayViewHourSegment
 } from 'calendar-utils';
 import {
-    startOfDay,
-    startOfWeek,
-    addDays,
-    endOfDay,
-    endOfWeek,
-    setMinutes,
-    setHours,
-    startOfMinute,
-    differenceInMinutes,
-    subMinutes,
-    addHours,
-    setDate,
-    setMonth,
-    setYear,
-    addMinutes,
-    isSameDay,
-    isSameMonth,
-    getDay
+    subMinutes
 } from 'date-fns';
+import { DateAdapter } from 'angular-calendar';
 
 
 export enum DAYS_OF_WEEK {
@@ -98,14 +83,14 @@ export interface GetSchedulerViewHourGridArgs {
 }
 
 
-export function getSchedulerViewHourGrid( args: GetSchedulerViewHourGridArgs): DayViewHour[] {
+export function getSchedulerViewHourGrid(dateAdapter: DateAdapter, args: GetSchedulerViewHourGridArgs): DayViewHour[] {
     const viewDate: Date = args.viewDate, hourSegments: number = args.hourSegments, dayStart: any = args.dayStart, dayEnd: any = args.dayEnd;
     const hours: DayViewHour[] = [];
 
-    const startOfView: Date = setMinutes(setHours(startOfDay(viewDate), dayStart.hour), dayStart.minute);
-    const endOfView: Date = setMinutes(setHours(startOfMinute(endOfDay(viewDate)), dayEnd.hour), dayEnd.minute);
+    const startOfView: Date = dateAdapter.setMinutes(dateAdapter.setHours(dateAdapter.startOfDay(viewDate), dayStart.hour), dayStart.minute);
+    const endOfView: Date = dateAdapter.setMinutes(dateAdapter.setHours(dateAdapter.startOfMinute(dateAdapter.endOfDay(viewDate)), dayEnd.hour), dayEnd.minute);
     const segmentDuration: number = MINUTES_IN_HOUR / hourSegments;
-    const startOfViewDay: Date = startOfDay(viewDate);
+    const startOfViewDay: Date = dateAdapter.startOfDay(viewDate);
 
     const range = (start: number, end: number): number[] => Array.from({ length: ((end + 1) - start) }, (v, k) => k + start);
     const hoursInView: number[] = range(dayStart.hour, dayEnd.hour);
@@ -113,7 +98,7 @@ export function getSchedulerViewHourGrid( args: GetSchedulerViewHourGridArgs): D
     hoursInView.forEach((hour: number, i: number) => {
         const segments = [];
         for (let j = 0; j < hourSegments; j++) {
-            const date = addMinutes(addHours(startOfViewDay, hour), j * segmentDuration);
+            const date = dateAdapter.addMinutes(dateAdapter.addHours(startOfViewDay, hour), j * segmentDuration);
             if (date >= startOfView && date < endOfView) {
                 segments.push({
                     date: date,
@@ -128,7 +113,7 @@ export function getSchedulerViewHourGrid( args: GetSchedulerViewHourGridArgs): D
     return hours;
 }
 
-export function getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
+export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerViewArgs): SchedulerView {
     let events: CalendarSchedulerEvent[] = args.events || [];
     if (!events) { events = []; }
 
@@ -141,8 +126,8 @@ export function getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
     const eventWidth: number = args.eventWidth || DEFAULT_EVENT_WIDTH_PERCENT;
     const dayStart: any = args.dayStart, dayEnd: any = args.dayEnd;
 
-    const startOfViewWeek: Date = startsWithToday ? startOfDay(viewDate) : startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
-    const endOfViewWeek: Date = startsWithToday ? addDays(endOfDay(viewDate), 6) : endOfWeek(viewDate, { weekStartsOn: weekStartsOn });
+    const startOfViewWeek: Date = startsWithToday ? dateAdapter.startOfDay(viewDate) : dateAdapter.startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
+    const endOfViewWeek: Date = startsWithToday ? dateAdapter.addDays(dateAdapter.endOfDay(viewDate), 6) : dateAdapter.endOfWeek(viewDate, { weekStartsOn: weekStartsOn });
 
     const eventsInWeek: CalendarSchedulerEvent[] = getEventsInPeriod({
         events: events,
@@ -150,21 +135,21 @@ export function getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
         periodEnd: endOfViewWeek
     });
 
-    const days: SchedulerViewDay[] = getSchedulerViewDays({
+    const days: SchedulerViewDay[] = getSchedulerViewDays(dateAdapter, {
         viewDate: viewDate,
         weekStartsOn: weekStartsOn,
         startsWithToday: startsWithToday,
         excluded: excluded
     });
     days.forEach((day: SchedulerViewDay) => {
-        const startOfView: Date = setMinutes(setHours(startOfDay(day.date), dayStart.hour), dayStart.minute);
-        const endOfView: Date = setMinutes(setHours(startOfMinute(endOfDay(day.date)), dayEnd.hour), dayEnd.minute);
+        const startOfView: Date = dateAdapter.setMinutes(dateAdapter.setHours(dateAdapter.startOfDay(day.date), dayStart.hour), dayStart.minute);
+        const endOfView: Date = dateAdapter.setMinutes(dateAdapter.setHours(dateAdapter.startOfMinute(dateAdapter.endOfDay(day.date)), dayEnd.hour), dayEnd.minute);
         const previousDayEvents: SchedulerViewEvent[] = [];
 
         const eventsInDay: CalendarSchedulerEvent[] = getEventsInPeriod({
             events: eventsInWeek,
-            periodStart: startOfDay(day.date),
-            periodEnd: endOfDay(day.date)
+            periodStart: dateAdapter.startOfDay(day.date),
+            periodEnd: dateAdapter.endOfDay(day.date)
         });
 
         day.events = eventsInDay
@@ -178,13 +163,13 @@ export function getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
 
                 let top: number = 0;
                 if (eventStart > startOfView) {
-                    top += differenceInMinutes(eventStart, startOfView);
+                    top += dateAdapter.differenceInMinutes(eventStart, startOfView);
                 }
                 top *= hourHeightModifier;
 
                 const startDate: Date = startsBeforeDay ? startOfView : eventStart;
                 const endDate: Date = endsAfterDay ? endOfView : eventEnd;
-                let height: number = differenceInMinutes(endDate, startDate);
+                let height: number = dateAdapter.differenceInMinutes(endDate, startDate);
                 if (!ev.end) {
                     height = hourSegmentHeight;
                 } else {
@@ -220,7 +205,7 @@ export function getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
                 return event;
             });
 
-        day.hours = getSchedulerViewHourGrid({
+        day.hours = getSchedulerViewHourGrid(dateAdapter, {
             viewDate: viewDate,
             hourSegments: hourSegments,
             dayStart: {
@@ -235,7 +220,7 @@ export function getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
             const date: Date = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate(), hour.segments[0].date.getHours());
 
             const startOfHour: Date = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate(), hour.segments[0].date.getHours());
-            const endOfHour: Date = subMinutes(addHours(startOfHour, 1), 1);
+            const endOfHour: Date = subMinutes(dateAdapter.addHours(startOfHour, 1), 1);
 
             const eventsInHour: CalendarSchedulerEvent[] = getEventsInPeriod({
                 events: eventsInDay,
@@ -245,10 +230,10 @@ export function getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
 
             const segments: SchedulerViewHourSegment[] =
                 hour.segments.map((segment: DayViewHourSegment) => {
-                    segment.date = setDate(setMonth(setYear(segment.date, day.date.getFullYear()), day.date.getMonth()), day.date.getDate());
+                    segment.date = dateAdapter.setDate(dateAdapter.setMonth(dateAdapter.setYear(segment.date, day.date.getFullYear()), day.date.getMonth()), day.date.getDate());
 
                     const startOfSegment: Date = segment.date;
-                    const endOfSegment: Date = addMinutes(segment.date, MINUTES_IN_HOUR / hourSegments);
+                    const endOfSegment: Date = dateAdapter.addMinutes(segment.date, MINUTES_IN_HOUR / hourSegments);
 
                     const eventsInSegment: CalendarSchedulerEvent[] = getEventsInPeriod({
                         events: eventsInHour,
@@ -274,7 +259,7 @@ export function getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
 
     return <SchedulerView>{
         days: days,
-        period: {
+        period: <SchedulerViewPeriod>{
             events: eventsInWeek,
             start: startOfViewWeek,
             end: endOfViewWeek
@@ -282,19 +267,19 @@ export function getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
     };
 }
 
-export function getSchedulerViewDays(args: GetSchedulerViewDayArgs): SchedulerViewDay[] {
+export function getSchedulerViewDays(dateAdapter: DateAdapter, args: GetSchedulerViewDayArgs): SchedulerViewDay[] {
     const viewDate: Date = args.viewDate;
     const weekStartsOn: number = args.weekStartsOn;
     const startsWithToday: boolean = args.startsWithToday;
     const excluded: number[] = args.excluded || [];
     const weekendDays: number[] = args.weekendDays || DEFAULT_WEEKEND_DAYS;
 
-    const start = startsWithToday ? new Date(viewDate) : startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
+    const start = startsWithToday ? new Date(viewDate) : dateAdapter.startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
     const days: SchedulerViewDay[] = [];
     const loop = (i: number) => {
-        const date = addDays(start, i);
+        const date = dateAdapter.addDays(start, i);
         if (!excluded.some((e: number) => date.getDay() === e)) {
-            days.push(getSchedulerDay({ date, weekendDays }));
+            days.push(getSchedulerDay(dateAdapter, { date, weekendDays }));
         }
     };
     for (let i = 0; i < DAYS_IN_WEEK; i++) {
@@ -303,17 +288,17 @@ export function getSchedulerViewDays(args: GetSchedulerViewDayArgs): SchedulerVi
     return days;
 }
 
-function getSchedulerDay(args: { date: Date, weekendDays: number[] }): SchedulerViewDay {
+function getSchedulerDay(dateAdapter: DateAdapter, args: { date: Date, weekendDays: number[] }): SchedulerViewDay {
     const date: Date = args.date;
-    const today: Date = startOfDay(new Date());
+    const today: Date = dateAdapter.startOfDay(new Date());
 
     return <SchedulerViewDay>{
         date: date,
         isPast: date < today,
-        isToday: isSameDay(date, today),
-        isFuture: date >= addDays(today, 1),
-        isWeekend: args.weekendDays.indexOf(getDay(date)) > -1,
-        inMonth: isSameMonth(date, today),
+        isToday: dateAdapter.isSameDay(date, today),
+        isFuture: date >= dateAdapter.addDays(today, 1),
+        isWeekend: args.weekendDays.indexOf(dateAdapter.getDay(date)) > -1,
+        inMonth: dateAdapter.isSameMonth(date, today),
         hours: []
     };
 }

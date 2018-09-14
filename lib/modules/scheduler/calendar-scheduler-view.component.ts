@@ -17,20 +17,14 @@ import {
     DayViewHour
 } from 'calendar-utils';
 import {
-    startOfDay,
-    addMinutes,
-    addDays,
-    setMinutes,
-    setHours,
-    isSameDay,
-    differenceInMinutes,
-    isBefore
+    isBefore,
+    subMinutes
 } from 'date-fns';
 import { ResizeEvent } from 'angular-resizable-element';
 import { CalendarResizeHelper } from '../common/helpers/calendar-resize-helper.provider';
 import { CalendarDragHelper } from '../common/helpers/calendar-drag-helper.provider';
 import { SchedulerConfig } from './scheduler-config';
-import { CalendarEventTimesChangedEventType } from 'angular-calendar';
+import { CalendarEventTimesChangedEventType, DateAdapter } from 'angular-calendar';
 import { DragMoveEvent, DragEndEvent, DropEvent } from 'angular-draggable-droppable';
 
 import {
@@ -84,9 +78,9 @@ import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provide
 
             <div class="cal-scheduler" #calendarContainer>
                 <div class="cal-scheduler-hour-rows aside">
-                    <div class="cal-scheduler-hour align-center horizontal" *ngFor="let hour of hours">
+                    <div class="cal-scheduler-hour align-center horizontal" *ngFor="let hour of hours; trackBy:trackByHour">
                       <div class="cal-scheduler-time">
-                        <div class="cal-scheduler-hour-segment" *ngFor="let segment of hour.segments"
+                        <div class="cal-scheduler-time-segment" *ngFor="let segment of hour.segments"
                             [style.height.px]="hourSegmentHeight">
                             {{ segment.date | calendarDate:'dayViewHour':locale }}
                         </div>
@@ -436,7 +430,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * @hidden
      */
     constructor(private cdr: ChangeDetectorRef, @Inject(LOCALE_ID) locale: string, private config: SchedulerConfig,
-        private utils: CalendarSchedulerUtils) {
+        private utils: CalendarSchedulerUtils, private dateAdapter: DateAdapter) {
         this.locale = this.config.locale || locale;
     }
 
@@ -497,26 +491,26 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     }
 
     private getTimeClass(date: Date, event: CalendarSchedulerEvent): string {
-        if (isSameDay(date, event.start)) {
+        if (this.dateAdapter.isSameDay(date, event.start)) {
             let hours: number = event.start.getHours();
             if (this.dayStartHour > 0) { hours = event.start.getHours() - this.dayStartHour; }
             const hoursString: string = hours < 10 ? `0${hours}` : `${hours}`;
             const minutesString: string = event.start.getMinutes() < 10 ? `0${event.start.getMinutes()}` : `${event.start.getMinutes()}`;
             return `time${hoursString}${minutesString}`;
-        } else if (isBefore(event.start, startOfDay(date))) {
+        } else if (isBefore(event.start, this.dateAdapter.startOfDay(date))) {
             return `time0000`;
         }
     }
 
     private getLengthClass(date: Date, event: CalendarSchedulerEvent): string {
-        if (isSameDay(date, event.start)) {
-            const durationInMinutes: number = differenceInMinutes(event.end, event.start);
-            const leftToEndOfDay: number = differenceInMinutes(setMinutes(setHours(event.start, this.dayEndHour + 1), 0), event.start);
+        if (this.dateAdapter.isSameDay(date, event.start)) {
+            const durationInMinutes: number = this.dateAdapter.differenceInMinutes(event.end, event.start);
+            const leftToEndOfDay: number = this.dateAdapter.differenceInMinutes(this.dateAdapter.setMinutes(this.dateAdapter.setHours(event.start, this.dayEndHour + 1), 0), event.start);
             return leftToEndOfDay > durationInMinutes ? `length${durationInMinutes}` : `length${leftToEndOfDay}`;
-        } else if (isBefore(event.start, startOfDay(date))) {
+        } else if (isBefore(event.start, this.dateAdapter.startOfDay(date))) {
             let leftDurationInMinutes: number = 0;
-            if (isSameDay(date, event.end)) {
-                leftDurationInMinutes = differenceInMinutes(event.end, startOfDay(date));
+            if (this.dateAdapter.isSameDay(date, event.end)) {
+                leftDurationInMinutes = this.dateAdapter.differenceInMinutes(event.end, this.dateAdapter.startOfDay(date));
                 if (this.dayStartHour > 0) { leftDurationInMinutes = (event.end.getHours() - this.dayStartHour) * MINUTES_IN_HOUR; }
             } else {
                 leftDurationInMinutes = ((this.dayEndHour + 1) - this.dayStartHour) * MINUTES_IN_HOUR;
@@ -747,22 +741,27 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     }
 
     private getResizedEventDates(event: CalendarSchedulerEvent, resizeEvent: ResizeEvent): { start: Date, end: Date} {
+        console.log(
+            'RESIZE EVENT - TOP ' + resizeEvent.edges.top
+            + " - BOTTOM " + resizeEvent.edges.bottom
+            + " - LEFT " + resizeEvent.edges.left
+            + " - RIGHT " + resizeEvent.edges.right);
         const minimumEventHeight = (MINUTES_IN_HOUR / (this.hourSegments * this.hourSegmentHeight)) * this.hourSegmentHeight;
         const newEventDates = {
             start: event.start,
-            end: event.end ? event.end : addMinutes(event.start, minimumEventHeight)
+            end: event.end ? event.end : this.dateAdapter.addMinutes(event.start, minimumEventHeight)
         };
         const { end, ...eventWithoutEnd } = event;
         const smallestResizes = {
-            start: addMinutes(newEventDates.end, minimumEventHeight * -1),
-            end: addMinutes(eventWithoutEnd.start, minimumEventHeight)
+            start: this.dateAdapter.addMinutes(newEventDates.end, minimumEventHeight * -1),
+            end: this.dateAdapter.addMinutes(eventWithoutEnd.start, minimumEventHeight)
         };
 
         if (resizeEvent.edges.left) {
             const daysDiff = Math.round(
                 +resizeEvent.edges.left / this.dayColumnWidth
             );
-            const newStart = addDays(newEventDates.start, daysDiff);
+            const newStart = this.dateAdapter.addDays(newEventDates.start, daysDiff);
             if (newStart < smallestResizes.start) {
                 newEventDates.start = newStart;
             } else {
@@ -772,7 +771,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             const daysDiff = Math.round(
                 +resizeEvent.edges.right / this.dayColumnWidth
             );
-            const newEnd = addDays(newEventDates.end, daysDiff);
+            const newEnd = this.dateAdapter.addDays(newEventDates.end, daysDiff);
             if (newEnd > smallestResizes.end) {
                 newEventDates.end = newEnd;
             } else {
@@ -787,7 +786,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             const pixelAmountInMinutes = MINUTES_IN_HOUR / (this.hourSegments * this.hourSegmentHeight);
             const minutesMoved = draggedInPixelsSnapSize * pixelAmountInMinutes;
 
-            const newStart = addMinutes(newEventDates.start, minutesMoved);
+            const newStart = this.dateAdapter.addMinutes(newEventDates.start, minutesMoved);
             if (newStart < smallestResizes.start) {
                 newEventDates.start = newStart;
             } else {
@@ -800,11 +799,11 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             const pixelAmountInMinutes = MINUTES_IN_HOUR / (this.hourSegments * this.hourSegmentHeight);
             const minutesMoved = draggedInPixelsSnapSize * pixelAmountInMinutes;
 
-            const newEnd = addMinutes(newEventDates.end, minutesMoved);
+            const newEnd = this.dateAdapter.addMinutes(newEventDates.end, minutesMoved);
             if (newEnd > smallestResizes.end) {
-                newEventDates.end = newEnd;
+                newEventDates.end = subMinutes(newEnd, 1);
             } else {
-                newEventDates.end = smallestResizes.end;
+                newEventDates.end = subMinutes(smallestResizes.end, 1);
             }
         }
         return newEventDates;
@@ -936,14 +935,14 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
                 this.eventSnapSize)
             : 0;
 
-        const start = addMinutes(
-            addDays(event.event.start, daysDragged),
+        const start = this.dateAdapter.addMinutes(
+            this.dateAdapter.addDays(event.event.start, daysDragged),
             minutesMoved
         );
         let end: Date;
         if (event.event.end) {
-            end = addMinutes(
-                addDays(event.event.end, daysDragged),
+            end = this.dateAdapter.addMinutes(
+                this.dateAdapter.addDays(event.event.end, daysDragged),
                 minutesMoved
             );
         }

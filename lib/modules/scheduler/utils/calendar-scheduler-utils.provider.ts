@@ -9,20 +9,21 @@ import {
 } from './calendar-scheduler-utils';
 import { DayViewHour } from 'calendar-utils';
 import { SchedulerView, SchedulerViewDay } from '../models';
+import { DateAdapter } from 'angular-calendar';
 
 @Injectable()
 export class CalendarSchedulerUtils {
-    constructor() { }
+    constructor(private dateAdapter: DateAdapter) { }
 
     getSchedulerViewHourGrid(args: GetSchedulerViewHourGridArgs): DayViewHour[] {
-        return getSchedulerViewHourGrid(args);
+        return getSchedulerViewHourGrid(this.dateAdapter, args);
     }
 
     getSchedulerViewDays(args: GetSchedulerViewDayArgs): SchedulerViewDay[] {
-        return getSchedulerViewDays(args);
+        return getSchedulerViewDays(this.dateAdapter, args);
     }
 
     getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
-        return getSchedulerView(args);
+        return getSchedulerView(this.dateAdapter, args);
     }
 }
