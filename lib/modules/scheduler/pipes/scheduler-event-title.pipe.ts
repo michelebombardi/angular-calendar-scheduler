@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CalendarSchedulerEvent } from '../calendar-scheduler-models';
+import { CalendarSchedulerEvent } from '../models/calendar-scheduler-models';
 import { SchedulerEventTitleFormatter } from '../formatters/scheduler-event-title-formatter.provider';
 
 @Pipe({

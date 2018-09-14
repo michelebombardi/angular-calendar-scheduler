@@ -3,7 +3,7 @@ import {
     SchedulerViewDay,
     CalendarSchedulerEvent,
     SchedulerViewEvent
-} from './calendar-scheduler-models';
+} from './models/calendar-scheduler-models';
 import {
     isSameDay
 } from 'date-fns';

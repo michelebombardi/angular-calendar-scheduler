@@ -27,8 +27,8 @@ import {
     isBefore
 } from 'date-fns';
 import { ResizeEvent } from 'angular-resizable-element';
-import { CalendarResizeHelper } from './helpers/calendar-resize-helper.provider';
-import { CalendarDragHelper } from './helpers/calendar-drag-helper.provider';
+import { CalendarResizeHelper } from '../common/helpers/calendar-resize-helper.provider';
+import { CalendarDragHelper } from '../common/helpers/calendar-drag-helper.provider';
 import { SchedulerConfig } from './scheduler-config';
 import { CalendarEventTimesChangedEventType } from 'angular-calendar';
 import { DragMoveEvent, DragEndEvent, DropEvent } from 'angular-draggable-droppable';
@@ -41,7 +41,7 @@ import {
     SchedulerEventTimesChangedEvent,
     SchedulerViewEvent,
     SchedulerView
-} from './calendar-scheduler-models';
+} from './models';
 import {
     shouldFireDroppedEvent,
     isDraggedWithinPeriod,
@@ -51,14 +51,14 @@ import {
     trackByDayOrEvent,
     trackByHour,
     trackByHourSegment
-} from '../utils';
+} from '../common/utils';
 import {
     DEFAULT_HOUR_SEGMENTS,
     DEFAULT_HOUR_SEGMENT_HEIGHT_PX,
     DEFAULT_EVENT_WIDTH_PERCENT,
     MINUTES_IN_HOUR
-} from './calendar-scheduler-utils';
-import { CalendarSchedulerUtils } from './calendar-scheduler-utils.provider';
+} from './utils/calendar-scheduler-utils';
+import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provider';
 
 /**
  *  [ngClass]="getPositioningClasses(event)"
@@ -442,12 +442,8 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     /**
      * @hidden
      */
-    constructor(
-        private cdr: ChangeDetectorRef,
-        @Inject(LOCALE_ID) locale: string,
-        private config: SchedulerConfig,
-        private utils: CalendarSchedulerUtils) 
-    {
+    constructor(private cdr: ChangeDetectorRef, @Inject(LOCALE_ID) locale: string, private config: SchedulerConfig,
+        private utils: CalendarSchedulerUtils) {
         this.locale = this.config.locale || locale;
     }
 
@@ -604,7 +600,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         this.refreshBody();
     }
 
-    
+
     private getSchedulerView(events: CalendarSchedulerEvent[]): SchedulerView {
         return this.utils.getSchedulerView({
             events: events,
@@ -660,7 +656,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             this.scaleOverlappingEvents(newStartTime, newEndTime, events);
         }
     }
-    
+
 
     //#region RESIZE
 

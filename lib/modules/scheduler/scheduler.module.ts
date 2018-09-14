@@ -12,8 +12,10 @@ import { CalendarSchedulerEventTitleComponent } from './calendar-scheduler-event
 import { CalendarSchedulerEventContentComponent } from './calendar-scheduler-event-content.component';
 import { CalendarSchedulerEventActionsComponent } from './calendar-scheduler-event-actions.component';
 
-import { CalendarSchedulerUtils } from './calendar-scheduler-utils.provider';
+import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provider';
+
 import { SchedulerEventTitlePipe } from './pipes/scheduler-event-title.pipe';
+
 import { SchedulerDateFormatter } from './formatters/scheduler-date-formatter.provider';
 import { SchedulerEventTitleFormatter } from './formatters/scheduler-event-title-formatter.provider';
 
@@ -21,9 +23,9 @@ export * from './calendar-scheduler-view.component';
 export * from './formatters/scheduler-date-formatter.provider';
 export * from './formatters/scheduler-event-title-formatter.provider';
 export * from './pipes/scheduler-event-title.pipe';
-export * from './calendar-scheduler-models';
-export * from './calendar-scheduler-utils.provider';
-export * from '../utils';
+export * from './models';
+export * from './utils/calendar-scheduler-utils.provider';
+export * from '../common/utils';
 
 import { SchedulerConfig } from './scheduler-config';
 

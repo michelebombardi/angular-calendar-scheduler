@@ -4,7 +4,7 @@ import {
     SchedulerViewHourSegment,
     CalendarSchedulerEvent,
     SchedulerEventTimesChangedEvent
-} from './calendar-scheduler-models';
+} from './models/calendar-scheduler-models';
 
 // WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255
 import * as momentImported from 'moment';

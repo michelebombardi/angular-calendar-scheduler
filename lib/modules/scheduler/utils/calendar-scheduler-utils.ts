@@ -5,7 +5,7 @@
     SchedulerViewEvent,
     SchedulerViewHourSegment,
     SchedulerView
-} from './calendar-scheduler-models';
+} from '../models/calendar-scheduler-models';
 import {
     DayViewHour,
     DayViewHourSegment
@@ -41,7 +41,7 @@ export enum DAYS_OF_WEEK {
     FRIDAY = 5,
     SATURDAY = 6
 }
-  
+
 const DEFAULT_WEEKEND_DAYS: number[] = [
     DAYS_OF_WEEK.SUNDAY,
     DAYS_OF_WEEK.SATURDAY

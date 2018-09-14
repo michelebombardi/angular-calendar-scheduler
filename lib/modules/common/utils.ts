@@ -17,7 +17,7 @@ import {
     SchedulerViewEvent,
     SchedulerViewDay,
     CalendarSchedulerEvent
-} from './scheduler/calendar-scheduler-models';
+} from '../scheduler/models/calendar-scheduler-models';
 import {
     DayViewHour,
     DayViewHourSegment
@@ -25,7 +25,7 @@ import {
 import {
     CalendarView
 } from 'angular-calendar';
-import { MINUTES_IN_HOUR } from './scheduler/calendar-scheduler-utils';
+import { MINUTES_IN_HOUR } from '../scheduler/utils/calendar-scheduler-utils';
 
 export function addPeriod(period: CalendarView, date: Date, amount: number): Date {
     return {
@@ -72,17 +72,18 @@ export const trackByHour = (index: number, hour: DayViewHour) =>
 export const trackByHourSegment = (index: number, segment: DayViewHourSegment) =>
     segment.date.toISOString();
 
-    
-export const roundToNearest = (amount: number, precision: number) =>
-    Math.round(amount / precision) * precision;
 
-export const getMinutesMoved = (movedY: number, hourSegments: number, hourSegmentHeight: number, eventSnapSize: number): number => {
+export function roundToNearest(amount: number, precision: number): number {
+    return Math.round(amount / precision) * precision;
+}
+
+export function getMinutesMoved(movedY: number, hourSegments: number, hourSegmentHeight: number, eventSnapSize: number): number {
     const draggedInPixelsSnapSize = roundToNearest(movedY, eventSnapSize || hourSegmentHeight);
     const pixelAmountInMinutes = MINUTES_IN_HOUR / (hourSegments * hourSegmentHeight);
     return draggedInPixelsSnapSize * pixelAmountInMinutes;
 }
 
-export const isDraggedWithinPeriod = (newStart: Date, newEnd: Date, period: SchedulerViewPeriod): boolean => {
+export function isDraggedWithinPeriod(newStart: Date, newEnd: Date, period: SchedulerViewPeriod): boolean {
     const end = newEnd || newStart;
     return (
         (period.start <= newStart && newStart <= period.end) ||
@@ -90,7 +91,7 @@ export const isDraggedWithinPeriod = (newStart: Date, newEnd: Date, period: Sche
     );
 }
 
-export const shouldFireDroppedEvent = (dropEvent: { dropData?: { event?: CalendarSchedulerEvent; calendarId?: symbol } }, date: Date, calendarId: symbol): boolean => {
+export function shouldFireDroppedEvent(dropEvent: { dropData?: { event?: CalendarSchedulerEvent; calendarId?: symbol } }, date: Date, calendarId: symbol): boolean {
     return (
         dropEvent.dropData &&
         dropEvent.dropData.event &&

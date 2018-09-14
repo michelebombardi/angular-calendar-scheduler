@@ -8,7 +8,7 @@ import {
     GetSchedulerViewArgs
 } from './calendar-scheduler-utils';
 import { DayViewHour } from 'calendar-utils';
-import { SchedulerView, SchedulerViewDay } from './calendar-scheduler-models';
+import { SchedulerView, SchedulerViewDay } from '../models';
 
 @Injectable()
 export class CalendarSchedulerUtils {
