@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
-import { SchedulerViewDay, CalendarSchedulerEvent } from './calendar-scheduler-view.component';
-import { CalendarEventTimesChangedEventType } from 'angular-calendar';
+import { SchedulerViewDay } from './calendar-scheduler-models';
 
 @Component({
     selector: 'calendar-scheduler-header',

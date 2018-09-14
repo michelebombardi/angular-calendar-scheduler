@@ -6,13 +6,13 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { CalendarSchedulerViewComponent } from './calendar-scheduler-view.component';
 import { CalendarSchedulerHourSegmentComponent } from './calendar-scheduler-hour-segment.component';
-import { CalendarSchedulerCellComponent } from './calendar-scheduler-cell.component';
 import { CalendarSchedulerHeaderComponent } from './calendar-scheduler-header.component';
 import { CalendarSchedulerEventComponent } from './calendar-scheduler-event.component';
 import { CalendarSchedulerEventTitleComponent } from './calendar-scheduler-event-title.component';
 import { CalendarSchedulerEventContentComponent } from './calendar-scheduler-event-content.component';
 import { CalendarSchedulerEventActionsComponent } from './calendar-scheduler-event-actions.component';
 
+import { CalendarSchedulerUtils } from './calendar-scheduler-utils.provider';
 import { SchedulerEventTitlePipe } from './pipes/scheduler-event-title.pipe';
 import { SchedulerDateFormatter } from './formatters/scheduler-date-formatter.provider';
 import { SchedulerEventTitleFormatter } from './formatters/scheduler-event-title-formatter.provider';
@@ -21,7 +21,9 @@ export * from './calendar-scheduler-view.component';
 export * from './formatters/scheduler-date-formatter.provider';
 export * from './formatters/scheduler-event-title-formatter.provider';
 export * from './pipes/scheduler-event-title.pipe';
-export * from './calendar-utils';
+export * from './calendar-scheduler-models';
+export * from './calendar-scheduler-utils.provider';
+export * from '../utils';
 
 import { SchedulerConfig } from './scheduler-config';
 
@@ -58,7 +60,6 @@ export function provideAuthConfig(config: SchedulerConfig) {
   ],
   declarations: [
     CalendarSchedulerViewComponent,
-    CalendarSchedulerCellComponent,
     CalendarSchedulerHourSegmentComponent,
     CalendarSchedulerHeaderComponent,
     CalendarSchedulerEventComponent,
@@ -68,13 +69,13 @@ export function provideAuthConfig(config: SchedulerConfig) {
     SchedulerEventTitlePipe
   ],
   providers: [
+    CalendarSchedulerUtils,
     SchedulerEventTitlePipe,
     SchedulerEventTitleFormatter,
     SchedulerDateFormatter
   ],
   exports: [
     CalendarSchedulerViewComponent,
-    CalendarSchedulerCellComponent,
     CalendarSchedulerHourSegmentComponent,
     CalendarSchedulerHeaderComponent,
     CalendarSchedulerEventComponent,

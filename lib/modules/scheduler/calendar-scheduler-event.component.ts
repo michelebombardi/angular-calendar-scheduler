@@ -1,11 +1,9 @@
 import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import {
     SchedulerViewDay,
-    SchedulerViewHour,
-    SchedulerViewHourSegment,
     CalendarSchedulerEvent,
     SchedulerViewEvent
-} from './calendar-scheduler-view.component';
+} from './calendar-scheduler-models';
 import {
     isSameDay
 } from 'date-fns';

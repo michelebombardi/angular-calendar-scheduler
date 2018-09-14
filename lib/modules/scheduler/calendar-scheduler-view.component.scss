@@ -134,6 +134,12 @@
             flex-flow: row wrap;
             border-top: 1px solid #e1e1e1;
 
+            &:not(.cal-resize-active) {
+                .cal-scheduler-hour-segment:hover {
+                    background-color: #ededed;
+                }
+            }
+
             .cal-scheduler-col {
                 display: -webkit-box;
                 display: -moz-box;
@@ -162,11 +168,6 @@
                     &.cal-disabled {
                         background-color: #eee;
                         pointer-events: none;
-
-                        .cal-scheduler-events {
-                            filter: opacity(50%);
-                            -webkit-filter: opacity(50%);
-                        }
                     }
 
                     &.cal-odd {
@@ -177,7 +178,7 @@
                         background: #fafafa;
                     }
 
-                    .cal-scheduler-segments {
+                    .cal-scheduler-hour-segments {
                         display: -webkit-box;
                         display: -moz-box;
                         display: -ms-flexbox;
@@ -200,11 +201,11 @@
                             }
                         }
 
-                        :not(:last-child) .cal-scheduler-segment {
+                        :not(:last-child) .cal-scheduler-hour-segment {
                             border-bottom: thin dashed #e1e1e1;
                         }
 
-                        .cal-scheduler-segment {
+                        .cal-scheduler-hour-segment {
                             flex: 1 0;
                             display: -webkit-box;
                             display: -moz-box;
@@ -227,16 +228,6 @@
 
                             &.cal-drag-over {
                                 background-color: #ededed;
-                            }
-
-                            .cal-scheduler-events {
-                                flex: 1 0;
-                                display: -webkit-box;
-                                display: -moz-box;
-                                display: -ms-flexbox;
-                                display: flex;
-                                flex-flow: column wrap;
-                                position: relative;
                             }
 
                             .cal-scheduler-time {

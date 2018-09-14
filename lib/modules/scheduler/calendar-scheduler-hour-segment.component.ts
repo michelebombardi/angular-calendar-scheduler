@@ -4,23 +4,21 @@ import {
     SchedulerViewHourSegment,
     CalendarSchedulerEvent,
     SchedulerEventTimesChangedEvent
-} from './calendar-scheduler-view.component';
+} from './calendar-scheduler-models';
 
 // WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255
 import * as momentImported from 'moment';
-import { CalendarEventTimesChangedEventType } from 'angular-calendar';
 const moment = momentImported;
 
 @Component({
     selector: 'calendar-scheduler-hour-segment',
     template: `
         <ng-template #defaultTemplate>
-            <div class="cal-scheduler-segment"
+            <div class="cal-scheduler-hour-segment"
                 [title]="title"
                 [ngClass]="segment?.cssClass"
                 [class.has-events]="segment.events.length > 0"
                 [class.cal-disabled]="segment.isDisabled"
-                [class.cal-drag-over]="segment.dragOver"
                 [style.backgroundColor]="segment.backgroundColor"
                 [style.height.px]="hourSegmentHeight"
                 (mwlClick)="onSegmentClick($event, segment)">
