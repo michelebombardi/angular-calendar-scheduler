@@ -30,8 +30,7 @@ import { SchedulerViewDay } from './models';
             [ngTemplateOutletContext]="{
                 days: days,
                 locale: locale,
-                dayHeaderClicked: dayHeaderClicked,
-                eventDropped: eventDropped
+                dayHeaderClicked: dayHeaderClicked
             }">
         </ng-template>
     `
