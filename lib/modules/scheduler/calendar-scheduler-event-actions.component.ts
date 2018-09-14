@@ -2,7 +2,7 @@
 import {
     CalendarSchedulerEvent,
     CalendarSchedulerEventAction
-} from './models/calendar-scheduler-models';
+} from './models';
 
 @Component({
     selector: 'calendar-scheduler-event-actions',

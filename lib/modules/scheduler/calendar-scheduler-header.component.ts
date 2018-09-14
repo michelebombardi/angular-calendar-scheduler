@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
-import { SchedulerViewDay } from './models/calendar-scheduler-models';
+import { SchedulerViewDay } from './models';
 
 @Component({
     selector: 'calendar-scheduler-header',

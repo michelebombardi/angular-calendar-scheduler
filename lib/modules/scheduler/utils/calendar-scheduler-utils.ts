@@ -5,7 +5,7 @@
     SchedulerViewEvent,
     SchedulerViewHourSegment,
     SchedulerView
-} from '../models/calendar-scheduler-models';
+} from '../models';
 import {
     DayViewHour,
     DayViewHourSegment

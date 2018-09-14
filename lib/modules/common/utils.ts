@@ -17,7 +17,7 @@ import {
     SchedulerViewEvent,
     SchedulerViewDay,
     CalendarSchedulerEvent
-} from '../scheduler/models/calendar-scheduler-models';
+} from '../scheduler/models';
 import {
     DayViewHour,
     DayViewHourSegment

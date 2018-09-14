@@ -1,7 +1,7 @@
 ﻿import { Component, Input, TemplateRef } from '@angular/core';
 import {
     CalendarSchedulerEvent
-} from './models/calendar-scheduler-models';
+} from './models';
 
 @Component({
     selector: 'calendar-scheduler-event-title',
