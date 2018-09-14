@@ -36,7 +36,7 @@ const moment = momentImported;
                 locale: locale,
                 hourSegmentHeight: hourSegmentHeight,
                 showHour: showHour,
-                segmentClicked: segmentClicked,
+                segmentClicked: segmentClicked
             }">
         </ng-template>
     `
