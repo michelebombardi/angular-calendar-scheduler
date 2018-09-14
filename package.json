@@ -1,11 +1,11 @@
 {
   "name": "angular-calendar-scheduler",
-  "version": "0.1.12",
+  "version": "0.9",
   "license": "MIT",
   "private": false,
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --open",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",

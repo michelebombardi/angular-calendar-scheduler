@@ -158,7 +158,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
                 const eventStart: Date = ev.start;
                 const eventEnd: Date = ev.end || eventStart;
                 const startsBeforeDay: boolean = eventStart < startOfView;
-                const endsAfterDay: boolean = eventEnd > endOfView;
+                const endsAfterDay: boolean = subMinutes(eventEnd, 1) > endOfView;
                 const hourHeightModifier: number = ((hourSegments * hourSegmentHeight) + 1) / MINUTES_IN_HOUR; // +1 for the 1px top border
 
                 let top: number = 0;
@@ -331,8 +331,7 @@ function isEventInPeriod(args: { event: CalendarSchedulerEvent, periodStart: str
 function getOverLappingDayViewEvents(events: SchedulerViewEvent[], top: number, bottom: number): SchedulerViewEvent[] {
     return events.filter((previousEvent: SchedulerViewEvent) => {
         const previousEventTop: number = previousEvent.top;
-        const previousEventBottom: number =
-            previousEvent.top + previousEvent.height;
+        const previousEventBottom: number = previousEvent.top + previousEvent.height;
 
         if (top < previousEventBottom && previousEventBottom < bottom) {
             return true;

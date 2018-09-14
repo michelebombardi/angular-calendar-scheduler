@@ -25,7 +25,8 @@ import {
     DayViewHourSegment
 } from 'calendar-utils';
 import {
-    CalendarView
+    CalendarView,
+    DateAdapter
 } from 'angular-calendar';
 import { MINUTES_IN_HOUR } from '../scheduler/utils/calendar-scheduler-utils';
 
@@ -74,6 +75,14 @@ export const trackByHour = (index: number, hour: DayViewHour | SchedulerViewHour
 export const trackByHourSegment = (index: number, segment: DayViewHourSegment | SchedulerViewHourSegment) =>
     segment.date.toISOString();
 
+
+export function getMinimumEventHeightInMinutes(hourSegments: number, hourSegmentHeight: number) {
+    return (MINUTES_IN_HOUR / (hourSegments * hourSegmentHeight)) * hourSegmentHeight;
+}
+
+export function getDefaultEventEnd(dateAdapter: DateAdapter, event: CalendarSchedulerEvent, minimumMinutes: number): Date {
+    return event.end ? event.end : dateAdapter.addMinutes(event.start, minimumMinutes);
+}
 
 export function roundToNearest(amount: number, precision: number): number {
     return Math.round(amount / precision) * precision;
