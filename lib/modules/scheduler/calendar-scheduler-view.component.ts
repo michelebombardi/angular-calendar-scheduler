@@ -129,6 +129,7 @@ import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provide
                             (dragPointerDown)="dragStarted(dayColumns, eventContainer, event)"
                             (dragging)="dragMove(event, $event)"
                             (dragEnd)="dragEnded(event, $event, dayColumnWidth, true)">
+
                             <div *ngIf="event.event?.resizable?.beforeStart && !event.startsBeforeDay"
                                 class="cal-resize-handle cal-resize-handle-before-start"
                                 mwlResizeHandle
@@ -140,7 +141,8 @@ import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provide
                             <calendar-scheduler-event
                                 [day]="day"
                                 [event]="event"
-                                [showActions]="showActions"
+                                [showContent]="showEventContent && event.height >= 75"
+                                [showActions]="showEventActions"
                                 [showStatus]="showEventStatus"
                                 [customTemplate]="eventTemplate"
                                 [eventTitleTemplate]="eventTitleTemplate"
@@ -226,9 +228,14 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     @Input() startsWithToday: boolean = false;
 
     /**
+     * Specify if content must be shown or not
+     */
+    @Input() showEventContent: boolean = true;
+
+    /**
      * Specify if actions must be shown or not
      */
-    @Input() showActions: boolean = true;
+    @Input() showEventActions: boolean = true;
 
     /**
      * Specify if status must be shown or not
@@ -707,11 +714,6 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     }
 
     private getResizedEventDates(event: CalendarSchedulerEvent, resizeEvent: ResizeEvent): { start: Date, end: Date} {
-        console.log(
-            'RESIZE EVENT - TOP ' + resizeEvent.edges.top
-            + ' - BOTTOM ' + resizeEvent.edges.bottom
-            + ' - LEFT ' + resizeEvent.edges.left
-            + ' - RIGHT ' + resizeEvent.edges.right);
         const minimumEventHeight = getMinimumEventHeightInMinutes(this.hourSegments, this.hourSegmentHeight);
         const newEventDates = {
             start: event.start,
@@ -723,8 +725,6 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             // end: this.dateAdapter.addMinutes(eventWithoutEnd.start, minimumEventHeight)
             end: getDefaultEventEnd(this.dateAdapter, eventWithoutEnd, minimumEventHeight)
         };
-        console.log('newEventDates: ' + newEventDates.start.toISOString() + ' - ' + newEventDates.end.toISOString());
-        console.log('SMALLEST: ' + smallestResizes.start.toISOString() + ' - ' + smallestResizes.end.toISOString());
 
         if (resizeEvent.edges.left) {
             const daysDiff = Math.round(

@@ -41,34 +41,6 @@ export const DEFAULT_HOUR_SEGMENT_HEIGHT_PX = 40;
 export const DEFAULT_EVENT_WIDTH_PERCENT = 100;
 export const DEFAULT_HOUR_SEGMENTS = 2;
 
-
-export interface GetSchedulerViewDayArgs {
-    viewDate: Date;
-    weekStartsOn: number;
-    startsWithToday: boolean;
-    excluded?: number[];
-    weekendDays?: number[];
-}
-
-export interface GetSchedulerViewArgs {
-    events?: CalendarSchedulerEvent[];
-    viewDate: Date;
-    hourSegments: 1 | 2 | 4 | 6;
-    weekStartsOn: number;
-    startsWithToday: boolean;
-    dayStart: {
-        hour: number;
-        minute: number;
-    };
-    dayEnd: {
-        hour: number;
-        minute: number;
-    };
-    excluded?: number[];
-    eventWidth: number;
-    hourSegmentHeight: number;
-}
-
 export interface GetSchedulerViewHourGridArgs {
     viewDate: Date;
     hourSegments: number;
@@ -81,7 +53,6 @@ export interface GetSchedulerViewHourGridArgs {
         minute: number;
     };
 }
-
 
 export function getSchedulerViewHourGrid(dateAdapter: DateAdapter, args: GetSchedulerViewHourGridArgs): DayViewHour[] {
     const viewDate: Date = args.viewDate, hourSegments: number = args.hourSegments, dayStart: any = args.dayStart, dayEnd: any = args.dayEnd;
@@ -113,6 +84,25 @@ export function getSchedulerViewHourGrid(dateAdapter: DateAdapter, args: GetSche
     return hours;
 }
 
+export interface GetSchedulerViewArgs {
+    events?: CalendarSchedulerEvent[];
+    viewDate: Date;
+    hourSegments: 1 | 2 | 4 | 6;
+    weekStartsOn: number;
+    startsWithToday: boolean;
+    dayStart: {
+        hour: number;
+        minute: number;
+    };
+    dayEnd: {
+        hour: number;
+        minute: number;
+    };
+    excluded?: number[];
+    eventWidth: number;
+    hourSegmentHeight: number;
+}
+
 export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerViewArgs): SchedulerView {
     let events: CalendarSchedulerEvent[] = args.events || [];
     if (!events) { events = []; }
@@ -129,7 +119,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
     const startOfViewWeek: Date = startsWithToday ? dateAdapter.startOfDay(viewDate) : dateAdapter.startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
     const endOfViewWeek: Date = startsWithToday ? dateAdapter.addDays(dateAdapter.endOfDay(viewDate), 6) : dateAdapter.endOfWeek(viewDate, { weekStartsOn: weekStartsOn });
 
-    const eventsInWeek: CalendarSchedulerEvent[] = getEventsInPeriod({
+    const eventsInWeek: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
         events: events,
         periodStart: startOfViewWeek,
         periodEnd: endOfViewWeek
@@ -146,10 +136,10 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
         const endOfView: Date = dateAdapter.setMinutes(dateAdapter.setHours(dateAdapter.startOfMinute(dateAdapter.endOfDay(day.date)), dayEnd.hour), dayEnd.minute);
         const previousDayEvents: SchedulerViewEvent[] = [];
 
-        const eventsInDay: CalendarSchedulerEvent[] = getEventsInPeriod({
+        const eventsInDay: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
             events: eventsInWeek,
-            periodStart: dateAdapter.startOfDay(day.date),
-            periodEnd: dateAdapter.endOfDay(day.date)
+            periodStart: startOfView,
+            periodEnd: endOfView
         });
 
         day.events = eventsInDay
@@ -222,7 +212,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
             const startOfHour: Date = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate(), hour.segments[0].date.getHours());
             const endOfHour: Date = subMinutes(dateAdapter.addHours(startOfHour, 1), 1);
 
-            const eventsInHour: CalendarSchedulerEvent[] = getEventsInPeriod({
+            const eventsInHour: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
                 events: eventsInDay,
                 periodStart: startOfHour,
                 periodEnd: endOfHour
@@ -235,7 +225,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
                     const startOfSegment: Date = segment.date;
                     const endOfSegment: Date = dateAdapter.addMinutes(segment.date, MINUTES_IN_HOUR / hourSegments);
 
-                    const eventsInSegment: CalendarSchedulerEvent[] = getEventsInPeriod({
+                    const eventsInSegment: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
                         events: eventsInHour,
                         periodStart: startOfSegment,
                         periodEnd: endOfSegment
@@ -267,7 +257,15 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
     };
 }
 
-export function getSchedulerViewDays(dateAdapter: DateAdapter, args: GetSchedulerViewDayArgs): SchedulerViewDay[] {
+export interface GetSchedulerViewDaysArgs {
+    viewDate: Date;
+    weekStartsOn: number;
+    startsWithToday: boolean;
+    excluded?: number[];
+    weekendDays?: number[];
+}
+
+export function getSchedulerViewDays(dateAdapter: DateAdapter, args: GetSchedulerViewDaysArgs): SchedulerViewDay[] {
     const viewDate: Date = args.viewDate;
     const weekStartsOn: number = args.weekStartsOn;
     const startsWithToday: boolean = args.startsWithToday;
@@ -303,24 +301,47 @@ function getSchedulerDay(dateAdapter: DateAdapter, args: { date: Date, weekendDa
     };
 }
 
-
-function getEventsInPeriod(args: { events: CalendarSchedulerEvent[], periodStart: string | number | Date, periodEnd: string | number | Date }): CalendarSchedulerEvent[] {
-    const events: CalendarSchedulerEvent[] = args.events, periodStart: string | number | Date = args.periodStart, periodEnd: string | number | Date = args.periodEnd;
-    return events.filter((event) => isEventInPeriod({ event: event, periodStart: periodStart, periodEnd: periodEnd }));
+export interface GetEventsInPeriodArgs {
+    events: CalendarSchedulerEvent[];
+    periodStart: Date;
+    periodEnd: Date;
 }
 
-function isEventInPeriod(args: { event: CalendarSchedulerEvent, periodStart: string | number | Date, periodEnd: string | number | Date }): boolean {
+function getEventsInPeriod(dateAdapter: DateAdapter, args: GetEventsInPeriodArgs): CalendarSchedulerEvent[] {
+    const events: CalendarSchedulerEvent[] = args.events, periodStart: string | number | Date = args.periodStart, periodEnd: string | number | Date = args.periodEnd;
+    return events.filter((event) => isEventInPeriod(dateAdapter, { event: event, periodStart: periodStart, periodEnd: periodEnd }));
+}
+
+interface IsEventInPeriodArgs {
+    event: CalendarSchedulerEvent;
+    periodStart: Date;
+    periodEnd: Date;
+}
+
+
+function isEventInPeriod(dateAdapter: DateAdapter, args: IsEventInPeriodArgs): boolean {
+    const { isSameSecond } = dateAdapter;
     const event: CalendarSchedulerEvent = args.event, periodStart: string | number | Date = args.periodStart, periodEnd: string | number | Date = args.periodEnd;
     const eventStart: Date = event.start;
     const eventEnd: Date = event.end || event.start;
 
-    if (eventStart >= periodStart && eventStart < periodEnd) {
+    if (eventStart > periodStart && eventStart < periodEnd) {
         return true;
     }
-    if (eventEnd <= periodEnd && eventEnd > periodStart) {
+
+    if (eventEnd > periodStart && eventEnd < periodEnd) {
         return true;
     }
+
     if (eventStart < periodStart && eventEnd > periodEnd) {
+        return true;
+    }
+
+    if (isSameSecond(eventStart, periodStart) || isSameSecond(eventStart, periodEnd)) {
+        return true;
+    }
+
+    if (isSameSecond(eventEnd, periodStart) || isSameSecond(eventEnd, periodEnd)) {
         return true;
     }
 

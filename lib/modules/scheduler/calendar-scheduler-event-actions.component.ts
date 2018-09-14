@@ -7,7 +7,8 @@ import {
 @Component({
     selector: 'calendar-scheduler-event-actions',
     template: `
-        <span *ngIf="event.actions" class="cal-scheduler-event-actions">
+        <span *ngIf="event.actions"
+            class="cal-scheduler-event-actions">
             <a
                 class="cal-scheduler-event-action"
                 href="javascript:;"

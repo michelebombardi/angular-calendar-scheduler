@@ -32,13 +32,18 @@ const moment = momentImported;
                     view="week"
                     [event]="event.event"
                     [showStatus]="showStatus"
+                    [showContent]="showContent"
+                    [showActions]="showActions"
                     [customTemplate]="eventTitleTemplate">
                 </calendar-scheduler-event-title>
                 <calendar-scheduler-event-content
+                    *ngIf="showContent"
                     [event]="event.event">
                 </calendar-scheduler-event-content>
-                <calendar-scheduler-event-actions [event]="event.event" *ngIf="showActions && event.event.isClickable"></calendar-scheduler-event-actions>
-                <calendar-scheduler-event-actions [event]="event.event" *ngIf="showActions && event.event.isDisabled"></calendar-scheduler-event-actions>
+                <calendar-scheduler-event-actions
+                    *ngIf="showActions && showContent && (event.event.isClickable || event.event.isDisabled)"
+                    [event]="event.event">
+                </calendar-scheduler-event-actions>
             </div>
         </ng-template>
         <ng-template
@@ -47,6 +52,7 @@ const moment = momentImported;
                 title: title,
                 day: day,
                 event: event,
+                showContent: showContent,
                 showActions: showActions,
                 showStatus: showStatus,
                 eventTitleTemplate: eventTitleTemplate,
@@ -64,6 +70,8 @@ export class CalendarSchedulerEventComponent implements OnInit {
     @Input() day: SchedulerViewDay;
 
     @Input() event: SchedulerViewEvent;
+
+    @Input() showContent: boolean = true;
 
     @Input() showActions: boolean = true;
 

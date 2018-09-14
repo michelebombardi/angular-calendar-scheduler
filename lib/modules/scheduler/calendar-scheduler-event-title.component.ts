@@ -11,6 +11,11 @@ import {
                 class="cal-scheduler-event-title"
                 [innerHTML]="event.title | schedulerEventTitle:view:event">
             </div>
+            <calendar-scheduler-event-actions
+                *ngIf="showActions && !showContent && (event.isClickable || event.isDisabled)"
+                class="no-content-actions"
+                [event]="event">
+            </calendar-scheduler-event-actions>
             <div *ngIf="event.status && showStatus"
                 class="cal-scheduler-event-status"
                 [class.ok]="event.status === 'ok'"
@@ -23,7 +28,9 @@ import {
             [ngTemplateOutletContext]="{
                 view: view,
                 event: event,
-                showStatus: showStatus
+                showStatus: showStatus,
+                showContent: showContent,
+                showActions: showActions
             }">
         </ng-template>
     `,
@@ -38,6 +45,10 @@ export class CalendarSchedulerEventTitleComponent {
     @Input() view: string;
 
     @Input() showStatus: boolean = true;
+
+    @Input() showContent: boolean = true;
+
+    @Input() showActions: boolean = true;
 
     @Input() customTemplate: TemplateRef<any>;
 }

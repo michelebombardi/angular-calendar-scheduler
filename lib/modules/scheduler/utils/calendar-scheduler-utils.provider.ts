@@ -3,7 +3,7 @@ import {
     getSchedulerViewHourGrid,
     GetSchedulerViewHourGridArgs,
     getSchedulerViewDays,
-    GetSchedulerViewDayArgs,
+    GetSchedulerViewDaysArgs,
     getSchedulerView,
     GetSchedulerViewArgs
 } from './calendar-scheduler-utils';
@@ -19,7 +19,7 @@ export class CalendarSchedulerUtils {
         return getSchedulerViewHourGrid(this.dateAdapter, args);
     }
 
-    getSchedulerViewDays(args: GetSchedulerViewDayArgs): SchedulerViewDay[] {
+    getSchedulerViewDays(args: GetSchedulerViewDaysArgs): SchedulerViewDay[] {
         return getSchedulerViewDays(this.dateAdapter, args);
     }
 
