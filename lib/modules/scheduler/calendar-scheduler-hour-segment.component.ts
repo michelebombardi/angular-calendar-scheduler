@@ -30,12 +30,13 @@ const moment = momentImported;
         <ng-template
             [ngTemplateOutlet]="customTemplate || defaultTemplate"
             [ngTemplateOutletContext]="{
+                title: title,
                 day: day,
                 segment: segment,
                 locale: locale,
+                hourSegmentHeight: hourSegmentHeight,
                 showHour: showHour,
                 segmentClicked: segmentClicked,
-                eventClicked: eventClicked
             }">
         </ng-template>
     `

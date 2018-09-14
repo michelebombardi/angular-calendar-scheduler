@@ -44,6 +44,7 @@ const moment = momentImported;
         <ng-template
             [ngTemplateOutlet]="customTemplate || defaultTemplate"
             [ngTemplateOutletContext]="{
+                title: title,
                 day: day,
                 event: event,
                 showActions: showActions,
