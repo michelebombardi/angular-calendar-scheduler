@@ -21,8 +21,7 @@ import {
     SchedulerViewHourSegment
 } from '../scheduler/models';
 import {
-    DayViewHour,
-    DayViewHourSegment
+    DayViewHour
 } from 'calendar-utils';
 import {
     CalendarView,
