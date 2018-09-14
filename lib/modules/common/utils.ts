@@ -72,7 +72,7 @@ export const trackByHourColumn = (index: number, day: SchedulerViewDay) =>
 export const trackByHour = (index: number, hour: DayViewHour | SchedulerViewHour) =>
     hour.segments[0].date.toISOString();
 
-export const trackByHourSegment = (index: number, segment: DayViewHourSegment | SchedulerViewHourSegment) =>
+export const trackByHourSegment = (index: number, segment: SchedulerViewHourSegment) =>
     segment.date.toISOString();
 
 
