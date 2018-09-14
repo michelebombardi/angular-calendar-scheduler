@@ -12,10 +12,6 @@ import {
 import * as momentImported from 'moment';
 const moment = momentImported;
 
-/**
- * [mwlCalendarTooltip]="event.title | calendarEventTitle:'weekTooltip':event"
- * [tooltipPlacement]="tooltipPlacement"
- */
 @Component({
     selector: 'calendar-scheduler-event',
     template: `
@@ -50,7 +46,6 @@ const moment = momentImported;
             [ngTemplateOutletContext]="{
                 day: day,
                 event: event,
-                tooltipPlacement: tooltipPlacement,
                 showActions: showActions,
                 showStatus: showStatus,
                 eventTitleTemplate: eventTitleTemplate,
@@ -69,8 +64,6 @@ export class CalendarSchedulerEventComponent implements OnInit {
 
     @Input() event: SchedulerViewEvent;
 
-    @Input() tooltipPlacement: string;
-
     @Input() showActions: boolean = true;
 
     @Input() showStatus: boolean = true;
@@ -84,7 +77,7 @@ export class CalendarSchedulerEventComponent implements OnInit {
     constructor(private renderer: Renderer2) {   }
 
     public ngOnInit(): void {
-        this.title = `${this.event.event.title}, ${moment(this.event.event.start).format('dddd L, LT')}`;
+        this.title = this.title || `${this.event.event.title}, ${moment(this.event.event.start).format('dddd L, LT')}`;
     }
 
     onMouseEnter(): void {

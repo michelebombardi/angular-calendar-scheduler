@@ -31,7 +31,7 @@ import { SchedulerConfig } from './scheduler-config';
 
 export const SCHEDULER_CONFIG = new InjectionToken('SchedulerConfig');
 
-export function provideAuthConfig(config: SchedulerConfig) {
+export function provideSchedulerConfig(config: SchedulerConfig) {
     return new SchedulerConfig(config);
 }
 
@@ -92,7 +92,7 @@ export class SchedulerModule {
         ngModule: SchedulerModule,
         providers: [
             { provide: SCHEDULER_CONFIG, useValue: config },
-            { provide: SchedulerConfig, useFactory: provideAuthConfig, deps: [SCHEDULER_CONFIG] }
+            { provide: SchedulerConfig, useFactory: provideSchedulerConfig, deps: [SCHEDULER_CONFIG] }
         ]
     };
 }

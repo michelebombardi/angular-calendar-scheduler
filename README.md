@@ -222,7 +222,6 @@ export class AppComponent implements OnInit {
                               [events]="events"
                               [locale]="locale"
                               [weekStartsOn]="weekStartsOn"
-                              [tooltipPlacement]="'top'"
                               [excludeDays]="excludeDays"
                               [startsWithToday]="startsWithToday"
                               [hourSegments]="2"

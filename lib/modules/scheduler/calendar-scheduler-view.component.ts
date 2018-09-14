@@ -142,7 +142,6 @@ import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provide
                             <calendar-scheduler-event
                                 [day]="day"
                                 [event]="event"
-                                [tooltipPlacement]="tooltipPlacement"
                                 [showActions]="showActions"
                                 [showStatus]="showEventStatus"
                                 [customTemplate]="eventTemplate"
@@ -178,7 +177,6 @@ import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provide
                                     [day]="day"
                                     [segment]="segment"
                                     [locale]="locale"
-                                    [tooltipPlacement]="tooltipPlacement"
                                     [customTemplate]="cellTemplate"
                                     [hourSegmentHeight]="hourSegmentHeight"
                                     [showHour]="showSegmentHour"
@@ -272,11 +270,6 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     * Whether to snap events to a grid when dragging
     */
     @Input() snapDraggedEvents: boolean = true;
-
-    /**
-     * The placement of the event tooltip
-     */
-    @Input() tooltipPlacement: string = 'bottom';
 
     /**
      * The start number of the week

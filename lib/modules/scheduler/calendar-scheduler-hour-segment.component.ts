@@ -31,11 +31,9 @@ const moment = momentImported;
             [ngTemplateOutlet]="customTemplate || defaultTemplate"
             [ngTemplateOutletContext]="{
                 day: day,
+                segment: segment,
                 locale: locale,
-                tooltipPlacement: tooltipPlacement,
                 showHour: showHour,
-                highlightSegment: highlightSegment,
-                unhighlightSegment: unhighlightSegment,
                 segmentClicked: segmentClicked,
                 eventClicked: eventClicked
             }">
@@ -43,14 +41,13 @@ const moment = momentImported;
     `
 })
 export class CalendarSchedulerHourSegmentComponent implements OnInit {
+    @Input() title: string;
 
     @Input() day: SchedulerViewDay;
 
     @Input() segment: SchedulerViewHourSegment;
 
     @Input() locale: string;
-
-    @Input() tooltipPlacement: string;
 
     @Input() customTemplate: TemplateRef<any>;
 
@@ -60,15 +57,8 @@ export class CalendarSchedulerHourSegmentComponent implements OnInit {
 
     @Output() segmentClicked: EventEmitter<{ segment: SchedulerViewHourSegment }> = new EventEmitter<{ segment: SchedulerViewHourSegment }>();
 
-    /**
-     * Called when an event is resized or dragged and dropped
-     */
-    @Output() eventTimesChanged: EventEmitter<SchedulerEventTimesChangedEvent> = new EventEmitter<SchedulerEventTimesChangedEvent>();
-
-    title: string;
-
     ngOnInit(): void {
-        this.title = moment(this.segment.date).format('dddd L, LT');
+        this.title = this.title || moment(this.segment.date).format('dddd L, LT');
     }
 
     /**
