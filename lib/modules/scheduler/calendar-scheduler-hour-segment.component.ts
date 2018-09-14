@@ -2,8 +2,7 @@
 import {
     SchedulerViewDay,
     SchedulerViewHourSegment,
-    CalendarSchedulerEvent,
-    SchedulerEventTimesChangedEvent
+    CalendarSchedulerEvent
 } from './models';
 
 // WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255

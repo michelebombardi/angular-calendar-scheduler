@@ -17,8 +17,7 @@ import {
     DayViewHour
 } from 'calendar-utils';
 import {
-    isBefore,
-    subMinutes
+    isBefore
 } from 'date-fns';
 import { ResizeEvent } from 'angular-resizable-element';
 import { CalendarResizeHelper } from '../common/helpers/calendar-resize-helper.provider';

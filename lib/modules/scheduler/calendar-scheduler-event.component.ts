@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, Renderer2 } from '@angular/core';
 import {
     SchedulerViewDay,
     CalendarSchedulerEvent,
