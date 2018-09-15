@@ -149,7 +149,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
                 const eventEnd: Date = ev.end || eventStart;
                 const startsBeforeDay: boolean = eventStart < startOfView;
                 const endsAfterDay: boolean = subMinutes(eventEnd, 1) > endOfView;
-                const hourHeightModifier: number = ((hourSegments * hourSegmentHeight) + 1) / MINUTES_IN_HOUR; // +1 for the 1px top border
+                const hourHeightModifier: number = ((hourSegments * hourSegmentHeight) + 1) / MINUTES_IN_HOUR; // +1 for the 1px segment bottom border
 
                 let top: number = 0;
                 if (eventStart > startOfView) {
