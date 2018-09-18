@@ -1,12 +1,9 @@
-import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, Renderer2 } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, OnInit } from '@angular/core';
 import {
     SchedulerViewDay,
     CalendarSchedulerEvent,
     SchedulerViewEvent
 } from './models';
-import {
-    isSameDay
-} from 'date-fns';
 
 // WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255
 import * as momentImported from 'moment';
@@ -83,7 +80,7 @@ export class CalendarSchedulerEventComponent implements OnInit {
 
     @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
 
-    constructor(private renderer: Renderer2) {   }
+    constructor() {   }
 
     public ngOnInit(): void {
         this.title = this.title || `${this.event.event.title}, ${moment(this.event.event.start).format('dddd L, LT')}`;

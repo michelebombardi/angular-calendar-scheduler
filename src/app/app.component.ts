@@ -20,7 +20,8 @@ import {
 } from 'angular-calendar-scheduler';
 import {
     CalendarView,
-    CalendarDateFormatter
+    CalendarDateFormatter,
+    DateAdapter
 } from 'angular-calendar';
 
 import { AppService } from './services/app.service';
@@ -80,7 +81,7 @@ export class AppComponent implements OnInit {
 
     events: CalendarSchedulerEvent[];
 
-    constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService) {
+    constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService, private dateAdapter: DateAdapter) {
         this.locale = locale;
 
         // this.dayModifier = ((day: SchedulerViewDay): void => {
@@ -119,11 +120,11 @@ export class AppComponent implements OnInit {
 
     dateOrViewChanged(): void {
         if (this.startsWithToday) {
-            this.prevBtnDisabled = !this.isDateValid(subPeriod(this.view, this.viewDate, 1));
-            this.nextBtnDisabled = !this.isDateValid(addPeriod(this.view, this.viewDate, 1));
+            this.prevBtnDisabled = !this.isDateValid(subPeriod(this.dateAdapter, this.view, this.viewDate, 1));
+            this.nextBtnDisabled = !this.isDateValid(addPeriod(this.dateAdapter, this.view, this.viewDate, 1));
         } else {
-            this.prevBtnDisabled = !this.isDateValid(endOfPeriod(this.view, subPeriod(this.view, this.viewDate, 1)));
-            this.nextBtnDisabled = !this.isDateValid(startOfPeriod(this.view, addPeriod(this.view, this.viewDate, 1)));
+            this.prevBtnDisabled = !this.isDateValid(endOfPeriod(this.dateAdapter, this.view, subPeriod(this.dateAdapter, this.view, this.viewDate, 1)));
+            this.nextBtnDisabled = !this.isDateValid(startOfPeriod(this.dateAdapter, this.view, addPeriod(this.dateAdapter, this.view, this.viewDate, 1)));
         }
 
         if (this.viewDate < this.minDate) {

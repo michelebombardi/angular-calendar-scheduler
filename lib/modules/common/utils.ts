@@ -1,18 +1,4 @@
 import {
-    startOfDay,
-    startOfWeek,
-    startOfMonth,
-    endOfDay,
-    endOfWeek,
-    endOfMonth,
-    addDays,
-    addWeeks,
-    addMonths,
-    subDays,
-    subWeeks,
-    subMonths
-} from 'date-fns';
-import {
     SchedulerViewPeriod,
     SchedulerViewEvent,
     SchedulerViewDay,
@@ -29,35 +15,35 @@ import {
 } from 'angular-calendar';
 import { MINUTES_IN_HOUR } from '../scheduler/utils/calendar-scheduler-utils';
 
-export function addPeriod(period: CalendarView, date: Date, amount: number): Date {
+export function addPeriod(dateAdapter: DateAdapter, period: CalendarView, date: Date, amount: number): Date {
     return {
-        day: addDays,
-        week: addWeeks,
-        month: addMonths
+        day: dateAdapter.addDays,
+        week: dateAdapter.addWeeks,
+        month: dateAdapter.addMonths
     }[period](date, amount);
 }
 
-export function subPeriod(period: CalendarView, date: Date, amount: number): Date {
+export function subPeriod(dateAdapter: DateAdapter, period: CalendarView, date: Date, amount: number): Date {
     return {
-        day: subDays,
-        week: subWeeks,
-        month: subMonths
+        day: dateAdapter.subDays,
+        week: dateAdapter.subWeeks,
+        month: dateAdapter.subMonths
     }[period](date, amount);
 }
 
-export function startOfPeriod(period: CalendarView, date: Date): Date {
+export function startOfPeriod(dateAdapter: DateAdapter, period: CalendarView, date: Date): Date {
     return {
-        day: startOfDay,
-        week: startOfWeek,
-        month: startOfMonth
+        day: dateAdapter.startOfDay,
+        week: dateAdapter.startOfWeek,
+        month: dateAdapter.startOfMonth
     }[period](date);
 }
 
-export function endOfPeriod(period: CalendarView, date: Date): Date {
+export function endOfPeriod(dateAdapter: DateAdapter, period: CalendarView, date: Date): Date {
     return {
-        day: endOfDay,
-        week: endOfWeek,
-        month: endOfMonth
+        day: dateAdapter.endOfDay,
+        week: dateAdapter.endOfWeek,
+        month: dateAdapter.endOfMonth
     }[period](date);
 }
 
