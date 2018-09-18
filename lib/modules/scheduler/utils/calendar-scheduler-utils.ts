@@ -11,9 +11,6 @@ import {
     DayViewHour,
     DayViewHourSegment
 } from 'calendar-utils';
-import {
-    subMinutes
-} from 'date-fns';
 import { DateAdapter } from 'angular-calendar';
 
 
@@ -148,7 +145,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
                 const eventStart: Date = ev.start;
                 const eventEnd: Date = ev.end || eventStart;
                 const startsBeforeDay: boolean = eventStart < startOfView;
-                const endsAfterDay: boolean = this.utils.addMinutes(eventEnd, -1) > endOfView;
+                const endsAfterDay: boolean = dateAdapter.addMinutes(eventEnd, -1) > endOfView;
                 const hourHeightModifier: number = ((hourSegments * hourSegmentHeight) + 1) / MINUTES_IN_HOUR; // +1 for the 1px segment bottom border
 
                 let top: number = 0;
