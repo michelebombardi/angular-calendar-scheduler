@@ -722,7 +722,6 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         const { end, ...eventWithoutEnd } = event;
         const smallestResizes = {
             start: this.dateAdapter.addMinutes(newEventDates.end, minimumEventHeight * -1),
-            // end: this.dateAdapter.addMinutes(eventWithoutEnd.start, minimumEventHeight)
             end: getDefaultEventEnd(this.dateAdapter, eventWithoutEnd, minimumEventHeight)
         };
 

@@ -148,7 +148,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
                 const eventStart: Date = ev.start;
                 const eventEnd: Date = ev.end || eventStart;
                 const startsBeforeDay: boolean = eventStart < startOfView;
-                const endsAfterDay: boolean = subMinutes(eventEnd, 1) > endOfView;
+                const endsAfterDay: boolean = this.utils.addMinutes(eventEnd, -1) > endOfView;
                 const hourHeightModifier: number = ((hourSegments * hourSegmentHeight) + 1) / MINUTES_IN_HOUR; // +1 for the 1px segment bottom border
 
                 let top: number = 0;
@@ -210,7 +210,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
             const date: Date = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate(), hour.segments[0].date.getHours());
 
             const startOfHour: Date = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate(), hour.segments[0].date.getHours());
-            const endOfHour: Date = subMinutes(dateAdapter.addHours(startOfHour, 1), 1);
+            const endOfHour: Date = dateAdapter.addMinutes(dateAdapter.addHours(startOfHour, 1), -1);
 
             const eventsInHour: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
                 events: eventsInDay,
