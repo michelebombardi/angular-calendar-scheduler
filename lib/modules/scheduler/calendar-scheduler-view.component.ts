@@ -20,8 +20,8 @@ import {
     isBefore
 } from 'date-fns';
 import { ResizeEvent } from 'angular-resizable-element';
-import { CalendarResizeHelper } from '../common/helpers/calendar-resize-helper.provider';
-import { CalendarDragHelper } from '../common/helpers/calendar-drag-helper.provider';
+import { CalendarDragHelper } from 'angular-calendar/esm2015/modules/common/calendar-drag-helper.provider';
+import { CalendarResizeHelper } from 'angular-calendar/esm2015/modules/common/calendar-resize-helper.provider';
 import { SchedulerConfig } from './scheduler-config';
 import { CalendarEventTimesChangedEventType, DateAdapter } from 'angular-calendar';
 import { DragMoveEvent, DragEndEvent, DropEvent } from 'angular-draggable-droppable';
