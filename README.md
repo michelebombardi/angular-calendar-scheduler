@@ -44,13 +44,13 @@ ___
 #### NPM
 
 ```sh
-npm install angular-calendar-scheduler --save
+npm install angular-calendar-scheduler date-fns --save
 ```
 
 #### Yarn
 
 ```sh
-yarn add angular-calendar-scheduler
+yarn add angular-calendar-scheduler date-fns
 ```
 
 ### Include Component
