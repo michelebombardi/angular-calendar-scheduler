@@ -94,7 +94,9 @@ import { ... } from 'angular-calendar-scheduler';
 export class AppComponent implements OnInit {
     title = 'Angular Calendar Scheduler Demo';
 
-    view: CalendarPeriod = 'week';
+    CalendarView = CalendarView;
+
+    view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
     refreshSubject: Subject<any> = new Subject();
     locale: string = 'en';
