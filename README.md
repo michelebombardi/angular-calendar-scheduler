@@ -5,23 +5,23 @@ This project provide a scheduler view component for [mattlewis92/angular-calenda
 <a href="https://www.npmjs.com/package/angular-calendar-scheduler">
     <img src="https://badge.fury.io/js/angular-calendar-scheduler.svg" alt="npm">
 </a> 
-<a href="https://travis-ci.org/bm-software/angular-calendar-scheduler">
-    <img src="https://travis-ci.org/bm-software/angular-calendar-scheduler.svg?branch=master" alt="travis">
+<a href="https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler">
+    <img src="https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler.svg?branch=master" alt="travis">
 </a> 
-<a href="https://codecov.io/gh/bm-software/angular-calendar-scheduler">
-    <img src="https://codecov.io/gh/bm-software/angular-calendar-scheduler/branch/master/graph/badge.svg" alt="codecov">
+<a href="https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler">
+    <img src="https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler/branch/master/graph/badge.svg" alt="codecov">
 </a>
-<a href="https://github.com/bm-software/angular-calendar-scheduler/issues">
-    <img src="https://img.shields.io/github/issues/bm-software/angular-calendar-scheduler.svg" alt="issues">
+<a href="https://github.com/mounthorse-slns/angular-calendar-scheduler/issues">
+    <img src="https://img.shields.io/github/issues/mounthorse-slns/angular-calendar-scheduler.svg" alt="issues">
 </a>
-<a href="https://github.com/bm-software/angular-calendar-scheduler/network">
-    <img src="https://img.shields.io/github/forks/bm-software/angular-calendar-scheduler.svg" alt="forks">
+<a href="https://github.com/mounthorse-slns/angular-calendar-scheduler/network">
+    <img src="https://img.shields.io/github/forks/mounthorse-slns/angular-calendar-scheduler.svg" alt="forks">
 </a>
-<a href="https://github.com/bm-software/angular-calendar-scheduler/stargazers">
-    <img src="https://img.shields.io/github/stars/bm-software/angular-calendar-scheduler.svg" alt="stars">
+<a href="https://github.com/mounthorse-slns/angular-calendar-scheduler/stargazers">
+    <img src="https://img.shields.io/github/stars/mounthorse-slns/angular-calendar-scheduler.svg" alt="stars">
 </a>
-<a href="https://github.com/bm-software/angular-calendar-scheduler/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/bm-software/angular-calendar-scheduler.svg" alt="license">
+<a href="https://github.com/mounthorse-slns/angular-calendar-scheduler/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/mounthorse-slns/angular-calendar-scheduler.svg" alt="license">
 </a>
 
 ___
