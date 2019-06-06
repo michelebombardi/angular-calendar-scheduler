@@ -22,15 +22,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bm-software/angular-calendar-scheduler.git"
+    "url": "git+https://github.com/mounthorse-slns/angular-calendar-scheduler.git"
   },
   "author": "Michele Bombardi (BM Software)",
-  "homepage": "https://github.com/bm-software/angular-calendar-scheduler",
+  "homepage": "https://github.com/mounthorse-slns/angular-calendar-scheduler",
   "bugs": {
-    "url": "https://github.com/bm-software/angular-calendar-scheduler/issues"
+    "url": "https://github.com/mounthorse-slns/angular-calendar-scheduler/issues"
   },
   "keywords": [
     "bmsoftware",
+    "mounthorse",
     "calendar",
     "angular",
     "angular2",
