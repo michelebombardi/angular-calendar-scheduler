@@ -39,12 +39,16 @@ export function provideSchedulerConfig(config: SchedulerConfig) {
  * The main module of this library. Example usage:
  *
  * ```typescript
- * import { CalenderModule } from 'angular-calendar';
+ * import { CalendarModule, DateAdapter } from 'angular-calendar';
+ * import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
  * import { SchedulerModule } from 'angular-calendar-scheduler';
  *
  * @NgModule({
- *   imports: [
- *     CalenderModule.forRoot(),
+ *  imports: [
+ *     CalendarModule.forRoot({
+ *       provide: DateAdapter,
+ *       useFactory: adapterFactory
+ *     }),
  *     SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' })
  *   ]
  * })
