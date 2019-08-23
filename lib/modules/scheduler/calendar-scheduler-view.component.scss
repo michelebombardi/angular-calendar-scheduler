@@ -110,7 +110,7 @@
                     text-align: center;
 
                     .cal-scheduler-time-segment {
-                        flex: 1 0;
+                        // flex: 1 0;
                         cursor: default;
 
                         &:hover {
@@ -244,7 +244,7 @@
                     display: -webkit-box;
                     display: -moz-box;
                     display: -ms-flexbox;
-                    display: flex;
+                    // display: flex;
                     flex-flow: column wrap;
                     position: absolute;
 
