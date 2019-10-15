@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
         }).bind(this);
 
         this.eventModifier = ((event: CalendarSchedulerEvent): void => {
-            event.isDisabled = !this.isDateValid(subHours(event.start, 3));
+            event.isDisabled = !this.isDateValid(event.start);
         }).bind(this);
 
         this.dateOrViewChanged();
