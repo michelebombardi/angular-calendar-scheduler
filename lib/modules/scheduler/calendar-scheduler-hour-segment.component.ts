@@ -88,7 +88,7 @@ export class CalendarSchedulerHourSegmentComponent implements OnInit {
             mouseEvent.stopPropagation();
         }
 
-        if (segment.events.length === 0) {
+        if (segment.events.length === 0 && !segment.isDisabled && !segment.isCancelled) {
             this.segmentClicked.emit({ segment: segment });
         }
     }
