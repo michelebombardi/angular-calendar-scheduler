@@ -88,9 +88,11 @@ export class AppComponent implements OnInit {
         // this.dayModifier = ((day: SchedulerViewDay): void => {
         //     day.cssClass = this.isDateValid(day.date) ? '' : 'cal-disabled';
         // }).bind(this);
+
         // this.hourModifier = ((hour: SchedulerViewHour): void => {
         //     hour.cssClass = this.isDateValid(hour.date) ? '' : 'cal-disabled';
         // }).bind(this);
+
         this.segmentModifier = ((segment: SchedulerViewHourSegment): void => {
             segment.isDisabled = !this.isDateValid(segment.date);
         }).bind(this);
