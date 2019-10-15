@@ -15,6 +15,7 @@ const moment = momentImported;
         <ng-template #defaultTemplate>
             <div class="cal-scheduler-event"
                 [title]="title"
+                [class.cal-cancelled]="event.event.isCancelled"
                 [class.cal-disabled]="event.event.isDisabled"
                 [class.cal-not-clickable]="!event.event.isClickable"
                 [class.cal-draggable]="event.event.draggable"

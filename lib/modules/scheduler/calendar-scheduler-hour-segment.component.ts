@@ -17,6 +17,7 @@ const moment = momentImported;
                 [title]="title"
                 [ngClass]="segment?.cssClass"
                 [class.has-events]="segment.events.length > 0"
+                [class.cal-cancelled]="segment.isCancelled"
                 [class.cal-disabled]="segment.isDisabled"
                 [style.backgroundColor]="segment.backgroundColor"
                 [style.height.px]="hourSegmentHeight"

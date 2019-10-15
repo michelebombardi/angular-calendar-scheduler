@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import {
     endOfDay,
     addMonths,
+    subHours,
 } from 'date-fns';
 import {
     SchedulerViewDay,
@@ -70,7 +71,7 @@ export class AppComponent implements OnInit {
             }
         },
         {
-            when: 'disabled',
+            when: 'cancelled',
             label: '<span class="valign-center"><i class="material-icons md-18 md-red-500">autorenew</i></span>',
             title: 'Restore',
             onClick: (event: CalendarSchedulerEvent): void => {
@@ -95,7 +96,7 @@ export class AppComponent implements OnInit {
         }).bind(this);
 
         this.eventModifier = ((event: CalendarSchedulerEvent): void => {
-            event.isDisabled = !this.isDateValid(event.start);
+            event.isDisabled = !this.isDateValid(subHours(event.start, 3));
         }).bind(this);
 
         this.dateOrViewChanged();

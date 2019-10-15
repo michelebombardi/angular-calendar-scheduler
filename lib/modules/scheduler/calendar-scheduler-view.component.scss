@@ -275,8 +275,10 @@
                         filter: brightness(100%);
                         -webkit-filter: brightness(100%);
                         -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+                        -moz-backface-visibility: hidden;
+                        backface-visibility: hidden;
 
-                        &.cal-disabled {
+                        &.cal-disabled, &.cal-cancelled {
                             background-color: gray !important;
                             // pointer-events: none;
                             filter: grayscale(100%);
@@ -287,13 +289,13 @@
                             cursor: not-allowed !important;
                         }
 
-                        &:not(.cal-disabled):hover {
+                        &:not(.cal-disabled):not(.cal-cancelled):hover {
                             cursor: pointer;
                             filter: brightness(95%);
                             -webkit-filter: brightness(95%);
                         }
 
-                        &:not(.cal-disabled).cal-draggable {
+                        &:not(.cal-disabled):not(.cal-cancelled).cal-draggable {
                             cursor: move;
                         }
 

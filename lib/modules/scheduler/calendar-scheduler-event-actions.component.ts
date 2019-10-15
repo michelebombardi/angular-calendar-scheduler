@@ -31,9 +31,11 @@ export class CalendarSchedulerEventActionsComponent implements OnInit {
     public actions: CalendarSchedulerEventAction[] = [];
 
     public ngOnInit(): void {
-        this.actions = this.event.isDisabled ?
-            this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'disabled') :
-            this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'enabled');
+        this.actions = this.event.isCancelled
+            ? this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'cancelled')
+            : this.event.isDisabled
+                ? this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'disabled')
+                : this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'enabled');
     }
 
     /**

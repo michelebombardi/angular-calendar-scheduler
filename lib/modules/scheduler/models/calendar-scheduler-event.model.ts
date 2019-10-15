@@ -12,6 +12,7 @@ export interface CalendarSchedulerEvent {
     cssClass?: string;
     isDisabled?: boolean;
     isClickable?: boolean;
+    isCancelled?: boolean;
     resizable?: {
         beforeStart?: boolean;
         afterEnd?: boolean;
@@ -22,7 +23,7 @@ export interface CalendarSchedulerEvent {
 export type CalendarSchedulerEventStatus = 'ok' | 'warning' | 'danger';
 
 export interface CalendarSchedulerEventAction {
-    when?: 'enabled' | 'disabled';
+    when?: 'enabled' | 'disabled' | 'cancelled';
     label: string;
     title: string;
     cssClass?: string;

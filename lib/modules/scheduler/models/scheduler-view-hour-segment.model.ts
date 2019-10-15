@@ -6,6 +6,7 @@ export interface SchedulerViewHourSegment {
     date: Date;
     events: CalendarSchedulerEvent[];
     isDisabled: boolean;
+    isCancelled: boolean;
     backgroundColor?: string;
     cssClass?: string;
 }
