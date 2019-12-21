@@ -207,7 +207,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
             const date: Date = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate(), hour.segments[0].date.getHours());
 
             const startOfHour: Date = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate(), hour.segments[0].date.getHours());
-            const endOfHour: Date = dateAdapter.addMinutes(dateAdapter.addHours(startOfHour, 1), -1);
+            const endOfHour: Date = dateAdapter.addSeconds(dateAdapter.addHours(startOfHour, 1), -1);
 
             const eventsInHour: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
                 events: eventsInDay,
@@ -220,7 +220,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
                     segment.date = dateAdapter.setDate(dateAdapter.setMonth(dateAdapter.setYear(segment.date, day.date.getFullYear()), day.date.getMonth()), day.date.getDate());
 
                     const startOfSegment: Date = segment.date;
-                    const endOfSegment: Date = dateAdapter.addMinutes(segment.date, MINUTES_IN_HOUR / hourSegments);
+                    const endOfSegment: Date = dateAdapter.addSeconds(dateAdapter.addMinutes(startOfSegment, MINUTES_IN_HOUR / hourSegments), -1);
 
                     const eventsInSegment: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
                         events: eventsInHour,
@@ -317,7 +317,7 @@ interface IsEventInPeriodArgs {
 
 
 function isEventInPeriod(dateAdapter: DateAdapter, args: IsEventInPeriodArgs): boolean {
-    const { isSameSecond } = dateAdapter;
+    const { isSameSecond, addSeconds } = dateAdapter;
     const event: CalendarSchedulerEvent = args.event, periodStart: string | number | Date = args.periodStart, periodEnd: string | number | Date = args.periodEnd;
     const eventStart: Date = event.start;
     const eventEnd: Date = event.end || event.start;
@@ -338,7 +338,7 @@ function isEventInPeriod(dateAdapter: DateAdapter, args: IsEventInPeriodArgs): b
         return true;
     }
 
-    if (isSameSecond(eventEnd, periodStart) || isSameSecond(eventEnd, periodEnd)) {
+    if (isSameSecond(addSeconds(eventEnd, -1), periodStart) || isSameSecond(eventEnd, periodEnd)) {
         return true;
     }
 

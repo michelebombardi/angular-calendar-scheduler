@@ -3,6 +3,15 @@
         box-sizing: border-box;
     }
 
+    .unselectable {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
     .cal-scheduler-headers {
         display: -webkit-box;
         display: -moz-box;
@@ -234,6 +243,7 @@
                                 font-weight: bold;
                                 font-size: .7em;
                                 color: #6c757d;
+                                cursor: default;
                             }
                         }
                     }

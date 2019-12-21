@@ -22,7 +22,7 @@ const moment = momentImported;
                 [style.backgroundColor]="segment.backgroundColor"
                 [style.height.px]="hourSegmentHeight"
                 (mwlClick)="onSegmentClick($event, segment)">
-                <div class="cal-scheduler-time" *ngIf="showHour">
+                <div class="cal-scheduler-time unselectable" *ngIf="showHour && segment.events.length === 0">
                     {{ segment.date | calendarDate:'dayViewHour':locale }}
                 </div>
             </div>

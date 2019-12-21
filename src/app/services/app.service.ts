@@ -82,6 +82,42 @@ export class AppService {
                 isDisabled: false
             },
             <CalendarSchedulerEvent>{
+                id: '51',
+                start: addDays(startOfHour(setHours(new Date(), 6)), 2),
+                end: addHours(addDays(startOfHour(setHours(new Date(), 6)), 2), 1),
+                title: 'Event 51',
+                content: 'EARLY EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
+                id: '52',
+                start: addHours(addDays(startOfHour(setHours(new Date(), 6)), 2), 1),
+                end: addHours(addDays(startOfHour(setHours(new Date(), 6)), 2), 2),
+                title: 'Event 52',
+                content: 'EARLY EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
+                id: '53',
+                start: addHours(addDays(startOfHour(setHours(new Date(), 6)), 2), 2),
+                end: addHours(addDays(startOfHour(setHours(new Date(), 6)), 2), 3),
+                title: 'Event 53',
+                content: 'EARLY EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
                 id: '6',
                 start: startOfHour(setHours(new Date(), 22)),
                 end: addHours(startOfHour(setHours(new Date(), 22)), 10),
