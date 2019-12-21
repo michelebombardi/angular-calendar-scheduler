@@ -67,7 +67,7 @@
     "angular-calendar": "^0.26.0",
     "angular-draggable-droppable": "^4.0.1",
     "angular-resizable-element": "^3.2.2",
-    "bootstrap": "^4.1.1",
+    "bootstrap": "^4.3.1",
     "codelyzer": "~4.5.0",
     "copyfiles": "^2.1.0",
     "core-js": "^3.0.1",
