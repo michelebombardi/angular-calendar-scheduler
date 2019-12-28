@@ -8,8 +8,8 @@
     SchedulerViewPeriod
 } from '../models';
 import {
-    DayViewHour,
-    DayViewHourSegment
+    WeekViewHour,
+    WeekViewHourSegment
 } from 'calendar-utils';
 import { DateAdapter } from 'angular-calendar';
 
@@ -51,9 +51,9 @@ export interface GetSchedulerViewHourGridArgs {
     };
 }
 
-export function getSchedulerViewHourGrid(dateAdapter: DateAdapter, args: GetSchedulerViewHourGridArgs): DayViewHour[] {
+export function getSchedulerViewHourGrid(dateAdapter: DateAdapter, args: GetSchedulerViewHourGridArgs): WeekViewHour[] {
     const viewDate: Date = args.viewDate, hourSegments: number = args.hourSegments, dayStart: any = args.dayStart, dayEnd: any = args.dayEnd;
-    const hours: DayViewHour[] = [];
+    const hours: WeekViewHour[] = [];
 
     const startOfView: Date = dateAdapter.setMinutes(dateAdapter.setHours(dateAdapter.startOfDay(viewDate), dayStart.hour), dayStart.minute);
     const endOfView: Date = dateAdapter.setMinutes(dateAdapter.setHours(dateAdapter.startOfMinute(dateAdapter.endOfDay(viewDate)), dayEnd.hour), dayEnd.minute);
@@ -75,7 +75,7 @@ export function getSchedulerViewHourGrid(dateAdapter: DateAdapter, args: GetSche
             }
         }
         if (segments.length > 0) {
-            hours.push(<DayViewHour>{ segments: segments });
+            hours.push(<WeekViewHour>{ segments: segments });
         }
     });
     return hours;
@@ -203,7 +203,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
                 hour: dayEnd.hour,
                 minute: dayEnd.minute
             }
-        }).map((hour: DayViewHour) => {
+        }).map((hour: WeekViewHour) => {
             const date: Date = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate(), hour.segments[0].date.getHours());
 
             const startOfHour: Date = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate(), hour.segments[0].date.getHours());
@@ -216,7 +216,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
             });
 
             const segments: SchedulerViewHourSegment[] =
-                hour.segments.map((segment: DayViewHourSegment) => {
+                hour.segments.map((segment: WeekViewHourSegment) => {
                     segment.date = dateAdapter.setDate(dateAdapter.setMonth(dateAdapter.setYear(segment.date, day.date.getFullYear()), day.date.getMonth()), day.date.getDate());
 
                     const startOfSegment: Date = segment.date;

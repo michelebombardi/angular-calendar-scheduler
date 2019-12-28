@@ -15,6 +15,7 @@ const moment = momentImported;
         <ng-template #defaultTemplate>
             <div class="cal-scheduler-event"
                 [title]="title"
+                [style.max-width.px]="container.clientWidth - 4"
                 [class.cal-cancelled]="event.event.isCancelled"
                 [class.cal-disabled]="event.event.isDisabled"
                 [class.cal-not-clickable]="!event.event.isClickable"
@@ -68,6 +69,8 @@ export class CalendarSchedulerEventComponent implements OnInit {
     @Input() day: SchedulerViewDay;
 
     @Input() event: SchedulerViewEvent;
+
+    @Input() container: HTMLElement;
 
     @Input() showContent: boolean = true;
 

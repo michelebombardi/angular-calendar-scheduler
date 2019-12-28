@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import {
-    DayViewHour
+    WeekViewHour
 } from 'calendar-utils';
 import {
     isBefore
@@ -141,6 +141,7 @@ import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provide
                             <calendar-scheduler-event
                                 [day]="day"
                                 [event]="event"
+                                [container]="eventContainer"
                                 [showContent]="showEventContent && event.height >= 75"
                                 [showActions]="showEventActions"
                                 [showStatus]="showEventStatus"
@@ -379,7 +380,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     /**
      * @hidden
      */
-    hours: DayViewHour[] = [];
+    hours: WeekViewHour[] = [];
 
     /**
      * @hidden

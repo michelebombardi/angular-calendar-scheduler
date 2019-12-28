@@ -40,9 +40,9 @@ import {
 })
 export class CalendarSchedulerEventTitleComponent {
 
-    @Input() event: CalendarSchedulerEvent;
-
     @Input() view: string;
+
+    @Input() event: CalendarSchedulerEvent;
 
     @Input() showStatus: boolean = true;
 

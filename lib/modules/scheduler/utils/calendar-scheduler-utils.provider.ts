@@ -7,7 +7,7 @@ import {
     getSchedulerView,
     GetSchedulerViewArgs
 } from './calendar-scheduler-utils';
-import { DayViewHour } from 'calendar-utils';
+import { WeekViewHour } from 'calendar-utils';
 import { SchedulerView, SchedulerViewDay } from '../models';
 import { DateAdapter } from 'angular-calendar';
 
@@ -15,7 +15,7 @@ import { DateAdapter } from 'angular-calendar';
 export class CalendarSchedulerUtils {
     constructor(private dateAdapter: DateAdapter) { }
 
-    getSchedulerViewHourGrid(args: GetSchedulerViewHourGridArgs): DayViewHour[] {
+    getSchedulerViewHourGrid(args: GetSchedulerViewHourGridArgs): WeekViewHour[] {
         return getSchedulerViewHourGrid(this.dateAdapter, args);
     }
 

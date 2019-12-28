@@ -1,4 +1,4 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
     CalendarSchedulerEvent
 } from './models';
@@ -18,5 +18,4 @@ import {
 export class CalendarSchedulerEventContentComponent {
 
     @Input() event: CalendarSchedulerEvent;
-
 }

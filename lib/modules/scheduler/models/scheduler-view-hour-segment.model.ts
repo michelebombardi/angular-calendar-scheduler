@@ -1,8 +1,8 @@
-import { DayViewHourSegment } from 'calendar-utils';
+import { WeekViewHourSegment } from 'calendar-utils';
 import { CalendarSchedulerEvent } from './calendar-scheduler-event.model';
 
 export interface SchedulerViewHourSegment {
-    segment: DayViewHourSegment;
+    segment: WeekViewHourSegment;
     date: Date;
     events: CalendarSchedulerEvent[];
     isDisabled: boolean;
