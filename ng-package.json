@@ -1,11 +1,6 @@
 {
     "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
     "lib": {
-      "entryFile": "lib/public_api.ts",
-      "externals": {
-        "angular-calendar": "angularCalendar",
-        "date-fns": "dateFns",
-        "calendar-utils": "calendarUtils"
-      }
+      "entryFile": "lib/public_api.ts"
     }
   }
