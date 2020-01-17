@@ -35,7 +35,7 @@ export class CalendarSchedulerEventActionsComponent implements OnInit, OnChanges
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.when) {
+        if (changes.event) {
             this.setupActions();
         }
     }
