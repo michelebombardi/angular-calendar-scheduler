@@ -1,4 +1,4 @@
-﻿import { Component, Input, OnInit } from '@angular/core';
+﻿import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import {
     CalendarSchedulerEvent,
     CalendarSchedulerEventAction
@@ -24,13 +24,23 @@ import {
         'class': 'cal-scheduler-event-actions-container'
     }
 })
-export class CalendarSchedulerEventActionsComponent implements OnInit {
+export class CalendarSchedulerEventActionsComponent implements OnInit, OnChanges {
 
     @Input() event: CalendarSchedulerEvent;
 
     public actions: CalendarSchedulerEventAction[] = [];
 
     public ngOnInit(): void {
+        this.setupActions();
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.when) {
+            this.setupActions();
+        }
+    }
+
+    private setupActions(): void {
         this.actions = this.event.isCancelled
             ? this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'cancelled')
             : this.event.isDisabled
