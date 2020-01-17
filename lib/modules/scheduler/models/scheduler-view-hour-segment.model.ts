@@ -1,10 +1,10 @@
 import { WeekViewHourSegment } from 'calendar-utils';
-import { CalendarSchedulerEvent } from './calendar-scheduler-event.model';
+import { SchedulerViewEvent } from './scheduler-view-event.model';
 
 export interface SchedulerViewHourSegment {
     segment: WeekViewHourSegment;
     date: Date;
-    events: CalendarSchedulerEvent[];
+    events: SchedulerViewEvent[];
     isDisabled: boolean;
     isCancelled: boolean;
     backgroundColor?: string;

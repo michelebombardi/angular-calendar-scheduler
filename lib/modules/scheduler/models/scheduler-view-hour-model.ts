@@ -1,11 +1,11 @@
 import { WeekViewHour } from 'calendar-utils';
-import { CalendarSchedulerEvent } from './calendar-scheduler-event.model';
 import { SchedulerViewHourSegment } from './scheduler-view-hour-segment.model';
+import { SchedulerViewEvent } from './scheduler-view-event.model';
 
 export interface SchedulerViewHour {
     hour: WeekViewHour;
     date: Date;
-    events: CalendarSchedulerEvent[];
+    events: SchedulerViewEvent[];
     segments: SchedulerViewHourSegment[];
     backgroundColor?: string;
     cssClass?: string;

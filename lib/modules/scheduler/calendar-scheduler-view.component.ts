@@ -50,7 +50,6 @@ import {
 import {
     DEFAULT_HOUR_SEGMENTS,
     DEFAULT_HOUR_SEGMENT_HEIGHT_PX,
-    DEFAULT_EVENT_WIDTH_PERCENT,
     MINUTES_IN_HOUR
 } from './utils/calendar-scheduler-utils';
 import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provider';
@@ -333,11 +332,6 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     @Input() dayEndMinute: number = 59;
 
     /**
-     * The width in pixels of each event on the view
-     */
-    @Input() eventWidthPercent: number = DEFAULT_EVENT_WIDTH_PERCENT;
-
-    /**
      * Called when a header week day is clicked
      */
     @Output() dayHeaderClicked: EventEmitter<{ day: SchedulerViewDay }> = new EventEmitter<{ day: SchedulerViewDay }>();
@@ -565,12 +559,6 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     private refreshBody(events?: CalendarSchedulerEvent[]): void {
         this.view = this.getSchedulerView(events || this.events);
 
-        this.view.days.forEach((day: SchedulerViewDay) => {
-            day.events.forEach((event: SchedulerViewEvent) => {
-                this.scaleOverlappingEvents(event.event.start, event.event.end, day.events);
-            });
-        });
-
         if (this.dayModifier) {
             this.days.forEach(day => this.dayModifier(day));
         }
@@ -621,44 +609,9 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
                 minute: this.dayEndMinute
             },
             excluded: this.excludeDays,
-            eventWidth: this.eventWidthPercent,
+            eventWidth: 1,
             hourSegmentHeight: this.hourSegmentHeight
         });
-    }
-
-    private scaleOverlappingEvents(startTime: Date, endTime: Date, events: SchedulerViewEvent[]): void {
-        let newStartTime: Date = startTime;
-        let newEndTime: Date = endTime;
-        const overlappingEvents: SchedulerViewEvent[] = [];
-        let maxLeft = 0;
-        events.forEach((event: SchedulerViewEvent) => {
-            if (event.isProcessed) {
-                return;
-            }
-            if (event.event.start < startTime && event.event.end > startTime) {
-                newStartTime = event.event.start;
-            } else if (event.event.end > endTime && event.event.start < endTime) {
-                newEndTime = event.event.end;
-            } else if (event.event.end <= endTime && event.event.start >= startTime) {
-                // Nothing, but remove condition and add equals to above two for overlapping effect
-            } else {
-                return;
-            }
-            if (event.left > maxLeft) {
-                maxLeft = event.left;
-            }
-            overlappingEvents.push(event);
-        });
-        if (startTime === newStartTime && endTime === newEndTime) {
-            const divisorFactor = Math.floor(maxLeft / this.eventWidthPercent) + 1;
-            overlappingEvents.forEach((event: SchedulerViewEvent) => {
-                event.isProcessed = true;
-                event.left /= divisorFactor;
-                event.width /= divisorFactor;
-            });
-        } else {
-            this.scaleOverlappingEvents(newStartTime, newEndTime, events);
-        }
     }
 
 

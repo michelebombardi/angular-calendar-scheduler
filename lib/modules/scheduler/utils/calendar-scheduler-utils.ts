@@ -35,49 +35,86 @@ export const MINUTES_IN_HOUR: number = 60;
 export const SECONDS_IN_DAY: number = 60 * 60 * 24;
 
 export const DEFAULT_HOUR_SEGMENT_HEIGHT_PX = 40;
-export const DEFAULT_EVENT_WIDTH_PERCENT = 100;
+export const DEFAULT_EVENT_WIDTH = 1;
 export const DEFAULT_HOUR_SEGMENTS = 2;
+
+interface Time {
+    hour: number;
+    minute: number;
+  }
 
 export interface GetSchedulerViewHourGridArgs {
     viewDate: Date;
     hourSegments: number;
-    dayStart: {
-        hour: number;
-        minute: number;
-    };
-    dayEnd: {
-        hour: number;
-        minute: number;
-    };
+    dayStart: Time;
+    dayEnd: Time;
 }
 
-export function getSchedulerViewHourGrid(dateAdapter: DateAdapter, args: GetSchedulerViewHourGridArgs): WeekViewHour[] {
-    const viewDate: Date = args.viewDate, hourSegments: number = args.hourSegments, dayStart: any = args.dayStart, dayEnd: any = args.dayEnd;
+export function getSchedulerViewHourGrid(
+    dateAdapter: DateAdapter,
+    {
+        viewDate,
+        hourSegments,
+        dayStart,
+        dayEnd
+    }: GetSchedulerViewHourGridArgs
+): WeekViewHour[] {
+    const {
+        setMinutes,
+        setHours,
+        startOfDay,
+        startOfMinute,
+        endOfDay,
+        addMinutes,
+        addHours,
+        addDays
+      } = dateAdapter;
     const hours: WeekViewHour[] = [];
 
-    const startOfView: Date = dateAdapter.setMinutes(dateAdapter.setHours(dateAdapter.startOfDay(viewDate), dayStart.hour), dayStart.minute);
-    const endOfView: Date = dateAdapter.setMinutes(dateAdapter.setHours(dateAdapter.startOfMinute(dateAdapter.endOfDay(viewDate)), dayEnd.hour), dayEnd.minute);
+    let startOfView: Date = setMinutes(
+        setHours(startOfDay(viewDate), sanitiseHours(dayStart.hour)),
+        sanitiseMinutes(dayStart.minute)
+    );
+    let endOfView: Date = setMinutes(
+        setHours(startOfMinute(endOfDay(viewDate)), sanitiseHours(dayEnd.hour)),
+        sanitiseMinutes(dayEnd.minute)
+    );
     const segmentDuration: number = MINUTES_IN_HOUR / hourSegments;
-    const startOfViewDay: Date = dateAdapter.startOfDay(viewDate);
+    let startOfViewDay: Date = startOfDay(viewDate);
+    const endOfViewDay: Date = endOfDay(viewDate);
+    let dateAdjustment: (d: Date) => Date = (d: Date) => d;
 
-    const range = (start: number, end: number): number[] => Array.from({ length: ((end + 1) - start) }, (v, k) => k + start);
-    const hoursInView: number[] = range(dayStart.hour, dayEnd.hour);
+    // this means that we change from or to DST on this day and that's going to cause problems so we bump the date
+    if (startOfViewDay.getTimezoneOffset() !== endOfViewDay.getTimezoneOffset()) {
+        startOfViewDay = addDays(startOfViewDay, 1);
+        startOfView = addDays(startOfView, 1);
+        endOfView = addDays(endOfView, 1);
+        dateAdjustment = (d: Date) => addDays(d, -1);
+    }
 
-    hoursInView.forEach((hour: number, i: number) => {
-        const segments = [];
-        for (let j = 0; j < hourSegments; j++) {
-            const date = dateAdapter.addMinutes(dateAdapter.addHours(startOfViewDay, hour), j * segmentDuration);
-            if (date >= startOfView && date < endOfView) {
-                segments.push({
-                    date: date,
-                    isStart: j === 0
-                });
-            }
+    for (let i: number = 0; i < HOURS_IN_DAY; i++) {
+    }
+
+    for (let i: number = 0; i < HOURS_IN_DAY; i++) {
+        const segments: WeekViewHourSegment[] = [];
+        for (let j: number = 0; j < hourSegments; j++) {
+          const date: Date = addMinutes(
+            addHours(startOfViewDay, i),
+            j * segmentDuration
+          );
+          if (date >= startOfView && date < endOfView) {
+            segments.push({
+              date: dateAdjustment(date),
+              displayDate: date,
+              isStart: j === 0
+            });
+          }
         }
         if (segments.length > 0) {
-            hours.push(<WeekViewHour>{ segments: segments });
+          hours.push({ segments });
         }
-    });
+    }
+
     return hours;
 }
 
@@ -87,34 +124,35 @@ export interface GetSchedulerViewArgs {
     hourSegments: 1 | 2 | 4 | 6;
     weekStartsOn: number;
     startsWithToday: boolean;
-    dayStart: {
-        hour: number;
-        minute: number;
-    };
-    dayEnd: {
-        hour: number;
-        minute: number;
-    };
+    dayStart: Time;
+    dayEnd: Time;
+    weekendDays?: number[];
     excluded?: number[];
     eventWidth: number;
     hourSegmentHeight: number;
 }
 
-export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerViewArgs): SchedulerView {
-    let events: CalendarSchedulerEvent[] = args.events || [];
+export function getSchedulerView(
+    dateAdapter: DateAdapter,
+    {
+        events = [],
+        viewDate,
+        weekStartsOn,
+        startsWithToday,
+        excluded = [],
+        hourSegments = DEFAULT_HOUR_SEGMENTS,
+        dayStart,
+        dayEnd,
+        weekendDays = DEFAULT_WEEKEND_DAYS,
+        hourSegmentHeight = DEFAULT_HOUR_SEGMENT_HEIGHT_PX,
+        eventWidth = DEFAULT_EVENT_WIDTH
+    }: GetSchedulerViewArgs
+): SchedulerView {
     if (!events) { events = []; }
 
-    const viewDate: Date = args.viewDate;
-    const weekStartsOn: number = args.weekStartsOn;
-    const startsWithToday: boolean = args.startsWithToday;
-    const excluded: number[] = args.excluded || [];
-    const hourSegments: number = args.hourSegments || DEFAULT_HOUR_SEGMENTS;
-    const hourSegmentHeight: number = args.hourSegmentHeight || DEFAULT_HOUR_SEGMENT_HEIGHT_PX;
-    const eventWidth: number = args.eventWidth || DEFAULT_EVENT_WIDTH_PERCENT;
-    const dayStart: any = args.dayStart, dayEnd: any = args.dayEnd;
-
-    const startOfViewWeek: Date = startsWithToday ? dateAdapter.startOfDay(viewDate) : dateAdapter.startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
-    const endOfViewWeek: Date = startsWithToday ? dateAdapter.addDays(dateAdapter.endOfDay(viewDate), 6) : dateAdapter.endOfWeek(viewDate, { weekStartsOn: weekStartsOn });
+    const { addDays, startOfDay, endOfDay, startOfWeek, endOfWeek } = dateAdapter;
+    const startOfViewWeek: Date = startsWithToday ? startOfDay(viewDate) : startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
+    const endOfViewWeek: Date = startsWithToday ? addDays(endOfDay(viewDate), 6) : endOfWeek(viewDate, { weekStartsOn: weekStartsOn });
 
     const eventsInWeek: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
         events: events,
@@ -126,7 +164,8 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
         viewDate: viewDate,
         weekStartsOn: weekStartsOn,
         startsWithToday: startsWithToday,
-        excluded: excluded
+        excluded: excluded,
+        weekendDays: weekendDays
     });
     days.forEach((day: SchedulerViewDay) => {
         const startOfView: Date = dateAdapter.setMinutes(dateAdapter.setHours(dateAdapter.startOfDay(day.date), dayStart.hour), dayStart.minute);
@@ -139,7 +178,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
             periodEnd: endOfView
         });
 
-        day.events = eventsInDay
+        const dayEvents = eventsInDay
             .sort((eventA: CalendarSchedulerEvent, eventB: CalendarSchedulerEvent) => eventA.start.valueOf() - eventB.start.valueOf())
             .map((ev: CalendarSchedulerEvent) => {
                 const eventStart: Date = ev.start;
@@ -176,21 +215,80 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
                 }
 
                 const event: SchedulerViewEvent =
-                <SchedulerViewEvent>{
-                    event: ev,
-                    top: top,
-                    height: height,
-                    width: eventWidth,
-                    left: left,
-                    startsBeforeDay: startsBeforeDay,
-                    endsAfterDay: endsAfterDay,
-                    isProcessed: false
-                };
+                    <SchedulerViewEvent>{
+                        event: ev,
+                        top: top,
+                        height: height,
+                        width: eventWidth,
+                        left: left,
+                        startsBeforeDay: startsBeforeDay,
+                        endsAfterDay: endsAfterDay,
+                        isProcessed: false
+                    };
 
                 previousDayEvents.push(event);
 
                 return event;
             });
+
+        function getColumnCount(
+            allEvents: SchedulerViewEvent[],
+            prevOverlappingEvents: SchedulerViewEvent[]
+        ): number {
+            const columnCount = Math.max(
+                ...prevOverlappingEvents.map((ev: SchedulerViewEvent) => ev.left + 1)
+            );
+
+            const nextOverlappingEvents = allEvents
+                .filter((ev: SchedulerViewEvent) => ev.left >= columnCount)
+                .filter((ev: SchedulerViewEvent) => {
+                    return (
+                        getOverLappingDayViewEvents(
+                            prevOverlappingEvents,
+                            ev.top,
+                            ev.top + ev.height
+                        ).length > 0
+                    );
+            });
+
+            if (nextOverlappingEvents.length > 0) {
+                return getColumnCount(allEvents, nextOverlappingEvents);
+            } else {
+                return columnCount;
+            }
+        }
+
+        const mappedEvents = dayEvents.map(event => {
+            const columnCount = getColumnCount(
+                dayEvents,
+                getOverLappingDayViewEvents(
+                    dayEvents,
+                    event.top,
+                    event.top + event.height
+                )
+            );
+
+            const width = 100 / columnCount;
+            return { ...event, left: event.left * width, width };
+        });
+
+        day.events = mappedEvents.map(event => {
+            const overLappingEvents = getOverLappingDayViewEvents(
+              mappedEvents.filter(otherEvent => otherEvent.left > event.left),
+              event.top,
+              event.top + event.height
+            );
+            if (overLappingEvents.length > 0) {
+              return {
+                ...event,
+                width:
+                  Math.min(
+                    ...overLappingEvents.map(otherEvent => otherEvent.left)
+                  ) - event.left
+              };
+            }
+            return event;
+        });
 
         day.hours = getSchedulerViewHourGrid(dateAdapter, {
             viewDate: viewDate,
@@ -209,8 +307,8 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
             const startOfHour: Date = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate(), hour.segments[0].date.getHours());
             const endOfHour: Date = dateAdapter.addSeconds(dateAdapter.addHours(startOfHour, 1), -1);
 
-            const eventsInHour: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
-                events: eventsInDay,
+            const eventsInHour: SchedulerViewEvent[] = getSchedulerEventsInPeriod(dateAdapter, {
+                events: day.events,
                 periodStart: startOfHour,
                 periodEnd: endOfHour
             });
@@ -222,7 +320,7 @@ export function getSchedulerView(dateAdapter: DateAdapter, args: GetSchedulerVie
                     const startOfSegment: Date = segment.date;
                     const endOfSegment: Date = dateAdapter.addSeconds(dateAdapter.addMinutes(startOfSegment, MINUTES_IN_HOUR / hourSegments), -1);
 
-                    const eventsInSegment: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
+                    const eventsInSegment: SchedulerViewEvent[] = getSchedulerEventsInPeriod(dateAdapter, {
                         events: eventsInHour,
                         periodStart: startOfSegment,
                         periodEnd: endOfSegment
@@ -262,14 +360,19 @@ export interface GetSchedulerViewDaysArgs {
     weekendDays?: number[];
 }
 
-export function getSchedulerViewDays(dateAdapter: DateAdapter, args: GetSchedulerViewDaysArgs): SchedulerViewDay[] {
-    const viewDate: Date = args.viewDate;
-    const weekStartsOn: number = args.weekStartsOn;
-    const startsWithToday: boolean = args.startsWithToday;
-    const excluded: number[] = args.excluded || [];
-    const weekendDays: number[] = args.weekendDays || DEFAULT_WEEKEND_DAYS;
-
-    const start = startsWithToday ? new Date(viewDate) : dateAdapter.startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
+export function getSchedulerViewDays(
+    dateAdapter: DateAdapter,
+    {
+        viewDate,
+        weekStartsOn,
+        startsWithToday,
+        excluded = [],
+        weekendDays = DEFAULT_WEEKEND_DAYS
+    }: GetSchedulerViewDaysArgs
+): SchedulerViewDay[] {
+    const start = startsWithToday
+        ? new Date(viewDate)
+        : dateAdapter.startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
     const days: SchedulerViewDay[] = [];
     const loop = (i: number) => {
         const date = dateAdapter.addDays(start, i);
@@ -304,9 +407,32 @@ export interface GetEventsInPeriodArgs {
     periodEnd: Date;
 }
 
-function getEventsInPeriod(dateAdapter: DateAdapter, args: GetEventsInPeriodArgs): CalendarSchedulerEvent[] {
-    const events: CalendarSchedulerEvent[] = args.events, periodStart: string | number | Date = args.periodStart, periodEnd: string | number | Date = args.periodEnd;
+function getEventsInPeriod(
+    dateAdapter: DateAdapter,
+    {
+        events,
+        periodStart,
+        periodEnd
+    }: GetEventsInPeriodArgs
+): CalendarSchedulerEvent[] {
     return events.filter((event) => isEventInPeriod(dateAdapter, { event: event, periodStart: periodStart, periodEnd: periodEnd }));
+}
+
+export interface GetSchedulerEventsInPeriodArgs {
+    events: SchedulerViewEvent[];
+    periodStart: Date;
+    periodEnd: Date;
+}
+
+function getSchedulerEventsInPeriod(
+    dateAdapter: DateAdapter,
+    {
+        events,
+        periodStart,
+        periodEnd
+    }: GetSchedulerEventsInPeriodArgs
+): SchedulerViewEvent[] {
+    return events.filter((event) => isEventInPeriod(dateAdapter, { event: event.event, periodStart: periodStart, periodEnd: periodEnd }));
 }
 
 interface IsEventInPeriodArgs {
@@ -314,7 +440,6 @@ interface IsEventInPeriodArgs {
     periodStart: Date;
     periodEnd: Date;
 }
-
 
 function isEventInPeriod(dateAdapter: DateAdapter, { event, periodStart, periodEnd}: IsEventInPeriodArgs): boolean {
     const { isSameSecond } = dateAdapter;
@@ -360,4 +485,13 @@ function getOverLappingDayViewEvents(events: SchedulerViewEvent[], top: number, 
 
         return false;
     });
+}
+
+
+function sanitiseHours(hours: number): number {
+    return Math.max(Math.min(23, hours), 0);
+}
+
+function sanitiseMinutes(minutes: number): number {
+    return Math.max(Math.min(59, minutes), 0);
 }
