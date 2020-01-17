@@ -316,9 +316,8 @@ interface IsEventInPeriodArgs {
 }
 
 
-function isEventInPeriod(dateAdapter: DateAdapter, args: IsEventInPeriodArgs): boolean {
-    const { isSameSecond, addSeconds } = dateAdapter;
-    const event: CalendarSchedulerEvent = args.event, periodStart: string | number | Date = args.periodStart, periodEnd: string | number | Date = args.periodEnd;
+function isEventInPeriod(dateAdapter: DateAdapter, { event, periodStart, periodEnd}: IsEventInPeriodArgs): boolean {
+    const { isSameSecond } = dateAdapter;
     const eventStart: Date = event.start;
     const eventEnd: Date = event.end || event.start;
 
@@ -338,7 +337,7 @@ function isEventInPeriod(dateAdapter: DateAdapter, args: IsEventInPeriodArgs): b
         return true;
     }
 
-    if (isSameSecond(addSeconds(eventEnd, -1), periodStart) || isSameSecond(eventEnd, periodEnd)) {
+    if (isSameSecond(eventEnd, periodStart) || isSameSecond(eventEnd, periodEnd)) {
         return true;
     }
 
