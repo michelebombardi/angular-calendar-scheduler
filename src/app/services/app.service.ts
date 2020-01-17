@@ -8,6 +8,7 @@ import {
     addDays,
     startOfHour,
     addHours,
+    subHours,
     setHours,
     subMinutes
 } from 'date-fns';
@@ -34,6 +35,23 @@ export class AppService {
                 }
             },
             <CalendarSchedulerEvent>{
+                id: '12',
+                start: subHours(addDays(startOfHour(new Date()), 1), 1),
+                end: subHours(addDays(addHours(startOfHour(new Date()), 1), 1), 1),
+                title: 'Event 12',
+                content: 'IMPORTANT EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'danger' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false,
+                draggable: true,
+                resizable: {
+                    beforeStart: true,
+                    afterEnd: true
+                }
+            },
+            <CalendarSchedulerEvent>{
                 id: '2',
                 start: addDays(startOfHour(new Date()), 2),
                 end: subMinutes(addDays(addHours(startOfHour(new Date()), 2), 2), 15),
@@ -46,10 +64,34 @@ export class AppService {
                 isDisabled: false
             },
             <CalendarSchedulerEvent>{
+                id: '22',
+                start: subHours(addDays(startOfHour(new Date()), 2), 1),
+                end: subHours(addDays(addHours(startOfHour(new Date()), 1), 2), 1),
+                title: 'Event 22',
+                content: 'LESS IMPORTANT EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'warning' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
                 id: '3',
                 start: addDays(startOfHour(new Date()), 3),
                 end: addDays(addHours(startOfHour(new Date()), 3), 3),
                 title: 'Event 3',
+                content: 'NOT IMPORTANT EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
+                id: '32',
+                start: subHours(addDays(startOfHour(new Date()), 3), 1),
+                end: subHours(addDays(addHours(startOfHour(new Date()), 1), 3), 1),
+                title: 'Event 32',
                 content: 'NOT IMPORTANT EVENT',
                 color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
                 actions: actions,

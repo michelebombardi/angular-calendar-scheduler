@@ -401,6 +401,11 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     /**
      * @hidden
      */
+    dragAlreadyMoved = false;
+
+    /**
+     * @hidden
+     */
     validateResize: (args: any) => boolean;
 
     /**
@@ -806,9 +811,16 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             eventsContainer,
             eventContainer
         );
-        this.validateDrag = ({ x, y }) =>
-            this.resizes.size === 0 && dragHelper.validateDrag({ x, y, snapDraggedEvents: this.snapDraggedEvents });
+        this.validateDrag = ({ x, y, transform }) =>
+            this.resizes.size === 0 && dragHelper.validateDrag({
+                x,
+                y,
+                snapDraggedEvents: this.snapDraggedEvents,
+                dragAlreadyMoved: this.dragAlreadyMoved,
+                transform
+            });
             this.dragActive = true;
+            this.dragAlreadyMoved = false;
             this.eventDragEnter = 0;
             if (!this.snapDraggedEvents && event) {
                 this.view.days.forEach((day: SchedulerViewDay) => {
@@ -845,13 +857,17 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
 
             this.restoreOriginalEvents(tempEvents, new Map([[adjustedEvent, originalEvent]]));
         }
+        this.dragAlreadyMoved = true;
     }
 
     dragEnded(event: SchedulerViewEvent, dragEndEvent: DragEndEvent, dayWidth: number, useY = false): void {
         this.view = this.getSchedulerView(this.events);
         this.dragActive = false;
         const { start, end } = this.getDragMovedEventTimes(event, dragEndEvent, dayWidth, useY);
-        if (this.eventDragEnter > 0 && isDraggedWithinPeriod(start, end, this.view.period)) {
+        if (
+            this.eventDragEnter > 0 &&
+            isDraggedWithinPeriod(start, end, this.view.period)
+        ) {
             this.eventTimesChanged.emit(
                 <SchedulerEventTimesChangedEvent>{
                     newStart: start,
