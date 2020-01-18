@@ -209,10 +209,11 @@ export function getSchedulerView(
                 }
 
                 const bottom: number = top + height;
-                const overlappingPreviousEvents = getOverLappingDayViewEvents(
+                const overlappingPreviousEvents = getOverLappingEvents(
                     previousDayEvents,
                     top,
-                    bottom
+                    bottom,
+                    logEnabled
                 );
 
                 let left: number = 0;
@@ -248,10 +249,11 @@ export function getSchedulerView(
                 .filter((ev: SchedulerViewEvent) => ev.left >= columnCount)
                 .filter((ev: SchedulerViewEvent) => {
                     return (
-                        getOverLappingDayViewEvents(
+                        getOverLappingEvents(
                             prevOverlappingEvents,
                             ev.top,
-                            ev.top + ev.height
+                            ev.top + ev.height,
+                            logEnabled
                         ).length > 0
                     );
             });
@@ -266,10 +268,11 @@ export function getSchedulerView(
         const mappedEvents = dayEvents.map(event => {
             const columnCount = getColumnCount(
                 dayEvents,
-                getOverLappingDayViewEvents(
+                getOverLappingEvents(
                     dayEvents,
                     event.top,
-                    event.top + event.height
+                    event.top + event.height,
+                    logEnabled
                 )
             );
 
@@ -278,10 +281,11 @@ export function getSchedulerView(
         });
 
         day.events = mappedEvents.map(event => {
-            const overLappingEvents = getOverLappingDayViewEvents(
+            const overLappingEvents = getOverLappingEvents(
               mappedEvents.filter(otherEvent => otherEvent.left > event.left),
               event.top,
-              event.top + event.height
+              event.top + event.height,
+              logEnabled
             );
 
             if (logEnabled) {
@@ -490,30 +494,29 @@ function isEventInPeriod(dateAdapter: DateAdapter, { event, periodStart, periodE
 }
 
 
-function getOverLappingDayViewEvents(events: SchedulerViewEvent[], top: number, bottom: number): SchedulerViewEvent[] {
+function getOverLappingEvents(events: SchedulerViewEvent[], top: number, bottom: number, logEnabled: boolean = false): SchedulerViewEvent[] {
     return events.filter((previousEvent: SchedulerViewEvent) => {
-        const previousEventTop: number = previousEvent.top;
-        const previousEventBottom: number = previousEvent.top + previousEvent.height;
+        top = Math.round(top);
+        bottom = Math.round(bottom);
+        const previousEventTop: number = Math.round(previousEvent.top);
+        const previousEventBottom: number = Math.round(previousEvent.top + previousEvent.height);
 
         if (top < previousEventBottom && previousEventBottom < bottom) {
-            if (previousEvent.event.id === '41' || previousEvent.event.id === '44') {
-                console.log('EVENT ' + previousEvent.event.id + ' -> top: ' + top + ' - bottom: ' + bottom + ' - previousEventTop: '
-                    + previousEventTop + ' - previousEventBottom: ' + previousEventBottom);
-                console.log('1 - top < previousEventBottom && previousEventBottom < bottom');
+            if (logEnabled) {
+                console.log('[getOverLappingEvents] - EVENT ' + previousEvent.event.id + ' -> top: ' + top + ' - bottom: ' + bottom + ' - previousEventTop: '
+                    + previousEventTop + ' - previousEventBottom: ' + previousEventBottom + ' -> top < previousEventBottom && previousEventBottom < bottom');
             }
             return true;
         } else if (top < previousEventTop && previousEventTop < bottom) {
-            if (previousEvent.event.id === '41' || previousEvent.event.id === '44') {
-                console.log('EVENT ' + previousEvent.event.id + ' -> top: ' + top + ' - bottom: ' + bottom + ' - previousEventTop: '
-                    + previousEventTop + ' - previousEventBottom: ' + previousEventBottom);
-                console.log('2 - top < previousEventTop && previousEventTop < bottom');
+            if (logEnabled) {
+                console.log('[getOverLappingEvents] - EVENT ' + previousEvent.event.id + ' -> top: ' + top + ' - bottom: ' + bottom + ' - previousEventTop: '
+                    + previousEventTop + ' - previousEventBottom: ' + previousEventBottom + ' -> top < previousEventTop && previousEventTop < bottom');
             }
             return true;
         } else if (previousEventTop <= top && bottom <= previousEventBottom) {
-            if (previousEvent.event.id === '41' || previousEvent.event.id === '44') {
-                console.log('EVENT ' + previousEvent.event.id + ' -> top: ' + top + ' - bottom: ' + bottom + ' - previousEventTop: '
-                    + previousEventTop + ' - previousEventBottom: ' + previousEventBottom);
-                console.log('3 - previousEventTop <= top && bottom <= previousEventBottom');
+            if (logEnabled) {
+                console.log('[getOverLappingEvents] - EVENT ' + previousEvent.event.id + ' -> top: ' + top + ' - bottom: ' + bottom + ' - previousEventTop: '
+                    + previousEventTop + ' - previousEventBottom: ' + previousEventBottom + ' -> previousEventTop <= top && bottom <= previousEventBottom');
             }
             return true;
         }
