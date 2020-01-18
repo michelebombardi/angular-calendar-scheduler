@@ -495,11 +495,24 @@ function getOverLappingDayViewEvents(events: SchedulerViewEvent[], top: number, 
         const previousEventTop: number = previousEvent.top;
         const previousEventBottom: number = previousEvent.top + previousEvent.height;
 
+        if (previousEvent.event.id === '41' || previousEvent.event.id === '44') {
+            console.log('EVENT ' + previousEvent.event.id + ' -> top: ' + top + ' - bottom: ' + bottom + ' - previousEventTop: ' + previousEventTop + ' - previousEventBottom: ' + previousEventBottom);
+        }
+
         if (top < previousEventBottom && previousEventBottom < bottom) {
+            if (previousEvent.event.id === '41' || previousEvent.event.id === '44') {
+                console.log('1 - top < previousEventBottom && previousEventBottom < bottom');
+            }
             return true;
         } else if (top < previousEventTop && previousEventTop < bottom) {
+            if (previousEvent.event.id === '41' || previousEvent.event.id === '44') {
+                console.log('2 - top < previousEventTop && previousEventTop < bottom');
+            }
             return true;
         } else if (previousEventTop <= top && bottom <= previousEventBottom) {
+            if (previousEvent.event.id === '41' || previousEvent.event.id === '44') {
+                console.log('3 - previousEventTop <= top && bottom <= previousEventBottom');
+            }
             return true;
         }
 
