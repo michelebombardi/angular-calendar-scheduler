@@ -332,7 +332,7 @@ export function getSchedulerView(
                     });
 
                     if (logEnabled) {
-                        console.log('SEGMENT [' + moment(startOfSegment).format('dddd L, LT') + ' - ' + moment(endOfSegment).format('dddd L, LT') + '] EVENTS -> ', eventsInSegment);
+                        console.log('SEGMENT [' + moment(startOfSegment).format('dddd L, LT') + ' - ' + moment(endOfSegment).format('dddd L, LTS') + '] EVENTS -> ', eventsInSegment);
                     }
 
                     return <SchedulerViewHourSegment>{
@@ -451,7 +451,7 @@ interface IsEventInPeriodArgs {
 }
 
 function isEventInPeriod(dateAdapter: DateAdapter, { event, periodStart, periodEnd}: IsEventInPeriodArgs): boolean {
-    const { isSameSecond } = dateAdapter;
+    const { isSameSecond, addSeconds } = dateAdapter;
     const eventStart: Date = event.start;
     const eventEnd: Date = event.end || event.start;
 
@@ -471,7 +471,7 @@ function isEventInPeriod(dateAdapter: DateAdapter, { event, periodStart, periodE
         return true;
     }
 
-    if (isSameSecond(eventEnd, periodStart) || isSameSecond(eventEnd, periodEnd)) {
+    if (isSameSecond(addSeconds(eventEnd, -1), periodStart) || isSameSecond(addSeconds(eventEnd, -1), periodEnd)) {
         return true;
     }
 
