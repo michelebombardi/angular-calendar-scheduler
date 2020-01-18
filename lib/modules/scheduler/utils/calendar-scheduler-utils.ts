@@ -286,7 +286,7 @@ export function getSchedulerView(
 
             if (logEnabled) {
                 console.log(
-                    'DAY [' + moment(day.date).format('dddd L') + '] overLappingEvents -> ',
+                    `DAY [${moment(day.date).format('dddd L')}] - EVENT ${event.event.id} [${moment(event.event.start).format('dddd L, LTS')} - ${moment(event.event.end).format('dddd L, LTS')}] overLappingEvents -> `,
                     overLappingEvents
                 );
             }
@@ -341,7 +341,7 @@ export function getSchedulerView(
 
                     if (logEnabled) {
                         console.log(
-                            'SEGMENT [' + moment(startOfSegment).format('dddd L, LT') + ' - ' + moment(endOfSegment).format('dddd L, LTS') + '] EVENTS -> ',
+                            `SEGMENT [${moment(startOfSegment).format('dddd L, LTS')} - ${moment(endOfSegment).format('dddd L, LTS')}] EVENTS -> `,
                             eventsInSegment
                         );
                     }
