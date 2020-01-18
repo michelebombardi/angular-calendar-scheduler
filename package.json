@@ -44,6 +44,12 @@
     "angular-calendar-week-hours-view",
     "week-hours-view"
   ],
+  "browserslist": [
+    "> 1%",
+    "last 4 versions",
+    "last 20 Chrome versions",
+    "last 20 Firefox versions"
+  ],
   "dependencies": {},
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.21",
