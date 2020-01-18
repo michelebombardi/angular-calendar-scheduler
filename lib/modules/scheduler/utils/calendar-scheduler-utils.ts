@@ -283,6 +283,14 @@ export function getSchedulerView(
               event.top,
               event.top + event.height
             );
+
+            if (logEnabled) {
+                console.log(
+                    'DAY [' + moment(day.date).format('dddd L') + '] overLappingEvents -> ',
+                    overLappingEvents
+                );
+            }
+
             if (overLappingEvents.length > 0) {
               return {
                 ...event,
@@ -332,7 +340,10 @@ export function getSchedulerView(
                     });
 
                     if (logEnabled) {
-                        console.log('SEGMENT [' + moment(startOfSegment).format('dddd L, LT') + ' - ' + moment(endOfSegment).format('dddd L, LTS') + '] EVENTS -> ', eventsInSegment);
+                        console.log(
+                            'SEGMENT [' + moment(startOfSegment).format('dddd L, LT') + ' - ' + moment(endOfSegment).format('dddd L, LTS') + '] EVENTS -> ',
+                            eventsInSegment
+                        );
                     }
 
                     return <SchedulerViewHourSegment>{
