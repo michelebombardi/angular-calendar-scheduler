@@ -610,7 +610,8 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
             },
             excluded: this.excludeDays,
             eventWidth: 1,
-            hourSegmentHeight: this.hourSegmentHeight
+            hourSegmentHeight: this.hourSegmentHeight,
+            logEnabled: this.config.logEnabled
         });
     }
 

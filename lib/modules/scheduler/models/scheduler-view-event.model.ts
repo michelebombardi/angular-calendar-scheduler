@@ -8,5 +8,4 @@ export interface SchedulerViewEvent {
     width?: number;
     startsBeforeDay?: boolean;
     endsAfterDay?: boolean;
-    isProcessed?: boolean;
 }

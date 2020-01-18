@@ -26,7 +26,7 @@ import { MatProgressSpinnerModule } from '@angular/material';
       provide: DateAdapter,
       useFactory: adapterFactory
     }),
-    SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' }),
+    SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange', logEnabled: true }),
     MatProgressSpinnerModule
   ],
   providers: [

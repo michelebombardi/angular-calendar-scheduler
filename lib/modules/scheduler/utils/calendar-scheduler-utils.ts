@@ -13,6 +13,10 @@ import {
 } from 'calendar-utils';
 import { DateAdapter } from 'angular-calendar';
 
+// WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255
+import * as momentImported from 'moment';
+const moment = momentImported;
+
 
 export enum DAYS_OF_WEEK {
     SUNDAY = 0,
@@ -130,6 +134,7 @@ export interface GetSchedulerViewArgs {
     excluded?: number[];
     eventWidth: number;
     hourSegmentHeight: number;
+    logEnabled?: boolean;
 }
 
 export function getSchedulerView(
@@ -145,7 +150,8 @@ export function getSchedulerView(
         dayEnd,
         weekendDays = DEFAULT_WEEKEND_DAYS,
         hourSegmentHeight = DEFAULT_HOUR_SEGMENT_HEIGHT_PX,
-        eventWidth = DEFAULT_EVENT_WIDTH
+        eventWidth = DEFAULT_EVENT_WIDTH,
+        logEnabled,
     }: GetSchedulerViewArgs
 ): SchedulerView {
     if (!events) { events = []; }
@@ -222,8 +228,7 @@ export function getSchedulerView(
                         width: eventWidth,
                         left: left,
                         startsBeforeDay: startsBeforeDay,
-                        endsAfterDay: endsAfterDay,
-                        isProcessed: false
+                        endsAfterDay: endsAfterDay
                     };
 
                 previousDayEvents.push(event);
@@ -325,6 +330,10 @@ export function getSchedulerView(
                         periodStart: startOfSegment,
                         periodEnd: endOfSegment
                     });
+
+                    if (logEnabled) {
+                        console.log('SEGMENT [' + moment(startOfSegment).format('dddd L, LT') + ' - ' + moment(endOfSegment).format('dddd L, LT') + '] EVENTS -> ', eventsInSegment);
+                    }
 
                     return <SchedulerViewHourSegment>{
                         segment: segment,
