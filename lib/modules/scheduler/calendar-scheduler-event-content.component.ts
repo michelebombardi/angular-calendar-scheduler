@@ -9,7 +9,7 @@ import {
         <div *ngIf="event.content"
             class="cal-scheduler-event-content"
             [style.max-height.px]="maxHeight"
-            [innerHTML]="maxHeight ? event.content : null">
+            [innerHTML]="maxHeight && maxHeight >= 30 ? event.content : null">
         </div>
     `,
     host: {

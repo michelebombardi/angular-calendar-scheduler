@@ -11,7 +11,8 @@ import {
     subHours,
     setHours,
     subMinutes,
-    subMilliseconds
+    subMilliseconds,
+    addMinutes
 } from 'date-fns';
 
 @Injectable()
@@ -151,7 +152,7 @@ export class AppService {
             <CalendarSchedulerEvent>{
                 id: '53',
                 start: addHours(addDays(startOfHour(setHours(new Date(), 6)), 2), 2),
-                end: addHours(addDays(startOfHour(setHours(new Date(), 6)), 2), 3),
+                end: addMinutes(addHours(addDays(startOfHour(setHours(new Date(), 6)), 2), 2), 30),
                 title: 'Event 53',
                 content: 'EARLY EVENT',
                 color: { primary: '#E0E0E0', secondary: '#EEEEEE' },

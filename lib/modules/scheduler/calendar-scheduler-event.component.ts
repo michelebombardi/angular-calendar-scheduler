@@ -88,7 +88,7 @@ export class CalendarSchedulerEventComponent implements OnInit {
     constructor(private hostElement: ElementRef) {   }
 
     public ngOnInit(): void {
-        this.title = this.title || `${this.event.event.title}, ${moment(this.event.event.start).format('dddd L, LT')}`;
+        this.title = this.title || `${this.event.event.title}, ${this.event.event.content ? `${this.event.event.content},` : null} ${moment(this.event.event.start).format('dddd L, LT')}`;
     }
 
     onMouseEnter(): void {
