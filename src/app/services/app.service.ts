@@ -141,7 +141,7 @@ export class AppService {
                 start: addHours(addDays(startOfHour(setHours(new Date(), 6)), 2), 1),
                 end: addHours(addDays(startOfHour(setHours(new Date(), 6)), 2), 2),
                 title: 'Event 52',
-                content: 'EARLY EVENT',
+                content: 'EARLY EVENT WITH LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG DESCRIPTION',
                 color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
                 actions: actions,
                 status: 'ok' as CalendarSchedulerEventStatus,

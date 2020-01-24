@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, TemplateRef, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ElementRef } from '@angular/core';
 import {
     SchedulerViewDay,
     CalendarSchedulerEvent,
@@ -37,7 +37,8 @@ const moment = momentImported;
                 </calendar-scheduler-event-title>
                 <calendar-scheduler-event-content
                     *ngIf="showContent"
-                    [event]="event.event">
+                    [event]="event.event"
+                    [eventContainer]="container">
                 </calendar-scheduler-event-content>
                 <calendar-scheduler-event-actions
                     *ngIf="showActions && showContent && (event.event.isClickable || event.event.isDisabled)"
@@ -84,7 +85,7 @@ export class CalendarSchedulerEventComponent implements OnInit {
 
     @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
 
-    constructor() {   }
+    constructor(private hostElement: ElementRef) {   }
 
     public ngOnInit(): void {
         this.title = this.title || `${this.event.event.title}, ${moment(this.event.event.start).format('dddd L, LT')}`;

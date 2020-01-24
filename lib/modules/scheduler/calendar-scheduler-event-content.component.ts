@@ -1,4 +1,4 @@
-﻿import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+﻿import { Component, Input, ElementRef, AfterViewInit } from '@angular/core';
 import {
     CalendarSchedulerEvent
 } from './models';
@@ -8,14 +8,25 @@ import {
     template: `
         <div *ngIf="event.content"
             class="cal-scheduler-event-content"
-            [innerHTML]="event.content">
+            [style.max-height.px]="maxHeight"
+            [innerHTML]="maxHeight ? event.content : null">
         </div>
     `,
     host: {
         'class': 'cal-scheduler-event-content-container'
     }
 })
-export class CalendarSchedulerEventContentComponent {
+export class CalendarSchedulerEventContentComponent implements AfterViewInit {
 
     @Input() event: CalendarSchedulerEvent;
+
+    @Input() eventContainer: HTMLElement;
+
+    maxHeight: number;
+
+    constructor(private hostElement: ElementRef) {  }
+
+    public ngAfterViewInit(): void {
+        setTimeout(() => { this.maxHeight = this.eventContainer.clientHeight - 70; }, 0);
+    }
 }

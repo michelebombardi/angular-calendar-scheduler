@@ -106,6 +106,7 @@ import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provide
                             [style.height.px]="event.height"
                             [style.left.%]="event.left"
                             [style.width.%]="event.width"
+                            [class.zoom-on-hover]="zoomEventOnHover"
 
                             mwlResizable
                             [resizeSnapGrid]="{left: dayColumnWidth, right: dayColumnWidth, top: eventSnapSize || hourSegmentHeight, bottom: eventSnapSize || hourSegmentHeight}"
@@ -246,6 +247,11 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * Specify if hour must be shown on segment or not
      */
     @Input() showSegmentHour: boolean = false;
+
+    /**
+     * Specify if event must zoom on mouse hover or not
+     */
+    @Input() zoomEventOnHover: boolean = false;
 
     /**
      * A function that will be called before each cell is rendered. The first argument will contain the calendar (day, hour or segment) cell.
