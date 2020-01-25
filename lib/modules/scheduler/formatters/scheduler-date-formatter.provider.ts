@@ -1,26 +1,36 @@
-import { CalendarDateFormatter, DateFormatterParams } from 'angular-calendar';
+import { CalendarDateFormatter, DateFormatterParams, DateAdapter } from 'angular-calendar';
+import { startOfWeek } from 'date-fns';
+
+export interface SchedulerDateFormatterParams extends DateFormatterParams {
+    dateAdapter: DateAdapter;
+    startsWithToday: boolean;
+}
 
 export class SchedulerDateFormatter extends CalendarDateFormatter {
 
     /**
      * The time formatting down the left hand side of the day view
      */
-    public dayViewHour({ date, locale }: DateFormatterParams): string {
+    public dayViewHour({ date, locale }: SchedulerDateFormatterParams): string {
         return new Intl.DateTimeFormat(locale, { hour: 'numeric', minute: 'numeric' }).format(date);
     }
 
-    public weekViewTitle({ date, locale }: DateFormatterParams): string {
+    public weekViewTitle({ dateAdapter, date, locale, weekStartsOn, excludeDays, daysInWeek, startsWithToday }: SchedulerDateFormatterParams): string {
         // http://generatedcontent.org/post/59403168016/esintlapi
         const year: string = new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date);
         const month: string = new Intl.DateTimeFormat(locale, { month: 'short' }).format(date);
 
+        const dateInner: Date = startsWithToday
+            ? date
+            : dateAdapter.startOfWeek(date, { weekStartsOn: weekStartsOn });
+
         // var firstDay: number = date.getDate() - date.getDay() + 1; // First day is the day of the month - the day of the week
-        let firstDay: number = date.getDate();
-        if (date.getDay() === 0) {
+        let firstDay: number = dateInner.getDate();
+        if (dateInner.getDay() === 0) {
             firstDay += 1;
         }
 
-        let lastDay: number = firstDay + 6; // last day is the first day + 6
+        let lastDay: number = firstDay + (daysInWeek - 1); // last day is the first day + (daysInWeek - 1)
 
         let firstDayMonth: string = month;
         let lastDayMonth: string = month;
@@ -29,7 +39,7 @@ export class SchedulerDateFormatter extends CalendarDateFormatter {
         let lastDayYear: string = year;
 
         if (firstDay < 1) {
-            const prevMonthDate: Date = new Date(date.getFullYear(), date.getMonth() - 1);
+            const prevMonthDate: Date = new Date(dateInner.getFullYear(), dateInner.getMonth() - 1);
             firstDayMonth = new Intl.DateTimeFormat(locale, { month: 'short' }).format(prevMonthDate);
             const daysInPrevMonth: number = this.daysInMonth(prevMonthDate);
 
@@ -46,9 +56,9 @@ export class SchedulerDateFormatter extends CalendarDateFormatter {
             }
         }
 
-        const daysInMonth: number = this.daysInMonth(date);
+        const daysInMonth: number = this.daysInMonth(dateInner);
         if (lastDay > daysInMonth) {
-            const nextMonthDate: Date = new Date(date.getFullYear(), date.getMonth() + 1);
+            const nextMonthDate: Date = new Date(dateInner.getFullYear(), dateInner.getMonth() + 1);
             lastDayMonth = new Intl.DateTimeFormat(locale, { month: 'short' }).format(nextMonthDate);
 
             let i: number = 0;
@@ -64,9 +74,9 @@ export class SchedulerDateFormatter extends CalendarDateFormatter {
             }
         }
 
-        return `${firstDay}` + (firstDayMonth !== lastDayMonth ? ' ' + firstDayMonth : '') +
+        return `${firstDay}` + (firstDayMonth !== lastDayMonth || lastDay === firstDay ? ' ' + firstDayMonth : '') +
             (firstDayYear !== lastDayYear ? ' ' + firstDayYear : '') +
-            ` - ${lastDay} ${lastDayMonth} ${lastDayYear}`;
+            (lastDay === firstDay ? '' : ` - ${lastDay} ${lastDayMonth} ${lastDayYear}`);
     }
 
     private daysInMonth(anyDateInMonth: Date): number {

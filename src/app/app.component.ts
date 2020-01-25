@@ -3,8 +3,7 @@ import { Subject } from 'rxjs';
 
 import {
     endOfDay,
-    addMonths,
-    subHours,
+    addMonths
 } from 'date-fns';
 import {
     SchedulerViewDay,
@@ -43,10 +42,11 @@ export class AppComponent implements OnInit {
 
     view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
+    viewDays: number = 3;       // TODO: QUANDO SPECIFICHI UN NUMERO MINORE DI 7 E startsWithToday = false SI INCASINA!!!!!
     refresh: Subject<any> = new Subject();
     locale: string = 'en';
     weekStartsOn: number = 1;
-    startsWithToday: boolean = true;
+    startsWithToday: boolean = false;
     activeDayIsOpen: boolean = true;
     excludeDays: number[] = []; // [0];
     dayStartHour: number = 6;
@@ -123,11 +123,11 @@ export class AppComponent implements OnInit {
 
     dateOrViewChanged(): void {
         if (this.startsWithToday) {
-            this.prevBtnDisabled = !this.isDateValid(subPeriod(this.dateAdapter, this.view, this.viewDate, 1));
-            this.nextBtnDisabled = !this.isDateValid(addPeriod(this.dateAdapter, this.view, this.viewDate, 1));
+            this.prevBtnDisabled = !this.isDateValid(subPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1));
+            this.nextBtnDisabled = !this.isDateValid(addPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1));
         } else {
-            this.prevBtnDisabled = !this.isDateValid(endOfPeriod(this.dateAdapter, this.view, subPeriod(this.dateAdapter, this.view, this.viewDate, 1)));
-            this.nextBtnDisabled = !this.isDateValid(startOfPeriod(this.dateAdapter, this.view, addPeriod(this.dateAdapter, this.view, this.viewDate, 1)));
+            this.prevBtnDisabled = !this.isDateValid(endOfPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, subPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1)));
+            this.nextBtnDisabled = !this.isDateValid(startOfPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, addPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1)));
         }
 
         if (this.viewDate < this.minDate) {

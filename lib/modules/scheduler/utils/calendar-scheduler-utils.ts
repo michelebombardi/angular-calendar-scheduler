@@ -42,7 +42,7 @@ export const DEFAULT_HOUR_SEGMENT_HEIGHT_PX = 40;
 export const DEFAULT_EVENT_WIDTH = 1;
 export const DEFAULT_HOUR_SEGMENTS = 2;
 
-interface Time {
+export interface Time {
     hour: number;
     minute: number;
   }
@@ -125,6 +125,7 @@ export function getSchedulerViewHourGrid(
 export interface GetSchedulerViewArgs {
     events?: CalendarSchedulerEvent[];
     viewDate: Date;
+    viewDays: number;
     hourSegments: 1 | 2 | 4 | 6;
     weekStartsOn: number;
     startsWithToday: boolean;
@@ -142,6 +143,7 @@ export function getSchedulerView(
     {
         events = [],
         viewDate,
+        viewDays,
         weekStartsOn,
         startsWithToday,
         excluded = [],
@@ -168,6 +170,7 @@ export function getSchedulerView(
 
     const days: SchedulerViewDay[] = getSchedulerViewDays(dateAdapter, {
         viewDate: viewDate,
+        viewDays: viewDays,
         weekStartsOn: weekStartsOn,
         startsWithToday: startsWithToday,
         excluded: excluded,
@@ -378,6 +381,7 @@ export function getSchedulerView(
 
 export interface GetSchedulerViewDaysArgs {
     viewDate: Date;
+    viewDays: number;
     weekStartsOn: number;
     startsWithToday: boolean;
     excluded?: number[];
@@ -388,6 +392,7 @@ export function getSchedulerViewDays(
     dateAdapter: DateAdapter,
     {
         viewDate,
+        viewDays,
         weekStartsOn,
         startsWithToday,
         excluded = [],
@@ -404,7 +409,7 @@ export function getSchedulerViewDays(
             days.push(getSchedulerDay(dateAdapter, { date, weekendDays }));
         }
     };
-    for (let i = 0; i < DAYS_IN_WEEK; i++) {
+    for (let i = 0; i < viewDays; i++) {
         loop(i);
     }
     return days;

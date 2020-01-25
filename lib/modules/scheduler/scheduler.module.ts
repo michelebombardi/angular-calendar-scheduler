@@ -15,6 +15,7 @@ import { CalendarSchedulerEventActionsComponent } from './calendar-scheduler-eve
 import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provider';
 
 import { SchedulerEventTitlePipe } from './pipes/scheduler-event-title.pipe';
+import { CalendarSchedulerDatePipe } from './pipes/calendar-scheduler-date.pipe';
 
 import { SchedulerDateFormatter } from './formatters/scheduler-date-formatter.provider';
 import { SchedulerEventTitleFormatter } from './formatters/scheduler-event-title-formatter.provider';
@@ -72,15 +73,18 @@ export function provideSchedulerConfig(config: SchedulerConfig) {
     CalendarSchedulerEventTitleComponent,
     CalendarSchedulerEventContentComponent,
     CalendarSchedulerEventActionsComponent,
-    SchedulerEventTitlePipe
+    SchedulerEventTitlePipe,
+    CalendarSchedulerDatePipe
   ],
   providers: [
     CalendarSchedulerUtils,
     SchedulerEventTitlePipe,
+    CalendarSchedulerDatePipe,
     SchedulerEventTitleFormatter,
     SchedulerDateFormatter
   ],
   exports: [
+    CalendarSchedulerDatePipe,
     CalendarSchedulerViewComponent,
     CalendarSchedulerHourSegmentComponent,
     CalendarSchedulerHeaderComponent,

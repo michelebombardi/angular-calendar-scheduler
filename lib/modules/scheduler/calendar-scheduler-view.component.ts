@@ -50,7 +50,9 @@ import {
 import {
     DEFAULT_HOUR_SEGMENTS,
     DEFAULT_HOUR_SEGMENT_HEIGHT_PX,
-    MINUTES_IN_HOUR
+    MINUTES_IN_HOUR,
+    Time,
+    DAYS_IN_WEEK
 } from './utils/calendar-scheduler-utils';
 import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provider';
 
@@ -202,6 +204,11 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * The current view date
      */
     @Input() viewDate: Date;
+
+    /**
+     * The view days number
+     */
+    @Input() viewDays: number = DAYS_IN_WEEK;
 
     /**
      * An array of events to display on view
@@ -455,6 +462,8 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * @hidden
      */
     ngOnInit(): void {
+        this.viewDays = Math.max(this.viewDays, DAYS_IN_WEEK);
+
         if (this.refresh) {
             this.refreshSubscription = this.refresh.subscribe(() => {
                 this.refreshAll();
@@ -555,6 +564,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     private refreshHeader(): void {
         this.days = this.utils.getSchedulerViewDays({
             viewDate: this.viewDate,
+            viewDays: this.viewDays,
             weekStartsOn: this.weekStartsOn,
             startsWithToday: this.startsWithToday,
             excluded: this.excludeDays,
@@ -603,14 +613,15 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         return this.utils.getSchedulerView({
             events: events,
             viewDate: this.viewDate,
+            viewDays: this.viewDays,
             hourSegments: this.hourSegments,
             weekStartsOn: this.weekStartsOn,
             startsWithToday: this.startsWithToday,
-            dayStart: {
+            dayStart: <Time>{
                 hour: this.dayStartHour,
                 minute: this.dayStartMinute
             },
-            dayEnd: {
+            dayEnd: <Time>{
                 hour: this.dayEndHour,
                 minute: this.dayEndMinute
             },
