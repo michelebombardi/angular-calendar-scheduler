@@ -40,7 +40,7 @@ ___
 
 
 ## Demo
-https://stackblitz.com/edit/angular-calendar-scheduler-demo?embed=1&file=src/app/app.component.ts
+<iframe src="https://stackblitz.com/edit/angular-calendar-scheduler-demo?embed=1&file=src/app/app.component.ts"></iframe>
 
 ## Getting Started
 
