@@ -293,7 +293,9 @@ export function getSchedulerView(
 
             if (logEnabled) {
                 console.log(
-                    `DAY [${moment(day.date).format('dddd L')}] - EVENT ${event.event.id} [${moment(event.event.start).format('dddd L, LTS')} - ${moment(event.event.end).format('dddd L, LTS')}] overLappingEvents -> `,
+                    `DAY [${moment(day.date).format('dddd L')}] ` +
+                    `- EVENT ${event.event.id} [${moment(event.event.start).format('dddd L, LTS')} ` +
+                    `- ${moment(event.event.end).format('dddd L, LTS')}] overLappingEvents -> `,
                     overLappingEvents
                 );
             }
