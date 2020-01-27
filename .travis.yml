@@ -17,8 +17,8 @@ before_script:
 
 script:
   - ng lint
-  - node_modules/karma/bin/karma start src/karma.conf.js --single-run
-  #- ng test
+  #- node_modules/karma/bin/karma start src/karma.conf.js --single-run
+  - ng test
   - ng build --prod
 
 after_success:
