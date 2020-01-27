@@ -1,7 +1,5 @@
 # Angular Calendar Scheduler
 
-This project provide a scheduler view component for [mattlewis92/angular-calendar](https://github.com/mattlewis92/angular-calendar).
-
 <a href="https://www.npmjs.com/package/angular-calendar-scheduler">
     <img src="https://badge.fury.io/js/angular-calendar-scheduler.svg" alt="npm">
 </a> 
@@ -26,8 +24,13 @@ This project provide a scheduler view component for [mattlewis92/angular-calenda
 
 ___
 
-<!-- * [About](#about) -->
-* [Demo](#demo)
+## Demo
+
+https://angular-calendar-scheduler-demo.stackblitz.io
+
+## Table of contents
+
+* [About](#about)
 * [Getting Started](#getting-started)
     * [Install](#install)
     * [Include Component](#include-component)
@@ -36,11 +39,9 @@ ___
   * [Properties](#properties) -->
 * [License](#license)
 
-<!-- ## About -->
+## About
 
-
-## Demo
-<iframe src="https://stackblitz.com/edit/angular-calendar-scheduler-demo?embed=1&file=src/app/app.component.ts"></iframe>
+This project provide a scheduler view component for [mattlewis92/angular-calendar](https://github.com/mattlewis92/angular-calendar).
 
 ## Getting Started
 
