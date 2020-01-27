@@ -31,6 +31,7 @@ ___
     * [Install](#install)
     * [Include Component](#include-component)
     * [Usage](#usage)
+* [Demo](#demo)
 <!-- * [API](#api)
   * [Properties](#properties) -->
 * [License](#license)
@@ -275,6 +276,9 @@ export class AppComponent implements OnInit {
       </calendar-scheduler-view>
     ...
 ```
+
+### Demo
+https://stackblitz.com/edit/angular-calendar-scheduler-demo?embed=1&file=src/app/app.component.ts
 
 ### License
 
