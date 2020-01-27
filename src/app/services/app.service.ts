@@ -11,7 +11,6 @@ import {
     subHours,
     setHours,
     subMinutes,
-    subMilliseconds,
     addMinutes
 } from 'date-fns';
 
