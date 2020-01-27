@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID, HostListener } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import {
@@ -6,6 +6,7 @@ import {
     addMonths
 } from 'date-fns';
 import {
+    DAYS_IN_WEEK,
     SchedulerViewDay,
     SchedulerViewHour,
     SchedulerViewHourSegment,
@@ -25,6 +26,7 @@ import {
 } from 'angular-calendar';
 
 import { AppService } from './services/app.service';
+import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
     selector: 'app-root',
@@ -42,9 +44,10 @@ export class AppComponent implements OnInit {
 
     view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
-    viewDays: number = 3;       // TODO: QUANDO SPECIFICHI UN NUMERO MINORE DI 7 E startsWithToday = false SI INCASINA!!!!!
+    viewDays: number = DAYS_IN_WEEK;
     refresh: Subject<any> = new Subject();
     locale: string = 'en';
+    hourSegments: number = 4;
     weekStartsOn: number = 1;
     startsWithToday: boolean = false;
     activeDayIsOpen: boolean = true;
@@ -82,6 +85,11 @@ export class AppComponent implements OnInit {
 
     events: CalendarSchedulerEvent[];
 
+    @HostListener('window:resize', ['$event'])
+    onResize(event: any) {
+        this.adjustViewDays();
+    }
+
     constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService, private dateAdapter: DateAdapter) {
         this.locale = locale;
 
@@ -101,12 +109,24 @@ export class AppComponent implements OnInit {
             event.isDisabled = !this.isDateValid(event.start);
         }).bind(this);
 
+        this.adjustViewDays();
         this.dateOrViewChanged();
     }
 
     ngOnInit(): void {
         this.appService.getEvents(this.actions)
             .then((events: CalendarSchedulerEvent[]) => this.events = events);
+    }
+
+    adjustViewDays(): void {
+        const currentWidth: number = window.innerWidth;
+        if (currentWidth <= 450) {
+            this.viewDays = 1;
+        } else if (currentWidth <= 768) {
+            this.viewDays = 3;
+        } else {
+            this.viewDays = DAYS_IN_WEEK;
+        }
     }
 
     changeDate(date: Date): void {

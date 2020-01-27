@@ -1,5 +1,5 @@
 import { CalendarDateFormatter, DateFormatterParams, DateAdapter } from 'angular-calendar';
-import { startOfWeek } from 'date-fns';
+import { DAYS_IN_WEEK } from '../utils/calendar-scheduler-utils';
 
 export interface SchedulerDateFormatterParams extends DateFormatterParams {
     dateAdapter: DateAdapter;
@@ -20,17 +20,20 @@ export class SchedulerDateFormatter extends CalendarDateFormatter {
         const year: string = new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date);
         const month: string = new Intl.DateTimeFormat(locale, { month: 'short' }).format(date);
 
-        const dateInner: Date = startsWithToday
+        const dateInner: Date = startsWithToday || daysInWeek < DAYS_IN_WEEK
             ? date
             : dateAdapter.startOfWeek(date, { weekStartsOn: weekStartsOn });
 
         // var firstDay: number = date.getDate() - date.getDay() + 1; // First day is the day of the month - the day of the week
         let firstDay: number = dateInner.getDate();
-        if (dateInner.getDay() === 0) {
+        while (excludeDays.includes(firstDay)) {
             firstDay += 1;
         }
 
         let lastDay: number = firstDay + (daysInWeek - 1); // last day is the first day + (daysInWeek - 1)
+        while (excludeDays.includes(lastDay)) {
+            lastDay += 1;
+        }
 
         let firstDayMonth: string = month;
         let lastDayMonth: string = month;

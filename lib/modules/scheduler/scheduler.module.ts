@@ -24,6 +24,7 @@ export * from './calendar-scheduler-view.component';
 export * from './formatters/scheduler-date-formatter.provider';
 export * from './formatters/scheduler-event-title-formatter.provider';
 export * from './pipes/scheduler-event-title.pipe';
+export * from './utils/calendar-scheduler-utils';
 export * from './utils/calendar-scheduler-utils.provider';
 export * from '../common/utils';
 export * from './models';

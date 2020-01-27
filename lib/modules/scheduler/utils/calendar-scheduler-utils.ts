@@ -159,8 +159,8 @@ export function getSchedulerView(
     if (!events) { events = []; }
 
     const { addDays, startOfDay, endOfDay, startOfWeek, endOfWeek } = dateAdapter;
-    const startOfViewWeek: Date = startsWithToday ? startOfDay(viewDate) : startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
-    const endOfViewWeek: Date = startsWithToday ? addDays(endOfDay(viewDate), 6) : endOfWeek(viewDate, { weekStartsOn: weekStartsOn });
+    const startOfViewWeek: Date = startsWithToday || viewDays < DAYS_IN_WEEK ? startOfDay(viewDate) : startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
+    const endOfViewWeek: Date = startsWithToday || viewDays < DAYS_IN_WEEK ? addDays(endOfDay(viewDate), viewDays - 1) : endOfWeek(viewDate, { weekStartsOn: weekStartsOn });
 
     const eventsInWeek: CalendarSchedulerEvent[] = getEventsInPeriod(dateAdapter, {
         events: events,
@@ -399,7 +399,7 @@ export function getSchedulerViewDays(
         weekendDays = DEFAULT_WEEKEND_DAYS
     }: GetSchedulerViewDaysArgs
 ): SchedulerViewDay[] {
-    const start = startsWithToday
+    const start = startsWithToday || viewDays < DAYS_IN_WEEK
         ? new Date(viewDate)
         : dateAdapter.startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
     const days: SchedulerViewDay[] = [];

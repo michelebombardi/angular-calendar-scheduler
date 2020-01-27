@@ -206,7 +206,9 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     @Input() viewDate: Date;
 
     /**
-     * The view days number
+     * The number of days shown in view
+     * - If this number is less than DAYS_IN_WEEK, the startsWithToday = false will be ignored
+     * - If this number is greater than DAYS_IN_WEEK, it will be normalized to DAYS_IN_WEEK
      */
     @Input() viewDays: number = DAYS_IN_WEEK;
 
@@ -462,7 +464,7 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * @hidden
      */
     ngOnInit(): void {
-        this.viewDays = Math.max(this.viewDays, DAYS_IN_WEEK);
+        this.viewDays = Math.min(this.viewDays, DAYS_IN_WEEK);
 
         if (this.refresh) {
             this.refreshSubscription = this.refresh.subscribe(() => {
@@ -476,11 +478,12 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * @hidden
      */
     ngOnChanges(changes: any): void {
-        if (changes.viewDate || changes.excludeDays || changes.weekendDays) {
+        if (changes.viewDate || changes.viewDays || changes.excludeDays || changes.weekendDays) {
             this.refreshHeader();
         }
 
         if (changes.viewDate ||
+            changes.viewDays ||
             changes.events ||
             changes.dayStartHour ||
             changes.dayEndHour ||
