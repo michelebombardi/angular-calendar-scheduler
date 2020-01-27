@@ -25,6 +25,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
+    // https://docs.travis-ci.com/user/chrome
     browsers: ['ChromeHeadlessNoSandbox'], // 'Chrome', 'ChromeHeadless',
     // you can define custom flags
     customLaunchers: {
