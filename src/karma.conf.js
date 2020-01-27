@@ -2,7 +2,7 @@
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
-  var config = {
+  config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
@@ -32,16 +32,5 @@ module.exports = function (config) {
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false
-  };
-
-  if(process.env.TRAVIS){
-    configuration.browsers = ['Chrome_travis_ci'];
-    // configuration.reporters = configuration.reporters.concat(['coverage', 'coveralls']);
-    // configuration.coverageReporter = {
-    //   type : 'lcovonly',
-    //   dir : 'coverage/'
-    // };
-  }
-
-  config.set(config);
+  });
 };
