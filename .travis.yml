@@ -3,12 +3,12 @@ node_js: 10
 
 before_script:
   - npm install -g @angular/cli
+  - npm install -g codecov
 
 script:
   - ng lint
-  - ng test
+  #- ng test
   - ng build --prod
-  - npm install codecov -g
 
 after_success:
   - codecov
