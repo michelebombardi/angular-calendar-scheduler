@@ -8,7 +8,8 @@
     "start": "ng serve --open",
     "build": "ng build",
     "build:prod": "ng build --prod",
-    "test": "ng test",
+    "test": "ng test --watch=false",
+    "test:watch": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "clean": "rimraf dist",
@@ -91,7 +92,7 @@
     "ts-node": "~8.5.4",
     "tsickle": "^0.37.1",
     "tslib": "^1.10.0",
-    "tslint": "~5.20.1",
+    "tslint": "~6.0.0",
     "typescript": "3.4.5",
     "zone.js": "^0.10.2"
   },
