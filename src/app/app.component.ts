@@ -37,7 +37,7 @@ import { AppService } from './services/app.service';
     }]
 })
 export class AppComponent implements OnInit {
-    title = 'Angular Calendar Scheduler Demo';
+    title: string = 'Angular Calendar Scheduler Demo';
 
     CalendarView = CalendarView;
 
