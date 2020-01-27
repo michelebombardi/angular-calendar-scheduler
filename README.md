@@ -1,10 +1,18 @@
 # Angular Calendar Scheduler
 
+[![Build Status](https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler.svg?branch=master)](https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler)
+[![npm version](https://badge.fury.io/js/angular-calendar-scheduler.svg](https://www.npmjs.com/package/angular-calendar-scheduler)
+[![codecov](https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler/branch/master/graph/badge.svg)](https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler)
+[![issues](https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler/branch/master/graph/badge.svg)](https://github.com/mounthorse-slns/angular-calendar-scheduler/issues)
+[![forks](https://img.shields.io/github/forks/mounthorse-slns/angular-calendar-scheduler.svg)](https://github.com/mounthorse-slns/angular-calendar-scheduler/network)
+[![stars](https://img.shields.io/github/stars/mounthorse-slns/angular-calendar-scheduler.svg)](https://github.com/mounthorse-slns/angular-calendar-scheduler/stargazers)
+[![license](https://img.shields.io/github/license/mounthorse-slns/angular-calendar-scheduler.svg)](https://github.com/mounthorse-slns/angular-calendar-scheduler/blob/master/LICENSE)
+
+<!-- <a href="https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler">
+    <img src="https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler.svg?branch=master" alt="travis">
+</a> 
 <a href="https://www.npmjs.com/package/angular-calendar-scheduler">
     <img src="https://badge.fury.io/js/angular-calendar-scheduler.svg" alt="npm">
-</a> 
-<a href="https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler">
-    <img src="https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler.svg?branch=master" alt="travis">
 </a> 
 <a href="https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler">
     <img src="https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler/branch/master/graph/badge.svg" alt="codecov">
@@ -20,7 +28,7 @@
 </a>
 <a href="https://github.com/mounthorse-slns/angular-calendar-scheduler/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mounthorse-slns/angular-calendar-scheduler.svg" alt="license">
-</a>
+</a> -->
 
 ___
 
