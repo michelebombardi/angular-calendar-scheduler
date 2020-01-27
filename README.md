@@ -27,16 +27,20 @@ This project provide a scheduler view component for [mattlewis92/angular-calenda
 ___
 
 <!-- * [About](#about) -->
+* [Demo](#demo)
 * [Getting Started](#getting-started)
     * [Install](#install)
     * [Include Component](#include-component)
     * [Usage](#usage)
-* [Demo](#demo)
 <!-- * [API](#api)
   * [Properties](#properties) -->
 * [License](#license)
 
 <!-- ## About -->
+
+
+## Demo
+https://stackblitz.com/edit/angular-calendar-scheduler-demo?embed=1&file=src/app/app.component.ts
 
 ## Getting Started
 
@@ -276,9 +280,6 @@ export class AppComponent implements OnInit {
       </calendar-scheduler-view>
     ...
 ```
-
-### Demo
-https://stackblitz.com/edit/angular-calendar-scheduler-demo?embed=1&file=src/app/app.component.ts
 
 ### License
 
