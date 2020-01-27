@@ -26,7 +26,6 @@ import {
 } from 'angular-calendar';
 
 import { AppService } from './services/app.service';
-import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
     selector: 'app-root',
