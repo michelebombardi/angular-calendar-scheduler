@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
     locale: string = 'en';
     hourSegments: number = 4;
     weekStartsOn: number = 1;
-    startsWithToday: boolean = false;
+    startsWithToday: boolean = true;
     activeDayIsOpen: boolean = true;
     excludeDays: number[] = []; // [0];
     dayStartHour: number = 6;

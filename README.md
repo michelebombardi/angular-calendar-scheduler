@@ -98,8 +98,10 @@ export class AppComponent implements OnInit {
 
     view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
-    refreshSubject: Subject<any> = new Subject();
+    viewDays: number = DAYS_IN_WEEK;
+    refresh: Subject<any> = new Subject();
     locale: string = 'en';
+    hourSegments: number = 4;
     weekStartsOn: number = 1;
     startsWithToday: boolean = true;
     activeDayIsOpen: boolean = true;
@@ -137,6 +139,11 @@ export class AppComponent implements OnInit {
 
     events: CalendarSchedulerEvent[];
 
+    @HostListener('window:resize', ['$event'])
+    onResize(event: any) {
+        this.adjustViewDays();
+    }
+
     constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService) {
         this.locale = locale;
 
@@ -156,12 +163,24 @@ export class AppComponent implements OnInit {
             }
         }).bind(this);
 
+        this.adjustViewDays();
         this.dateOrViewChanged();
     }
 
     ngOnInit(): void {
         this.appService.getEvents(this.actions)
             .then((events: CalendarSchedulerEvent[]) => this.events = events);
+    }
+
+    adjustViewDays(): void {
+        const currentWidth: number = window.innerWidth;
+        if (currentWidth <= 450) {
+            this.viewDays = 1;
+        } else if (currentWidth <= 768) {
+            this.viewDays = 3;
+        } else {
+            this.viewDays = DAYS_IN_WEEK;
+        }
     }
 
     changeDate(date: Date): void {
@@ -230,27 +249,29 @@ export class AppComponent implements OnInit {
 ```html
     ...
     <calendar-scheduler-view *ngSwitchCase="'week'"
-                              [viewDate]="viewDate"
-                              [events]="events"
-                              [locale]="locale"
-                              [weekStartsOn]="weekStartsOn"
-                              [excludeDays]="excludeDays"
-                              [startsWithToday]="startsWithToday"
-                              [hourSegments]="2"
-                              [dayStartHour]="dayStartHour"
-                              [dayEndHour]="dayEndHour"
-                              [dayModifier]="dayModifier"
-                              [hourModifier]="hourModifier"
-                              [segmentModifier]="segmentModifier"
-                              [eventModifier]="eventModifier"
-                              [showEventActions]="true"
-                              [showSegmentHour]="false"
-                              (dayHeaderClicked)="dayHeaderClicked($event.day)"
-                              (hourClicked)="hourClicked($event.hour)"
-                              (segmentClicked)="segmentClicked('Clicked', $event.segment)"
-                              (eventClicked)="eventClicked('Clicked', $event.event)"
-                              (eventTimesChanged)="eventTimesChanged($event)"
-                              [refresh]="refresh">
+                            [viewDate]="viewDate"
+                            [events]="events"
+                            [locale]="locale"
+                            [viewDays]="viewDays"
+                            [weekStartsOn]="weekStartsOn"
+                            [excludeDays]="excludeDays"
+                            [startsWithToday]="startsWithToday"
+                            [hourSegments]="hourSegments"
+                            [dayStartHour]="dayStartHour"
+                            [dayEndHour]="dayEndHour"
+                            [dayModifier]="dayModifier"
+                            [hourModifier]="hourModifier"
+                            [segmentModifier]="segmentModifier"
+                            [eventModifier]="eventModifier"
+                            [showEventActions]="true"
+                            [showSegmentHour]="true"
+                            [zoomEventOnHover]="true"
+                            (dayHeaderClicked)="dayHeaderClicked($event.day)"
+                            (hourClicked)="hourClicked($event.hour)"
+                            (segmentClicked)="segmentClicked('Clicked', $event.segment)"
+                            (eventClicked)="eventClicked('Clicked', $event.event)"
+                            (eventTimesChanged)="eventTimesChanged($event)"
+                            [refresh]="refresh">
       </calendar-scheduler-view>
     ...
 ```
