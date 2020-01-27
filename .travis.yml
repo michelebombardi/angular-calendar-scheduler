@@ -6,6 +6,7 @@ before_script:
 
 script:
   - ng lint
+  - ng test
   - ng build --prod
   - npm install codecov -g
 
