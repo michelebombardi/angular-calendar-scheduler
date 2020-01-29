@@ -118,10 +118,11 @@ export class AppComponent implements OnInit {
     }
 
     adjustViewDays(): void {
+        // See 'Responsive breakpoints' at https://getbootstrap.com/docs/4.1/layout/overview/
         const currentWidth: number = window.innerWidth;
-        if (currentWidth <= 450) {
+        if (currentWidth <= 576) {          // Extra small devices (portrait phones, less than 576px)
             this.viewDays = 1;
-        } else if (currentWidth <= 768) {
+        } else if (currentWidth <= 768) {   // Small devices (landscape phones, less than 768px)
             this.viewDays = 3;
         } else {
             this.viewDays = DAYS_IN_WEEK;
