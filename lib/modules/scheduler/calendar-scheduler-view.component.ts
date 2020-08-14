@@ -467,10 +467,15 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
         this.viewDays = Math.min(this.viewDays, DAYS_IN_WEEK);
 
         if (this.refresh) {
-            this.refreshSubscription = this.refresh.subscribe(() => {
-                this.refreshAll();
-                this.cdr.markForCheck();
-            });
+            this.refreshSubscription = this.refresh
+            .subscribe({
+                next: () => {
+                    this.refreshAll();
+                    this.cdr.markForCheck();
+                },
+                error: () => {},
+                complete: () => {}
+             });
         }
     }
 

@@ -19,6 +19,7 @@
     "copyfiles": "copyfiles CHANGELOG.md dist && copyfiles -u 1 lib/modules/**/package.json dist && copyfiles -u 1 lib/**/*.scss dist/scss",
     "release:git": "git add . package.json yarn.lock && git commit -m \"chore: bump version number\" && standard-version --release-as 9.1.12 && git push --follow-tags origin master",
     "release:npm": "npm run build:dist && npm publish dist",
+    "release:yarn": "npm run build:dist && yarn publish",
     "release": "npm run release:git && npm run release:npm",
     "postinstall": "ngcc"
   },
@@ -60,6 +61,7 @@
     "@angular/core": "^9.1.12",
     "@angular/forms": "^9.1.12",
     "@angular/language-service": "^9.1.12",
+    "@angular/localize": "9.1.12",
     "@angular/material": "^8.2.3",
     "@angular/platform-browser": "^9.1.12",
     "@angular/platform-browser-dynamic": "^9.1.12",
@@ -99,7 +101,6 @@
     "zone.js": "~0.10.2"
   },
   "peerDependencies": {
-    "@angular/localize": "9.1.12",
     "angular-calendar": ">=0.28.2",
     "angular-draggable-droppable": ">=4.3.8",
     "angular-resizable-element": ">=3.2.6",
