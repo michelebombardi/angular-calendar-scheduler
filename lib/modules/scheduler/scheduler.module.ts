@@ -96,7 +96,7 @@ export function provideSchedulerConfig(config: SchedulerConfig) {
   ]
 })
 export class SchedulerModule {
-  static forRoot(config?: SchedulerConfig): ModuleWithProviders {
+  static forRoot(config?: SchedulerConfig): ModuleWithProviders<SchedulerModule> {
     return {
         ngModule: SchedulerModule,
         providers: [

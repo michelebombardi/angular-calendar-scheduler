@@ -1,12 +1,17 @@
 import { CalendarDateFormatter, DateFormatterParams, DateAdapter } from 'angular-calendar';
 import { DAYS_IN_WEEK } from '../utils/calendar-scheduler-utils';
+import { Injectable } from '@angular/core';
 
 export interface SchedulerDateFormatterParams extends DateFormatterParams {
     dateAdapter: DateAdapter;
     startsWithToday: boolean;
 }
 
+@Injectable()
 export class SchedulerDateFormatter extends CalendarDateFormatter {
+    constructor(dateAdapter: DateAdapter) {
+        super(dateAdapter);
+    }
 
     /**
      * The time formatting down the left hand side of the day view
