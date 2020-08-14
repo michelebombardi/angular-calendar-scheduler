@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.1.12](https://github.com/mounthorse-slns/angular-calendar-scheduler/compare/v1.9.2...v9.1.12) (2020-08-14)
+
 ### [1.9.2](https://github.com/mounthorse-slns/angular-calendar-scheduler/compare/v9.1.12...v1.9.2) (2020-08-14)
 
 ### [9.1.12](https://github.com/mounthorse-slns/angular-calendar-scheduler/compare/v1.9.1...v9.1.12) (2020-08-14)
