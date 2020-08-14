@@ -81,7 +81,7 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.5.1",
     "moment": "^2.24.0",
-    "ng-packagr": "^5.7.1",
+    "ng-packagr": "9.1.2",
     "node-sass": "^4.13.0",
     "popper.js": "^1.16.0",
     "postcss-cli": "^6.1.3",
