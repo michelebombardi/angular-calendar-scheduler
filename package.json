@@ -1,6 +1,6 @@
 {
   "name": "angular-calendar-scheduler",
-  "version": "9.1.12",
+  "version": "1.9.2",
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -46,8 +46,7 @@
     "angular-calendar-week-hours-view",
     "week-hours-view"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.12",
     "@angular/animations": "^9.1.12",
