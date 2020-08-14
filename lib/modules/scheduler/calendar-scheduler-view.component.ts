@@ -468,14 +468,14 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
 
         if (this.refresh) {
             this.refreshSubscription = this.refresh
-            .subscribe({
-                next: () => {
-                    this.refreshAll();
-                    this.cdr.markForCheck();
-                },
-                error: () => {},
-                complete: () => {}
-             });
+                .subscribe({
+                    next: () => {
+                        this.refreshAll();
+                        this.cdr.markForCheck();
+                    },
+                    error: () => {},
+                    complete: () => {}
+                });
         }
     }
 
