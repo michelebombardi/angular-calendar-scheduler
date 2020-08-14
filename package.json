@@ -92,7 +92,7 @@
     "postcss-flexibility": "^2.0.0",
     "protractor": "~5.4.0",
     "rxjs": "^6.5.3",
-    "standard-version": "^7.0.1",
+    "standard-version": "^8.0.1",
     "ts-node": "~8.5.4",
     "tslint": "~5.5.0",
     "typescript": "3.8.3",
