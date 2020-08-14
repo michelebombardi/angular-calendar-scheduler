@@ -47,8 +47,9 @@
     "week-hours-view"
   ],
   "dependencies": {
+    "@angular/localize": "9.1.12",
     "tslib": "^1.10.0"
-},
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.12",
     "@angular/animations": "^9.1.12",
