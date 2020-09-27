@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ElementRef, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
 import {
     SchedulerViewDay,
     CalendarSchedulerEvent,
@@ -64,7 +64,7 @@ const moment = momentImported;
         '[style.height.%]': '100'
     }
 })
-export class CalendarSchedulerEventComponent implements OnInit {
+export class CalendarSchedulerEventComponent implements OnInit, AfterContentChecked {
     @Input() title: string;
 
     @Input() day: SchedulerViewDay;
@@ -85,10 +85,14 @@ export class CalendarSchedulerEventComponent implements OnInit {
 
     @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
 
-    constructor(private hostElement: ElementRef) {   }
+    constructor(private hostElement: ElementRef, protected changeDetectorRef: ChangeDetectorRef) {   }
 
     public ngOnInit(): void {
         this.title = this.title || `${this.event.event.title}, ${this.event.event.content ? `${this.event.event.content},` : null} ${moment(this.event.event.start).format('dddd L, LT')}`;
+    }
+
+    public ngAfterContentChecked(): void {
+        this.changeDetectorRef.detectChanges();
     }
 
     onMouseEnter(): void {
