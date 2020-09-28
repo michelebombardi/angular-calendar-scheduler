@@ -19,7 +19,7 @@
     "copyfiles": "copyfiles CHANGELOG.md dist && copyfiles -u 1 lib/modules/**/package.json dist && copyfiles -u 1 lib/**/*.scss dist/scss",
     "release:git": "git add . package.json yarn.lock && git commit -m \"chore: bump version number\" && standard-version --release-as patch && git push --follow-tags origin master",
     "release:npm": "npm run build:dist && npm publish dist",
-    "release:yarn": "npm run build:dist && yarn publish",
+    "release:yarn": "npm run build:dist && yarn publish dist",
     "release": "npm run release:git && npm run release:npm"
   },
   "repository": {
