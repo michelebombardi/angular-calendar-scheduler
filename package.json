@@ -20,7 +20,8 @@
     "release:git": "git add . package.json yarn.lock && git commit -m \"chore: bump version number\" && standard-version --release-as patch && git push --follow-tags origin master",
     "release:npm": "npm run build:dist && npm publish dist",
     "release:yarn": "npm run build:dist && yarn publish",
-    "release": "npm run release:git && npm run release:npm"
+    "release": "npm run release:git && npm run release:npm",
+    "postinstall": "ngcc"
   },
   "repository": {
     "type": "git",
@@ -102,8 +103,8 @@
   },
   "peerDependencies": {
     "angular-calendar": ">=0.28.2",
-    "angular-draggable-droppable": ">=4.3.8",
-    "angular-resizable-element": ">=3.2.6",
+    "angular-draggable-droppable": ">=4.4.6",
+    "angular-resizable-element": ">=3.3.2",
     "bootstrap": ">=4.4.1",
     "date-fns": ">=2.8.1",
     "moment": ">=2.24.0"
