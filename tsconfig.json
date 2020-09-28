@@ -22,6 +22,9 @@
       "angular-calendar-scheduler": ["./lib/public_api"]
     },
   },
+  "angularCompilerOptions": {
+    "enableIvy": false
+  },
   "include": [
     "src",
     "lib",
