@@ -47,7 +47,8 @@
     "angular-calendar-scheduler",
     "angular-scheduler",
     "angular-calendar-week-hours-view",
-    "week-hours-view"
+    "week-hours-view",
+    "schematics"
   ],
   "dependencies": {},
   "devDependencies": {
