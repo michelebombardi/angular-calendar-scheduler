@@ -495,10 +495,10 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
      */
     ngOnInit(): void {
         this.forceViewDays = this.forceViewDays
-            ? Math.min(this.forceViewDays , DAYS_IN_WEEK)
+            ? Math.min(this.forceViewDays, DAYS_IN_WEEK)
             : null;
 
-        this.adjustViewDays();
+        this.adjustViewDays(true);
 
         if (this.refresh) {
             this.refreshSubscription = this.refresh
