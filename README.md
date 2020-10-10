@@ -91,6 +91,7 @@ export class AppComponent implements OnInit {
     view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
     viewDays: number = DAYS_IN_WEEK;
+    forceViewDays: number = DAYS_IN_WEEK;
     refresh: Subject<any> = new Subject();
     locale: string = 'en';
     hourSegments: number = 4;
@@ -131,11 +132,6 @@ export class AppComponent implements OnInit {
 
     events: CalendarSchedulerEvent[];
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event: any) {
-        this.adjustViewDays();
-    }
-
     constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService) {
         this.locale = locale;
 
@@ -155,24 +151,12 @@ export class AppComponent implements OnInit {
             }
         }).bind(this);
 
-        this.adjustViewDays();
         this.dateOrViewChanged();
     }
 
     ngOnInit(): void {
         this.appService.getEvents(this.actions)
             .then((events: CalendarSchedulerEvent[]) => this.events = events);
-    }
-
-    adjustViewDays(): void {
-        const currentWidth: number = window.innerWidth;
-        if (currentWidth <= 450) {
-            this.viewDays = 1;
-        } else if (currentWidth <= 768) {
-            this.viewDays = 3;
-        } else {
-            this.viewDays = DAYS_IN_WEEK;
-        }
     }
 
     changeDate(date: Date): void {
@@ -205,6 +189,11 @@ export class AppComponent implements OnInit {
 
     private isDateValid(date: Date): boolean {
         return /*isToday(date) ||*/ date >= this.minDate && date <= this.maxDate;
+    }
+
+    viewDaysChanged(viewDays: number): void {
+        console.log('viewDaysChanged', viewDays);
+        this.viewDays = viewDays;
     }
 
     dayHeaderClicked(day: SchedulerViewDay): void {
@@ -244,7 +233,7 @@ export class AppComponent implements OnInit {
                             [viewDate]="viewDate"
                             [events]="events"
                             [locale]="locale"
-                            [viewDays]="viewDays"
+                            [forceViewDays]="forceViewDays"
                             [weekStartsOn]="weekStartsOn"
                             [excludeDays]="excludeDays"
                             [startsWithToday]="startsWithToday"
@@ -258,6 +247,7 @@ export class AppComponent implements OnInit {
                             [showEventActions]="true"
                             [showSegmentHour]="true"
                             [zoomEventOnHover]="true"
+                            (viewDaysChanged)="viewDaysChanged($event)"
                             (dayHeaderClicked)="dayHeaderClicked($event.day)"
                             (hourClicked)="hourClicked($event.hour)"
                             (segmentClicked)="segmentClicked('Clicked', $event.segment)"

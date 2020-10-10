@@ -10,8 +10,10 @@ import {
     LOCALE_ID,
     Inject,
     TemplateRef,
-    ViewEncapsulation
+    ViewEncapsulation,
+    HostListener
 } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
 import { Subject, Subscription } from 'rxjs';
 import {
     WeekViewHour
@@ -199,18 +201,19 @@ import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provide
     styleUrls: ['./calendar-scheduler-view.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDestroy {
+export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDestroy {
     /**
      * The current view date
      */
     @Input() viewDate: Date;
 
     /**
-     * The number of days shown in view
+     * The number of days to show in view
+     * - If specified, this number of days will be shown but responsivness will be maintained
      * - If this number is less than DAYS_IN_WEEK, the startsWithToday = false will be ignored
      * - If this number is greater than DAYS_IN_WEEK, it will be normalized to DAYS_IN_WEEK
      */
-    @Input() viewDays: number = DAYS_IN_WEEK;
+    @Input() forceViewDays: number;
 
     /**
      * An array of events to display on view
@@ -347,6 +350,11 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     @Input() dayEndMinute: number = 59;
 
     /**
+     * Called when view days value changes
+     */
+    @Output() viewDaysChanged: EventEmitter<number> = new EventEmitter<number>();
+
+    /**
      * Called when a header week day is clicked
      */
     @Output() dayHeaderClicked: EventEmitter<{ day: SchedulerViewDay }> = new EventEmitter<{ day: SchedulerViewDay }>();
@@ -455,19 +463,46 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     /**
      * @hidden
      */
+    viewDays: number = DAYS_IN_WEEK;
+
+    mobileQueryXs: MediaQueryList;
+    mobileQuerySm: MediaQueryList;
+    mobileQueryListener: (this: MediaQueryList, ev: MediaQueryListEvent) => any;
+    @HostListener('window:resize', ['$event'])
+    onResize(event: any) {
+        this.adjustViewDays();
+    }
+
+    /**
+     * @hidden
+     */
     constructor(private cdr: ChangeDetectorRef, @Inject(LOCALE_ID) locale: string, private config: SchedulerConfig,
-        private utils: CalendarSchedulerUtils, private dateAdapter: DateAdapter) {
+        private utils: CalendarSchedulerUtils, private dateAdapter: DateAdapter, private media: MediaMatcher,
+        private changeDetectorRef: ChangeDetectorRef) {
+
         this.locale = this.config.locale || locale;
+
+        // See 'Responsive breakpoints' at https://getbootstrap.com/docs/4.1/layout/overview/
+        this.mobileQueryXs = this.media.matchMedia('(max-width: 576px)');           // Extra small devices (portrait phones, less than 576px)
+        this.mobileQuerySm = this.media.matchMedia('(max-width: 768px)');           // Small devices (landscape phones, less than 768px)
+        this.mobileQueryListener = () => this.changeDetectorRef.detectChanges();
+        this.mobileQueryXs.addEventListener('change', this.mobileQueryListener);
+        this.mobileQuerySm.addEventListener('change', this.mobileQueryListener);
     }
 
     /**
      * @hidden
      */
     ngOnInit(): void {
-        this.viewDays = Math.min(this.viewDays, DAYS_IN_WEEK);
+        this.forceViewDays = this.forceViewDays
+            ? Math.min(this.forceViewDays , DAYS_IN_WEEK)
+            : null;
+
+        this.adjustViewDays();
 
         if (this.refresh) {
             this.refreshSubscription = this.refresh
+                // tslint:disable-next-line: deprecation
                 .subscribe({
                     next: () => {
                         this.refreshAll();
@@ -483,12 +518,15 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
      * @hidden
      */
     ngOnChanges(changes: any): void {
-        if (changes.viewDate || changes.viewDays || changes.excludeDays || changes.weekendDays) {
+        if (changes.forceViewDays) {
+            this.adjustViewDays(true);
+        }
+
+        if (changes.viewDate || changes.excludeDays || changes.weekendDays) {
             this.refreshHeader();
         }
 
         if (changes.viewDate ||
-            changes.viewDays ||
             changes.events ||
             changes.dayStartHour ||
             changes.dayEndHour ||
@@ -508,6 +546,33 @@ export class CalendarSchedulerViewComponent implements OnChanges, OnInit, OnDest
     ngOnDestroy(): void {
         if (this.refreshSubscription) {
             this.refreshSubscription.unsubscribe();
+        }
+
+        this.mobileQueryXs.removeEventListener('change', this.mobileQueryListener);
+        this.mobileQuerySm.removeEventListener('change', this.mobileQueryListener);
+    }
+
+    adjustViewDays(force?: boolean): void {
+        const oldViewDays: number = this.viewDays;
+
+        if (force && this.forceViewDays) {
+            this.viewDays = this.forceViewDays;
+        } else {
+            // https://www.digitalocean.com/community/tutorials/angular-breakpoints-angular-cdk
+            // With a Component: https://www.digitalocean.com/community/tutorials/detect-responsive-screen-sizes-in-angular
+            // check/set the size
+            if (this.mobileQueryXs.matches) {
+                this.viewDays = 1;
+            } else if (this.mobileQuerySm.matches) {
+                this.viewDays = 3;
+            } else {
+                this.viewDays = DAYS_IN_WEEK;
+            }
+        }
+
+        if (this.viewDays !== oldViewDays) {
+            this.viewDaysChanged.emit(this.viewDays);
+            this.refreshAll();
         }
     }
 

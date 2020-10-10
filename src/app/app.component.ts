@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
     view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
     viewDays: number = DAYS_IN_WEEK;
+    forceViewDays: number = DAYS_IN_WEEK;
     refresh: Subject<any> = new Subject();
     locale: string = 'en';
     hourSegments: number = 4;
@@ -84,11 +85,6 @@ export class AppComponent implements OnInit {
 
     events: CalendarSchedulerEvent[];
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event: any) {
-        this.adjustViewDays();
-    }
-
     constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService, private dateAdapter: DateAdapter) {
         this.locale = locale;
 
@@ -108,7 +104,6 @@ export class AppComponent implements OnInit {
             event.isDisabled = !this.isDateValid(event.start);
         }).bind(this);
 
-        this.adjustViewDays();
         this.dateOrViewChanged();
     }
 
@@ -117,16 +112,9 @@ export class AppComponent implements OnInit {
             .then((events: CalendarSchedulerEvent[]) => this.events = events);
     }
 
-    adjustViewDays(): void {
-        // See 'Responsive breakpoints' at https://getbootstrap.com/docs/4.1/layout/overview/
-        const currentWidth: number = window.innerWidth;
-        if (currentWidth <= 576) {          // Extra small devices (portrait phones, less than 576px)
-            this.viewDays = 1;
-        } else if (currentWidth <= 768) {   // Small devices (landscape phones, less than 768px)
-            this.viewDays = 3;
-        } else {
-            this.viewDays = DAYS_IN_WEEK;
-        }
+    viewDaysOptionChanged(viewDays: number): void {
+        console.log('viewDaysOptionChanged', viewDays);
+        this.forceViewDays = viewDays;
     }
 
     changeDate(date: Date): void {
@@ -159,6 +147,11 @@ export class AppComponent implements OnInit {
 
     private isDateValid(date: Date): boolean {
         return /*isToday(date) ||*/ date >= this.minDate && date <= this.maxDate;
+    }
+
+    viewDaysChanged(viewDays: number): void {
+        console.log('viewDaysChanged', viewDays);
+        this.viewDays = viewDays;
     }
 
     dayHeaderClicked(day: SchedulerViewDay): void {

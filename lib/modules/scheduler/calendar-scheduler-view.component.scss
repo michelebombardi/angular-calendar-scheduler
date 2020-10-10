@@ -413,7 +413,8 @@
 
                             &:not(.no-content-actions) {
                                 .cal-scheduler-event-actions {
-                                    
+                                    width: auto;
+                                    height: auto;
                                 }
                             }
 
