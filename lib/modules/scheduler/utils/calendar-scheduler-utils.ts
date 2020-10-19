@@ -213,6 +213,7 @@ export function getSchedulerView(
 
                 const bottom: number = top + height;
                 const overlappingPreviousEvents = getOverLappingEvents(
+                    ev,
                     previousDayEvents,
                     top,
                     bottom,
@@ -253,6 +254,7 @@ export function getSchedulerView(
                 .filter((ev: SchedulerViewEvent) => {
                     return (
                         getOverLappingEvents(
+                            ev,
                             prevOverlappingEvents,
                             ev.top,
                             ev.top + ev.height,
@@ -272,6 +274,7 @@ export function getSchedulerView(
             const columnCount = getColumnCount(
                 dayEvents,
                 getOverLappingEvents(
+                    event,
                     dayEvents,
                     event.top,
                     event.top + event.height,
@@ -284,7 +287,7 @@ export function getSchedulerView(
         });
 
         day.events = mappedEvents.map(event => {
-            const overLappingEvents = getOverLappingEvents(
+            const overLappingEvents = getOverLappingEvents(event,
               mappedEvents.filter(otherEvent => otherEvent.left > event.left),
               event.top,
               event.top + event.height,
@@ -501,29 +504,29 @@ function isEventInPeriod(dateAdapter: DateAdapter, { event, periodStart, periodE
 }
 
 
-function getOverLappingEvents(events: SchedulerViewEvent[], top: number, bottom: number, logEnabled: boolean = false): SchedulerViewEvent[] {
+function getOverLappingEvents(event: any/*SchedulerViewEvent | CalendarSchedulerEvent*/, events: SchedulerViewEvent[], top: number, bottom: number, logEnabled: boolean = false): SchedulerViewEvent[] {
     return events.filter((previousEvent: SchedulerViewEvent) => {
         top = Math.round(top);
         bottom = Math.round(bottom);
-        const previousEventTop: number = Math.round(previousEvent.top);
-        const previousEventBottom: number = Math.round(previousEvent.top + previousEvent.height);
+        const previousEventTop: number = Math.floor(previousEvent.top);
+        const previousEventBottom: number = Math.floor(previousEvent.top + previousEvent.height);
 
         if (top < previousEventBottom && previousEventBottom < bottom) {
             if (logEnabled) {
-                console.log('[getOverLappingEvents] - EVENT ' + previousEvent.event.id + ' -> top: ' + top + ' - bottom: ' + bottom + ' - previousEventTop: '
-                    + previousEventTop + ' - previousEventBottom: ' + previousEventBottom + ' -> top < previousEventBottom && previousEventBottom < bottom');
+                console.log('[getOverLappingEvents] - EVENT ' + (event.event?.id || event.id) + ' -> top: ' + top + ' - bottom: ' + bottom + ' | PREVIOUS EVENT ' + previousEvent.event.id
+                    + ' -> previousEventTop: ' + previousEventTop + ' - previousEventBottom: ' + previousEventBottom + ' -> top < previousEventBottom && previousEventBottom < bottom');
             }
             return true;
         } else if (top < previousEventTop && previousEventTop < bottom) {
             if (logEnabled) {
-                console.log('[getOverLappingEvents] - EVENT ' + previousEvent.event.id + ' -> top: ' + top + ' - bottom: ' + bottom + ' - previousEventTop: '
-                    + previousEventTop + ' - previousEventBottom: ' + previousEventBottom + ' -> top < previousEventTop && previousEventTop < bottom');
+                console.log('[getOverLappingEvents] - EVENT ' + (event.event?.id || event.id) + ' -> top: ' + top + ' - bottom: ' + bottom + ' | PREVIOUS EVENT ' + previousEvent.event.id
+                    + ' -> previousEventTop: ' + previousEventTop + ' - previousEventBottom: ' + previousEventBottom + ' -> top < previousEventTop && previousEventTop < bottom');
             }
             return true;
         } else if (previousEventTop <= top && bottom <= previousEventBottom) {
             if (logEnabled) {
-                console.log('[getOverLappingEvents] - EVENT ' + previousEvent.event.id + ' -> top: ' + top + ' - bottom: ' + bottom + ' - previousEventTop: '
-                    + previousEventTop + ' - previousEventBottom: ' + previousEventBottom + ' -> previousEventTop <= top && bottom <= previousEventBottom');
+                console.log('[getOverLappingEvents] - EVENT ' + (event.event?.id || event.id) + ' -> top: ' + top + ' - bottom: ' + bottom + ' | PREVIOUS EVENT ' + previousEvent.event.id
+                    + ' -> previousEventTop: ' + previousEventTop + ' - previousEventBottom: ' + previousEventBottom + ' -> previousEventTop <= top && bottom <= previousEventBottom');
             }
             return true;
         }

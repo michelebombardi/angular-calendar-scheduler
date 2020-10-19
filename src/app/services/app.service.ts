@@ -11,7 +11,9 @@ import {
     subHours,
     setHours,
     subMinutes,
-    addMinutes
+    addMinutes,
+    startOfDay,
+    setMinutes
 } from 'date-fns';
 
 @Injectable()
@@ -190,6 +192,66 @@ export class AppService {
                 end: addHours(startOfHour(addHours(new Date(), 2)), 3),
                 title: 'Event 8',
                 content: 'CONCURRENT EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
+                id: '91',
+                start: setMinutes(setHours(addDays(startOfHour(new Date()), 3), 10), 30),
+                end: addMinutes(addHours(setMinutes(setHours(addDays(startOfHour(new Date()), 3), 10), 30), 1), 45),
+                title: 'Event 91',
+                content: 'TRIPLE EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
+                id: '92',
+                start: setMinutes(setHours(addDays(startOfHour(new Date()), 3), 10), 30),
+                end: addHours(setMinutes(setHours(addDays(startOfHour(new Date()), 3), 10), 30), 1),
+                title: 'Event 92',
+                content: 'TRIPLE EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
+                id: '93',
+                start: setMinutes(setHours(addDays(startOfHour(new Date()), 3), 11), 30),
+                end: addHours(setMinutes(setHours(addDays(startOfHour(new Date()), 3), 11), 30), 1),
+                title: 'Event 93',
+                content: 'TRIPLE EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
+                id: '101',
+                start: setMinutes(setHours(addDays(startOfHour(new Date()), 2), 10), 30),
+                end: addHours(setMinutes(setHours(addDays(startOfHour(new Date()), 2), 10), 30), 1),
+                title: 'Event 101',
+                content: 'DOUBLE EVENT',
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                actions: actions,
+                status: 'ok' as CalendarSchedulerEventStatus,
+                isClickable: true,
+                isDisabled: false
+            },
+            <CalendarSchedulerEvent>{
+                id: '102',
+                start: setMinutes(setHours(addDays(startOfHour(new Date()), 2), 11), 30),
+                end: addHours(setMinutes(setHours(addDays(startOfHour(new Date()), 2), 11), 30), 1),
+                title: 'Event 102',
+                content: 'DOUBLE EVENT',
                 color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
                 actions: actions,
                 status: 'ok' as CalendarSchedulerEventStatus,
