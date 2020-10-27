@@ -20,7 +20,7 @@
     ],
     "paths": {
       "angular-calendar-scheduler": ["./lib/public_api"]
-    },
+    }
   },
   "angularCompilerOptions": {
     "enableIvy": false
