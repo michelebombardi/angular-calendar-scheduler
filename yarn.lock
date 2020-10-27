@@ -209,10 +209,12 @@
     glob "7.1.2"
     yargs "15.3.0"
 
-"@angular/material@^9.2.4":
-  version "9.2.4"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-9.2.4.tgz#2666ef606fbb88d60f8e2f18c5e4f94a3dd572d8"
-  integrity sha512-LkoTXE6B0slvMhvfZDdPWaz4yaYLkaAp5VSPunI9pxGsPxzqEV9e210wC1/sjG/76Nk8Ep7/2z9XKac8Q9bMwA==
+"@angular/material@10.2.2":
+  version "10.2.2"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-10.2.2.tgz#224864e3c280ee2e8f0ccf28574c65d788799782"
+  integrity sha512-xRt8FsjY/MdC/dMBhitCXmOfXo4uhzLZ+kBqkKwY8gBsJ7FjhJIPbe/kRPBuzvVkVphrEfi/pMeDOge8v5ETbA==
+  dependencies:
+    tslib "^2.0.0"
 
 "@angular/platform-browser-dynamic@^9.1.12":
   version "9.1.12"
