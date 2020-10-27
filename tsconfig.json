@@ -10,6 +10,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": false,
+    "strict": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
     "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
@@ -23,7 +27,9 @@
     }
   },
   "angularCompilerOptions": {
-    "enableIvy": false
+    "strictInjectionParameters": false,
+    "strictInputAccessModifiers": false,
+    "strictTemplates": false
   },
   "include": [
     "src",
