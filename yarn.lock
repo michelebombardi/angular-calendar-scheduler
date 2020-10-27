@@ -1064,6 +1064,11 @@
     dom-set "^1.0.1"
     type-func "^1.0.1"
 
+"@mattlewis92/dom-autoscroller@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@mattlewis92/dom-autoscroller/-/dom-autoscroller-2.4.2.tgz#ccb753fbcf6b3672b0273e0c3bda7924fe238013"
+  integrity sha512-YbrUWREPGEjE/FU6foXcAT1YbVwqD/jkYnY1dFb0o4AxtP3s4xKBthlELjndZih8uwsDWgQZx1eNskRNe2BgZQ==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -1155,7 +1160,7 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@scarf/scarf@^1.0.5":
+"@scarf/scarf@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@scarf/scarf/-/scarf-1.1.0.tgz#b84b4a91cd938a688d36245b7a7db6fbc476a499"
   integrity sha512-b2iE8kjjzzUo2WZ0xuE2N77kfnTds7ClrDxcz3Atz7h2XrNVoAPUoT75i7CY0st5x++70V91Y+c6RpBX9MX7Jg==
@@ -1557,19 +1562,19 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
-angular-calendar@^0.28.2:
-  version "0.28.16"
-  resolved "https://registry.yarnpkg.com/angular-calendar/-/angular-calendar-0.28.16.tgz#bf62a73b163195f2eea3f7984ca3805d814b404c"
-  integrity sha512-nHIqPnpUVzpDqKz5qauPb9fTt9wB59CnqL7PFEQMptgiMad6JjdEMiGEPG2QV/uo8tDwPBmzK1S/t67HGcME4g==
+angular-calendar@0.28.22:
+  version "0.28.22"
+  resolved "https://registry.yarnpkg.com/angular-calendar/-/angular-calendar-0.28.22.tgz#3484d78732490e4a2243f462e13f4eaa87c64a63"
+  integrity sha512-jcLszdvSI6+iSYEIqyQjPK5kgGAXaMoGKKGyDpmjy0nRIdaBGMzoveKr/OyiSx1B1oyxRVjj4Ig60n1/BzXmpw==
   dependencies:
-    "@scarf/scarf" "^1.0.5"
-    angular-draggable-droppable "^4.4.6"
-    angular-resizable-element "^3.3.2"
-    calendar-utils "^0.8.0"
+    "@scarf/scarf" "^1.1.0"
+    angular-draggable-droppable "^4.5.5"
+    angular-resizable-element "^3.3.3"
+    calendar-utils "^0.8.3"
     positioning "^2.0.1"
-    tslib "^1.13.0"
+    tslib "^1.14.1"
 
-angular-draggable-droppable@^4.3.8, angular-draggable-droppable@^4.4.6:
+angular-draggable-droppable@^4.3.8:
   version "4.5.3"
   resolved "https://registry.yarnpkg.com/angular-draggable-droppable/-/angular-draggable-droppable-4.5.3.tgz#3b01e07465aeba7abe2a6b6c05e68acfc7551422"
   integrity sha512-7CvXixefvDQ0u0y8X/GTfXdACALAo3JAQ1+O+W3y83CqhyWza1fbBJz5LOHDTNJj3irokYJe3OCeSwi+H9gJyw==
@@ -1577,7 +1582,15 @@ angular-draggable-droppable@^4.3.8, angular-draggable-droppable@^4.4.6:
     "@mattlewis92/dom-autoscroller" "^2.4.0"
     tslib "^1.9.0"
 
-angular-resizable-element@^3.2.6, angular-resizable-element@^3.3.2:
+angular-draggable-droppable@^4.5.5:
+  version "4.5.6"
+  resolved "https://registry.yarnpkg.com/angular-draggable-droppable/-/angular-draggable-droppable-4.5.6.tgz#fde307d7fad1b21078b2006d042f766d9241857c"
+  integrity sha512-L4T+0THW39SGKMbQbau8qNZUXx5pewknd60Oxiyl/8Dx6YZgrhDrd0abSMmXgugWbFNe7tiM+ov3BUGSdMqZsg==
+  dependencies:
+    "@mattlewis92/dom-autoscroller" "^2.4.2"
+    tslib "^1.9.0"
+
+angular-resizable-element@^3.2.6, angular-resizable-element@^3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/angular-resizable-element/-/angular-resizable-element-3.3.3.tgz#5ddcd0b81ff20885d82d20c2122ac6892d5b0e2c"
   integrity sha512-bgKRg6dwnStfQOTw3u3oyNSo7nPjPOFVQ9UUEr+uWiLAFOMvilKgZw9bxckNytqnbgHf6OKmVbCjpLql/n+wAw==
@@ -2378,10 +2391,10 @@ cacheable-request@^6.0.0:
     normalize-url "^4.1.0"
     responselike "^1.0.2"
 
-calendar-utils@^0.8.0:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/calendar-utils/-/calendar-utils-0.8.1.tgz#74bc23d0f9fa74737637f85e96f53787ba988cbc"
-  integrity sha512-u9tHRU/iC5LkCfIYY8oqrsAAYZ8iIYGLTNpIMExZne+iyA7nXiYONGLlQqOaqycUhb50Y6CdDKJ0Wbjxf5f3zQ==
+calendar-utils@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/calendar-utils/-/calendar-utils-0.8.3.tgz#0626adddc8bf6794f9ab1595a4eec304cc2f33b0"
+  integrity sha512-1jXa32lfkn+LABz9fp7LwgGuAfc97n/JivgV9z9Wh81ep6fGIFJ5WpMw4mpHXEOl/0BCAjhJ6LfeOGW4bulllg==
 
 call-me-maybe@^1.0.1:
   version "1.0.1"
@@ -10279,10 +10292,15 @@ tslib@1.11.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
   integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
 
-tslib@^1.10.0, tslib@^1.13.0, tslib@^1.7.1, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
+tslib@^1.10.0, tslib@^1.7.1, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
+
+tslib@^1.14.1:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
+  integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
 tslint@~5.5.0:
   version "5.5.0"

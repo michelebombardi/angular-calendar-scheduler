@@ -72,7 +72,7 @@
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "^12.11.1",
-    "angular-calendar": "^0.28.2",
+    "angular-calendar": "0.28.22",
     "angular-draggable-droppable": "^4.3.8",
     "angular-resizable-element": "^3.2.6",
     "bootstrap": "^4.4.1",
@@ -104,7 +104,7 @@
     "zone.js": "~0.10.2"
   },
   "peerDependencies": {
-    "angular-calendar": ">=0.28.2",
+    "angular-calendar": ">=0.28.22",
     "angular-draggable-droppable": ">=4.4.6",
     "angular-resizable-element": ">=3.3.2",
     "bootstrap": ">=4.4.1",
