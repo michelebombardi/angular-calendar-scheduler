@@ -52,6 +52,7 @@ const moment = momentImported;
                 title: title,
                 day: day,
                 event: event,
+                container: container,
                 showContent: showContent,
                 showActions: showActions,
                 showStatus: showStatus,
