@@ -24,8 +24,6 @@ export class CalendarSchedulerEventContentComponent implements AfterViewInit {
     @Input() eventContainer: HTMLElement;
 
     maxHeight: number;
-        // 
-        // [innerHTML]="maxHeight && maxHeight >= 30 ? event.content : null"
 
     constructor(private hostElement: ElementRef) {  }
 
