@@ -28,6 +28,6 @@ export class CalendarSchedulerEventContentComponent implements AfterViewInit {
     constructor(private hostElement: ElementRef) {  }
 
     public ngAfterViewInit(): void {
-        setTimeout(() => { this.maxHeight = Math.max(30, this.eventContainer.clientHeight - 70) }, 0);
+        setTimeout(() => { this.maxHeight = Math.max(30, this.eventContainer.clientHeight - 70); }, 0);
     }
 }
