@@ -280,10 +280,10 @@
                         display: -ms-flexbox;
                         display: flex;
                         flex-flow: column wrap;
-                        padding: 0 10px;
+                        padding: 5px 10px;
                         font-size: 12px;
                         margin: 2px;
-                        line-height: 30px;
+                        // line-height: 30px;
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
@@ -338,6 +338,7 @@
                             width: 100%;
                             display: flex;
                             flex-flow: row wrap;
+                            align-items: center;
 
                             .cal-scheduler-event-title {
                                 flex: 1 0;
@@ -354,7 +355,7 @@
                             }
 
                             .cal-scheduler-event-status {
-                                margin: 7px 0;
+                                // margin: 7px 0;
                                 width: 16px;
                                 height: 16px;
                                 background: grey;

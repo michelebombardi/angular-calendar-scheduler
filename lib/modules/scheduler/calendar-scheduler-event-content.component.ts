@@ -9,7 +9,8 @@ import {
         <div *ngIf="event.content"
             class="cal-scheduler-event-content"
             [style.max-height.px]="maxHeight"
-            [innerHTML]="maxHeight && maxHeight >= 30 ? event.content : null">
+            [style.white-space]="maxHeight && maxHeight > 30 ? 'normal' : 'nowrap'"
+            [innerHTML]="event.content">
         </div>
     `,
     host: {
@@ -23,10 +24,12 @@ export class CalendarSchedulerEventContentComponent implements AfterViewInit {
     @Input() eventContainer: HTMLElement;
 
     maxHeight: number;
+        // 
+        // [innerHTML]="maxHeight && maxHeight >= 30 ? event.content : null"
 
     constructor(private hostElement: ElementRef) {  }
 
     public ngAfterViewInit(): void {
-        setTimeout(() => { this.maxHeight = this.eventContainer.clientHeight - 70; }, 0);
+        setTimeout(() => { this.maxHeight = Math.max(30, this.eventContainer.clientHeight - 70) }, 0);
     }
 }
