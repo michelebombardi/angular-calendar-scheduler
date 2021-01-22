@@ -543,7 +543,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
 
     setViewDays(viewDays: number) {
         const oldViewDays: number = this.viewDays;
-        
+
         this.viewDays = viewDays;
 
         if (this.viewDays !== oldViewDays) {
