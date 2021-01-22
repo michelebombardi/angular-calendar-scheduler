@@ -709,7 +709,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    protected resizeStarted(eventsContainer: HTMLElement, event: SchedulerViewEvent, resizeEvent: ResizeEvent): void {
+    resizeStarted(eventsContainer: HTMLElement, event: SchedulerViewEvent, resizeEvent: ResizeEvent): void {
         this.resizes.set(event.event, resizeEvent);
         this.dayColumnWidth = Math.floor(eventsContainer.offsetWidth / this.days.length);
 
@@ -721,7 +721,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    protected resizing(event: SchedulerViewEvent, resizeEvent: ResizeEvent): void {
+    resizing(event: SchedulerViewEvent, resizeEvent: ResizeEvent): void {
         this.resizes.set(event.event, resizeEvent);
         const adjustedEvents = new Map<CalendarSchedulerEvent, CalendarSchedulerEvent>();
 
@@ -744,7 +744,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    protected resizeEnded(event: SchedulerViewEvent): void {
+    resizeEnded(event: SchedulerViewEvent): void {
         this.view = this.getSchedulerView(this.events);
         const lastResizeEvent = this.resizes.get(event.event);
         this.resizes.delete(event.event);
@@ -832,7 +832,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    protected eventDropped(dropEvent: DropEvent<{ event?: CalendarSchedulerEvent; calendarId?: symbol }>, date: Date): void {
+    eventDropped(dropEvent: DropEvent<{ event?: CalendarSchedulerEvent; calendarId?: symbol }>, date: Date): void {
         if (shouldFireDroppedEvent(dropEvent, date, this.calendarId)) {
             this.eventTimesChanged.emit(
                 <SchedulerEventTimesChangedEvent>{
@@ -847,7 +847,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    protected dragStarted(eventsContainer: HTMLElement, eventContainer: HTMLElement, event?: SchedulerViewEvent): void {
+    dragStarted(eventsContainer: HTMLElement, eventContainer: HTMLElement, event?: SchedulerViewEvent): void {
         this.dayColumnWidth = Math.floor(eventsContainer.offsetWidth / this.days.length);
         const dragHelper: CalendarDragHelper = new CalendarDragHelper(
             eventsContainer,
@@ -880,7 +880,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    protected dragMove(event: SchedulerViewEvent, dragEvent: DragMoveEvent) {
+    dragMove(event: SchedulerViewEvent, dragEvent: DragMoveEvent) {
         if (this.snapDraggedEvents) {
             const newEventTimes = this.getDragMovedEventTimes(
                 event,
@@ -902,7 +902,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
         this.dragAlreadyMoved = true;
     }
 
-    protected dragEnded(event: SchedulerViewEvent, dragEndEvent: DragEndEvent, dayWidth: number, useY = false): void {
+    dragEnded(event: SchedulerViewEvent, dragEndEvent: DragEndEvent, dayWidth: number, useY = false): void {
         this.view = this.getSchedulerView(this.events);
         this.dragActive = false;
         const { start, end } = this.getDragMovedEventTimes(event, dragEndEvent, dayWidth, useY);
