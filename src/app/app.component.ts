@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, LOCALE_ID, HostListener } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID, HostListener, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import {
@@ -17,7 +17,8 @@ import {
     addPeriod,
     subPeriod,
     SchedulerDateFormatter,
-    SchedulerEventTimesChangedEvent
+    SchedulerEventTimesChangedEvent,
+    CalendarSchedulerViewComponent
 } from 'angular-calendar-scheduler';
 import {
     CalendarView,
@@ -44,7 +45,6 @@ export class AppComponent implements OnInit {
     view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
     viewDays: number = DAYS_IN_WEEK;
-    forceViewDays: number = DAYS_IN_WEEK;
     refresh: Subject<any> = new Subject();
     locale: string = 'en';
     hourSegments: number = 4;
@@ -85,6 +85,8 @@ export class AppComponent implements OnInit {
 
     events: CalendarSchedulerEvent[];
 
+    @ViewChild(CalendarSchedulerViewComponent) calendarScheduler: CalendarSchedulerViewComponent;
+
     constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService, private dateAdapter: DateAdapter) {
         this.locale = locale;
 
@@ -114,7 +116,7 @@ export class AppComponent implements OnInit {
 
     viewDaysOptionChanged(viewDays: number): void {
         console.log('viewDaysOptionChanged', viewDays);
-        this.forceViewDays = viewDays;
+        this.calendarScheduler.setViewDays(viewDays);
     }
 
     changeDate(date: Date): void {

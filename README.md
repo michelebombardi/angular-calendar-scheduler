@@ -71,8 +71,14 @@ class AppModule { }
 #### app.component.ts
 
 ```ts
-import { CalendarDateFormatter } from 'angular-calendar';
-import { ... } from 'angular-calendar-scheduler';
+import {
+    CalendarView,
+    CalendarDateFormatter,
+    DateAdapter
+} from 'angular-calendar';
+import {
+    ...
+} from 'angular-calendar-scheduler';
 
 @Component({
     selector: 'app-component',
@@ -91,7 +97,6 @@ export class AppComponent implements OnInit {
     view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
     viewDays: number = DAYS_IN_WEEK;
-    forceViewDays: number = DAYS_IN_WEEK;
     refresh: Subject<any> = new Subject();
     locale: string = 'en';
     hourSegments: number = 4;
@@ -108,6 +113,7 @@ export class AppComponent implements OnInit {
     dayModifier: Function;
     hourModifier: Function;
     segmentModifier: Function;
+    eventModifier: Function;
     prevBtnDisabled: boolean = false;
     nextBtnDisabled: boolean = false;
 
@@ -132,6 +138,8 @@ export class AppComponent implements OnInit {
 
     events: CalendarSchedulerEvent[];
 
+    @ViewChild(CalendarSchedulerViewComponent) calendarScheduler: CalendarSchedulerViewComponent;
+
     constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService) {
         this.locale = locale;
 
@@ -140,15 +148,21 @@ export class AppComponent implements OnInit {
                 day.cssClass = 'cal-disabled';
             }
         }).bind(this);
+
         this.hourModifier = ((hour: SchedulerViewHour): void => {
             if (!this.isDateValid(hour.date)) {
                 hour.cssClass = 'cal-disabled';
             }
         }).bind(this);
+
         this.segmentModifier = ((segment: SchedulerViewHourSegment): void => {
             if (!this.isDateValid(segment.date)) {
                 segment.isDisabled = true;
             }
+        }).bind(this);
+
+        this.eventModifier = ((event: CalendarSchedulerEvent): void => {
+            event.isDisabled = !this.isDateValid(event.start);
         }).bind(this);
 
         this.dateOrViewChanged();
@@ -157,6 +171,11 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
         this.appService.getEvents(this.actions)
             .then((events: CalendarSchedulerEvent[]) => this.events = events);
+    }
+
+    viewDaysOptionChanged(viewDays: number): void {
+        console.log('viewDaysOptionChanged', viewDays);
+        this.calendarScheduler.setViewDays(viewDays);
     }
 
     changeDate(date: Date): void {
@@ -229,11 +248,17 @@ export class AppComponent implements OnInit {
 
 ```html
     ...
-    <calendar-scheduler-view *ngSwitchCase="'week'"
+    <select #viewDayOptionSelect class="form-control" [ngModel]="viewDays" (change)="viewDaysOptionChanged(viewDayOptionSelect.value)">
+            <option [value]="1">One day</option>
+            <option [value]="3">Three days</option>
+            <option [value]="7">One week</option>
+    </select>
+    ...
+    <calendar-scheduler-view *ngSwitchCase="CalendarView.Week"
                             [viewDate]="viewDate"
                             [events]="events"
                             [locale]="locale"
-                            [forceViewDays]="forceViewDays"
+                            [responsive]="true"
                             [weekStartsOn]="weekStartsOn"
                             [excludeDays]="excludeDays"
                             [startsWithToday]="startsWithToday"

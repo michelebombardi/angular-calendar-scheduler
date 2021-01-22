@@ -208,12 +208,9 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     @Input() viewDate: Date;
 
     /**
-     * The number of days to show in view
-     * - If specified, this number of days will be shown but responsivness will be maintained
-     * - If this number is less than DAYS_IN_WEEK, the startsWithToday = false will be ignored
-     * - If this number is greater than DAYS_IN_WEEK, it will be normalized to DAYS_IN_WEEK
+     * Specify if the calendar must be resposive on window resize, changing the days showed automatically
      */
-    @Input() forceViewDays: number;
+    @Input() responsive: boolean = false;
 
     /**
      * An array of events to display on view
@@ -494,11 +491,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
      * @hidden
      */
     ngOnInit(): void {
-        this.forceViewDays = this.forceViewDays
-            ? Math.min(this.forceViewDays, DAYS_IN_WEEK)
-            : null;
-
-        this.adjustViewDays(true);
+        this.adjustViewDays();
 
         if (this.refresh) {
             this.refreshSubscription = this.refresh
@@ -518,10 +511,6 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
      * @hidden
      */
     ngOnChanges(changes: any): void {
-        if (changes.forceViewDays) {
-            this.adjustViewDays(true);
-        }
-
         if (changes.viewDate || changes.excludeDays || changes.weekendDays) {
             this.refreshHeader();
         }
@@ -552,12 +541,21 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
         this.mobileQuerySm.removeEventListener('change', this.mobileQueryListener);
     }
 
-    adjustViewDays(force?: boolean): void {
+    setViewDays(viewDays: number) {
+        const oldViewDays: number = this.viewDays;
+        
+        this.viewDays = viewDays;
+
+        if (this.viewDays !== oldViewDays) {
+            this.viewDaysChanged.emit(this.viewDays);
+            this.refreshAll();
+        }
+    }
+
+    protected adjustViewDays(): void {
         const oldViewDays: number = this.viewDays;
 
-        if (force && this.forceViewDays) {
-            this.viewDays = this.forceViewDays;
-        } else {
+        if (this.responsive) {
             // https://www.digitalocean.com/community/tutorials/angular-breakpoints-angular-cdk
             // With a Component: https://www.digitalocean.com/community/tutorials/detect-responsive-screen-sizes-in-angular
             // check/set the size
@@ -576,7 +574,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
         }
     }
 
-    getPositioningClasses(day: SchedulerViewDay, event: CalendarSchedulerEvent): string {
+    protected getPositioningClasses(day: SchedulerViewDay, event: CalendarSchedulerEvent): string {
         const classes: string[] = [
             this.getDayClass(event.start),
             this.getTimeClass(day.date, event),
@@ -711,7 +709,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    resizeStarted(eventsContainer: HTMLElement, event: SchedulerViewEvent, resizeEvent: ResizeEvent): void {
+    protected resizeStarted(eventsContainer: HTMLElement, event: SchedulerViewEvent, resizeEvent: ResizeEvent): void {
         this.resizes.set(event.event, resizeEvent);
         this.dayColumnWidth = Math.floor(eventsContainer.offsetWidth / this.days.length);
 
@@ -723,7 +721,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    resizing(event: SchedulerViewEvent, resizeEvent: ResizeEvent): void {
+    protected resizing(event: SchedulerViewEvent, resizeEvent: ResizeEvent): void {
         this.resizes.set(event.event, resizeEvent);
         const adjustedEvents = new Map<CalendarSchedulerEvent, CalendarSchedulerEvent>();
 
@@ -746,7 +744,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    resizeEnded(event: SchedulerViewEvent): void {
+    protected resizeEnded(event: SchedulerViewEvent): void {
         this.view = this.getSchedulerView(this.events);
         const lastResizeEvent = this.resizes.get(event.event);
         this.resizes.delete(event.event);
@@ -834,7 +832,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    eventDropped(dropEvent: DropEvent<{ event?: CalendarSchedulerEvent; calendarId?: symbol }>, date: Date): void {
+    protected eventDropped(dropEvent: DropEvent<{ event?: CalendarSchedulerEvent; calendarId?: symbol }>, date: Date): void {
         if (shouldFireDroppedEvent(dropEvent, date, this.calendarId)) {
             this.eventTimesChanged.emit(
                 <SchedulerEventTimesChangedEvent>{
@@ -849,7 +847,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    dragStarted(eventsContainer: HTMLElement, eventContainer: HTMLElement, event?: SchedulerViewEvent): void {
+    protected dragStarted(eventsContainer: HTMLElement, eventContainer: HTMLElement, event?: SchedulerViewEvent): void {
         this.dayColumnWidth = Math.floor(eventsContainer.offsetWidth / this.days.length);
         const dragHelper: CalendarDragHelper = new CalendarDragHelper(
             eventsContainer,
@@ -882,7 +880,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
-    dragMove(event: SchedulerViewEvent, dragEvent: DragMoveEvent) {
+    protected dragMove(event: SchedulerViewEvent, dragEvent: DragMoveEvent) {
         if (this.snapDraggedEvents) {
             const newEventTimes = this.getDragMovedEventTimes(
                 event,
@@ -904,7 +902,7 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
         this.dragAlreadyMoved = true;
     }
 
-    dragEnded(event: SchedulerViewEvent, dragEndEvent: DragEndEvent, dayWidth: number, useY = false): void {
+    protected dragEnded(event: SchedulerViewEvent, dragEndEvent: DragEndEvent, dayWidth: number, useY = false): void {
         this.view = this.getSchedulerView(this.events);
         this.dragActive = false;
         const { start, end } = this.getDragMovedEventTimes(event, dragEndEvent, dayWidth, useY);
