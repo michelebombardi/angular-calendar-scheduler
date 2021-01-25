@@ -110,10 +110,12 @@ export class AppComponent implements OnInit {
 
     minDate: Date = new Date();
     maxDate: Date = endOfDay(addMonths(new Date(), 1));
+    
     dayModifier: Function;
     hourModifier: Function;
     segmentModifier: Function;
     eventModifier: Function;
+
     prevBtnDisabled: boolean = false;
     nextBtnDisabled: boolean = false;
 
