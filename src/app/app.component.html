@@ -99,10 +99,11 @@
   <br>
   <div [ngSwitch]="view">
         <calendar-scheduler-view *ngSwitchCase="CalendarView.Week"
+                                [viewDays]="viewDays"
                                 [viewDate]="viewDate"
                                 [events]="events"
                                 [locale]="locale"                               
-                                [responsive]="true"
+                                [responsive]="false"
                                 [weekStartsOn]="weekStartsOn"
                                 [excludeDays]="excludeDays"
                                 [startsWithToday]="startsWithToday"

@@ -202,6 +202,12 @@ import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provide
     encapsulation: ViewEncapsulation.None
 })
 export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDestroy {
+
+    /**
+     * Number of days shown. This value will be always normalized to DAYS_IN_WEEK (7)
+     */
+    @Input() viewDays: number = DAYS_IN_WEEK;
+
     /**
      * The current view date
      */
@@ -457,11 +463,6 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
      */
     trackByHourSegment = trackByHourSegment;
 
-    /**
-     * @hidden
-     */
-    viewDays: number = DAYS_IN_WEEK;
-
     mobileQueryXs: MediaQueryList;
     mobileQuerySm: MediaQueryList;
     mobileQueryListener: (this: MediaQueryList, ev: MediaQueryListEvent) => any;
@@ -511,11 +512,15 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
      * @hidden
      */
     ngOnChanges(changes: any): void {
-        if (changes.viewDate || changes.excludeDays || changes.weekendDays) {
+        if (changes.viewDays)
+            this.viewDays = Math.min(this.viewDays, DAYS_IN_WEEK)
+
+        if (changes.viewDays || changes.viewDate || changes.excludeDays || changes.weekendDays) {
             this.refreshHeader();
         }
 
-        if (changes.viewDate ||
+        if (changes.viewDays ||
+            changes.viewDate ||
             changes.events ||
             changes.dayStartHour ||
             changes.dayEndHour ||
