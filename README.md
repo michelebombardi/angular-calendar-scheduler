@@ -255,6 +255,7 @@ export class AppComponent implements OnInit {
     </select>
     ...
     <calendar-scheduler-view *ngSwitchCase="CalendarView.Week"
+                            [viewDays]="viewDays"
                             [viewDate]="viewDate"
                             [events]="events"
                             [locale]="locale"

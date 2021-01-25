@@ -206,7 +206,13 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * Number of days shown. This value will be always normalized to DAYS_IN_WEEK (7)
      */
-    @Input() viewDays: number = DAYS_IN_WEEK;
+    _viewDays: number = DAYS_IN_WEEK;
+    get viewDays(): number {
+        return this._viewDays;
+    }
+    @Input() set viewDays(value: number) {
+        this._viewDays = Math.min(value, DAYS_IN_WEEK);
+    }
 
     /**
      * The current view date
@@ -512,9 +518,6 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
      * @hidden
      */
     ngOnChanges(changes: any): void {
-        if (changes.viewDays)
-            this.viewDays = Math.min(this.viewDays, DAYS_IN_WEEK)
-
         if (changes.viewDays || changes.viewDate || changes.excludeDays || changes.weekendDays) {
             this.refreshHeader();
         }
@@ -547,18 +550,18 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     }
 
     setViewDays(viewDays: number) {
-        const oldViewDays: number = this.viewDays;
+        const oldViewDays: number = this._viewDays;
 
         this.viewDays = viewDays;
 
-        if (this.viewDays !== oldViewDays) {
-            this.viewDaysChanged.emit(this.viewDays);
+        if (this._viewDays !== oldViewDays) {
+            this.viewDaysChanged.emit(this._viewDays);
             this.refreshAll();
         }
     }
 
     protected adjustViewDays(): void {
-        const oldViewDays: number = this.viewDays;
+        const oldViewDays: number = this._viewDays;
 
         if (this.responsive) {
             // https://www.digitalocean.com/community/tutorials/angular-breakpoints-angular-cdk
@@ -573,8 +576,8 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
             }
         }
 
-        if (this.viewDays !== oldViewDays) {
-            this.viewDaysChanged.emit(this.viewDays);
+        if (this._viewDays !== oldViewDays) {
+            this.viewDaysChanged.emit(this._viewDays);
             this.refreshAll();
         }
     }
