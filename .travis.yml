@@ -14,6 +14,7 @@ services:
 before_script:
   - npm install -g @angular/cli
   - npm install -g codecov
+  - npx browserslist@latest --update-db
 
 script:
   - ng lint
