@@ -2,7 +2,7 @@ language: node_js
 node_js: 12
 
 addons:
-  #chrome: stable
+  chrome: stable
 
 before_install:
   #- export CHROME_BIN=chromium-browser
@@ -14,7 +14,6 @@ services:
 before_script:
   - npm install -g @angular/cli
   - npm install -g codecov
-  - npx browserslist@latest --update-db
 
 script:
   - ng lint
