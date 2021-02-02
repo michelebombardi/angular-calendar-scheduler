@@ -41,11 +41,13 @@ export class CalendarSchedulerEventActionsComponent implements OnInit, OnChanges
     }
 
     private setupActions(): void {
-        this.actions = this.event.isCancelled
-            ? this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'cancelled')
-            : this.event.isDisabled
-                ? this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'disabled')
-                : this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'enabled');
+        if (this.event.actions) {
+            this.actions = this.event.isCancelled
+                ? this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'cancelled')
+                : this.event.isDisabled
+                    ? this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'disabled')
+                    : this.event.actions.filter((a: CalendarSchedulerEventAction) => !a.when || a.when === 'enabled');
+        }
     }
 
     /**
