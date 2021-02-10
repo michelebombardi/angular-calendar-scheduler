@@ -490,8 +490,10 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
         this.mobileQueryXs = this.media.matchMedia('(max-width: 576px)');           // Extra small devices (portrait phones, less than 576px)
         this.mobileQuerySm = this.media.matchMedia('(max-width: 768px)');           // Small devices (landscape phones, less than 768px)
         this.mobileQueryListener = () => this.changeDetectorRef.detectChanges();
-        this.mobileQueryXs.addEventListener('change', this.mobileQueryListener);
-        this.mobileQuerySm.addEventListener('change', this.mobileQueryListener);
+        // this.mobileQueryXs.addEventListener('change', this.mobileQueryListener);
+        this.mobileQueryXs.addListener(this.mobileQueryListener);
+        // this.mobileQuerySm.addEventListener('change', this.mobileQueryListener);
+        this.mobileQuerySm.addListener(this.mobileQueryListener);
     }
 
     /**
@@ -545,8 +547,10 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
             this.refreshSubscription.unsubscribe();
         }
 
-        this.mobileQueryXs.removeEventListener('change', this.mobileQueryListener);
-        this.mobileQuerySm.removeEventListener('change', this.mobileQueryListener);
+        // this.mobileQueryXs.removeEventListener('change', this.mobileQueryListener);
+        this.mobileQueryXs.removeListener(this.mobileQueryListener);
+        // this.mobileQuerySm.removeEventListener('change', this.mobileQueryListener);
+        this.mobileQuerySm.removeListener(this.mobileQueryListener);
     }
 
     setViewDays(viewDays: number) {
