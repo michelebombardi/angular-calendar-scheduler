@@ -489,7 +489,9 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
         // See 'Responsive breakpoints' at https://getbootstrap.com/docs/4.1/layout/overview/
         this.mobileQueryXs = this.media.matchMedia('(max-width: 576px)');           // Extra small devices (portrait phones, less than 576px)
         this.mobileQuerySm = this.media.matchMedia('(max-width: 768px)');           // Small devices (landscape phones, less than 768px)
+
         this.mobileQueryListener = () => this.changeDetectorRef.detectChanges();
+
         // this.mobileQueryXs.addEventListener('change', this.mobileQueryListener);
         this.mobileQueryXs.addListener(this.mobileQueryListener);
         // this.mobileQuerySm.addEventListener('change', this.mobileQueryListener);
