@@ -142,7 +142,7 @@ export class AppComponent implements OnInit {
 
     @ViewChild(CalendarSchedulerViewComponent) calendarScheduler: CalendarSchedulerViewComponent;
 
-    constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService) {
+    constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService, private dateAdapter: DateAdapter) {
         this.locale = locale;
 
         this.dayModifier = ((day: SchedulerViewDay): void => {
@@ -186,7 +186,7 @@ export class AppComponent implements OnInit {
         this.dateOrViewChanged();
     }
 
-    changeView(view: CalendarPeriod): void {
+    changeView(view: CalendarView): void {
         console.log('changeView', view);
         this.view = view;
         this.dateOrViewChanged();
@@ -194,11 +194,11 @@ export class AppComponent implements OnInit {
 
     dateOrViewChanged(): void {
         if (this.startsWithToday) {
-            this.prevBtnDisabled = !this.isDateValid(subPeriod(this.view, this.viewDate, 1));
-            this.nextBtnDisabled = !this.isDateValid(addPeriod(this.view, this.viewDate, 1));
+            this.prevBtnDisabled = !this.isDateValid(subPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1));
+            this.nextBtnDisabled = !this.isDateValid(addPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1));
         } else {
-            this.prevBtnDisabled = !this.isDateValid(endOfPeriod(this.view, subPeriod(this.view, this.viewDate, 1)));
-            this.nextBtnDisabled = !this.isDateValid(startOfPeriod(this.view, addPeriod(this.view, this.viewDate, 1)));
+            this.prevBtnDisabled = !this.isDateValid(endOfPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, subPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1)));
+            this.nextBtnDisabled = !this.isDateValid(startOfPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, addPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1)));
         }
 
         if (this.viewDate < this.minDate) {
