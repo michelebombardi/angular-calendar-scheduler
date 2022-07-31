@@ -41,5 +41,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Yarn
 yarn.lock
 yarn-error.log
