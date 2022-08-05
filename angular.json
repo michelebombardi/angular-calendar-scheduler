@@ -31,7 +31,8 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "@mattlewis92/dom-autoscroller"
+              "@mattlewis92/dom-autoscroller",
+              "moment"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
