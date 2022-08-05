@@ -477,7 +477,7 @@
                         $attr-list: null;
                         $hours: 0;
                         $minutes: 0;
-                        $attr-count: 24 * 60 / $minutes-steps;
+                        $attr-count: math.div(24 * 60, $minutes-steps);
                 
                         @for $i from 0 through $attr-count {
                             $attr-value: $attr-steps * $i;
@@ -514,7 +514,7 @@
                 
                     @mixin length-x($attr, $attr-steps: 2, $minutes-steps: 15, $unit: '%') {
                         $attr-list: null;
-                        $attr-count: 24 * 60 / $minutes-steps;
+                        $attr-count: math.div(24 * 60, $minutes-steps);
                 
                         @for $i from 0 through $attr-count {
                             $attr-name: $minutes-steps * $i;
