@@ -24,10 +24,18 @@ export * from './calendar-scheduler-view.component';
 export * from './formatters/scheduler-date-formatter.provider';
 export * from './formatters/scheduler-event-title-formatter.provider';
 export * from './pipes/scheduler-event-title.pipe';
+export * from './pipes/calendar-scheduler-date.pipe';
 export * from './utils/calendar-scheduler-utils';
 export * from './utils/calendar-scheduler-utils.provider';
 export * from '../common/utils';
 export * from './models';
+
+export * from './calendar-scheduler-hour-segment.component';
+export * from './calendar-scheduler-header.component';
+export * from './calendar-scheduler-event.component';
+export * from './calendar-scheduler-event-title.component';
+export * from './calendar-scheduler-event-content.component';
+export * from './calendar-scheduler-event-actions.component';
 
 import { SchedulerConfig } from './scheduler-config';
 
