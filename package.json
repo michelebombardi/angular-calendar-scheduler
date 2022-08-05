@@ -69,7 +69,7 @@
     "angular-draggable-droppable": "^4.5.5",
     "angular-resizable-element": "^3.3.3",
     "autoprefixer": "^9.0.0",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^5.2.0",
     "codelyzer": "^6.0.0",
     "copyfiles": "^2.1.1",
     "core-js": "^3.6.1",
