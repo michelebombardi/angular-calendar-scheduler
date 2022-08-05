@@ -119,6 +119,5 @@
         }
       }
     }
-  },
-  "defaultProject": "angular-calendar-scheduler"
+  }
 }
