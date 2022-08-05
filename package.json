@@ -33,15 +33,9 @@
     "url": "https://github.com/mounthorse-slns/angular-calendar-scheduler/issues"
   },
   "keywords": [
-    "bmsoftware",
     "mounthorse",
     "calendar",
     "angular",
-    "angular4",
-    "angular6",
-    "angular8",
-    "angular9",
-    "angular10",
     "scheduler",
     "events",
     "angular-calendar",
@@ -55,7 +49,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.1.1",
     "@angular/animations": "^14.1.1",
-    "@angular/cdk": "13.3.9",
+    "@angular/cdk": "14.1.1",
     "@angular/cli": "^14.1.1",
     "@angular/common": "^14.1.1",
     "@angular/compiler": "^14.1.1",
@@ -64,7 +58,7 @@
     "@angular/forms": "^14.1.1",
     "@angular/language-service": "^14.1.1",
     "@angular/localize": "14.1.1",
-    "@angular/material": "13.3.9",
+    "@angular/material": "14.1.1",
     "@angular/platform-browser": "^14.1.1",
     "@angular/platform-browser-dynamic": "^14.1.1",
     "@angular/router": "^14.1.1",
