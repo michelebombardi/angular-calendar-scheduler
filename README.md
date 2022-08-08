@@ -250,7 +250,7 @@ export class AppComponent implements OnInit {
 
 ```html
     ...
-    <select #viewDayOptionSelect class="form-control" [ngModel]="viewDays" (change)="viewDaysOptionChanged(viewDayOptionSelect.value)">
+    <select #viewDayOptionSelect class="form-select" [ngModel]="viewDays" (change)="viewDaysOptionChanged(viewDayOptionSelect.value)">
             <option [value]="1">One day</option>
             <option [value]="3">Three days</option>
             <option [value]="7">One week</option>

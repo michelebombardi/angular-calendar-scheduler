@@ -39,7 +39,7 @@
         </div>
         <div class="col-md-4 text-center">
             <h3 class="mt-0">{{ viewDate | calendarSchedulerDate:(view + 'ViewTitle'):locale:weekStartsOn:excludeDays:viewDays:startsWithToday }}</h3>
-            <select #viewDayOptionSelect1 class="form-control d-none d-md-block d-xl-none" [ngModel]="viewDays" (change)="viewDaysOptionChanged(viewDayOptionSelect1.value)">
+            <select #viewDayOptionSelect1 class="form-select d-none d-md-block d-xl-none" [ngModel]="viewDays" (change)="viewDaysOptionChanged(viewDayOptionSelect1.value)">
                 <option [value]="1">Un giorno</option>
                 <option [value]="3">Tre giorni</option>
                 <option [value]="7">Una settimana</option>
@@ -48,7 +48,7 @@
         <div class="col-md-4 text-right">
             <div class="row">
                 <div class="col-6 d-md-none d-xl-flex col-xl-6 valign-center text-right">
-                    <select #viewDayOptionSelect2 class="form-control m-1" [ngModel]="viewDays" (change)="viewDaysOptionChanged(viewDayOptionSelect2.value)">
+                    <select #viewDayOptionSelect2 class="form-select m-1" [ngModel]="viewDays" (change)="viewDaysOptionChanged(viewDayOptionSelect2.value)">
                         <option [value]="1">Un giorno</option>
                         <option [value]="3">Tre giorni</option>
                         <option [value]="7">Una settimana</option>

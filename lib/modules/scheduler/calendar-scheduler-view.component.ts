@@ -66,7 +66,7 @@ import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provide
  *  [style.left.%]="event.left"
  *  [style.width.%]="event.width"
  *
- *  DRAG & DROP & RESIZE -> https://github.com/mattlewis92/angular-calendar/blob/master/projects/angular-calendar/src/modules/week/calendar-week-view.component.ts
+ *  DRAG & DROP & RESIZE -> https://github.com/mattlewis92/angular-calendar/blob/main/projects/angular-calendar/src/modules/week/calendar-week-view.component.ts
  *  FLEXBOX -> https://css-tricks.com/snippets/css/a-guide-to-flexbox/
  */
 @Component({
@@ -452,6 +452,11 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
     /**
      * @hidden
      */
+    rtl = false;
+
+    /**
+     * @hidden
+     */
     trackByHourColumn = trackByHourColumn;
 
     /**
@@ -727,8 +732,11 @@ export class CalendarSchedulerViewComponent implements OnInit, OnChanges, OnDest
         this.resizes.set(event.event, resizeEvent);
         this.dayColumnWidth = Math.floor(eventsContainer.offsetWidth / this.days.length);
 
-        const resizeHelper: CalendarResizeHelper = new CalendarResizeHelper(eventsContainer);
-        this.validateResize = ({ rectangle }) => resizeHelper.validateResize({ rectangle });
+        const resizeHelper: CalendarResizeHelper = new CalendarResizeHelper(eventsContainer, this.dayColumnWidth, this.rtl);
+        this.validateResize = ({ rectangle, edges }) => resizeHelper.validateResize({
+            rectangle: { ...rectangle },
+            edges
+        });
         this.cdr.markForCheck();
     }
 
