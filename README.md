@@ -17,6 +17,7 @@ https://angular-calendar-scheduler-demo.stackblitz.io
 ## Table of contents
 
 * [About](#about)
+* [Compatibility](#compatibility)
 * [Getting Started](#getting-started)
     * [Install](#install)
     * [Include Component](#include-component)
@@ -28,6 +29,15 @@ https://angular-calendar-scheduler-demo.stackblitz.io
 ## About
 
 This project provide a scheduler view component for [mattlewis92/angular-calendar](https://github.com/mattlewis92/angular-calendar).
+
+## Compatibility
+### What major versions of angular and bootstrap does this library support?
+
+| Angular major   | Boostrap major | Last supported angular-calendar-scheduler version                                    |
+| --------------- | -------------- | ------------------------------------------------------------------------------------ |
+| 12.x and higher | 5.x            | latest version                                                                       |
+| 6.x - 11.x      | 4.x            | [11.0.7](https://github.com/mounthorse-slns/angular-calendar-scheduler/tree/v11.0.7) |
+
 
 ## Getting Started
 
