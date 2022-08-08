@@ -35,8 +35,8 @@ This project provide a scheduler view component for [mattlewis92/angular-calenda
 
 | Angular major   | Boostrap major | Last supported angular-calendar-scheduler version                                    |
 | --------------- | -------------- | ------------------------------------------------------------------------------------ |
-| 12.x and higher | 5.x            | latest version                                                                       |
-| 6.x - 11.x      | 4.x            | [11.0.7](https://github.com/mounthorse-slns/angular-calendar-scheduler/tree/v11.0.7) |
+| 12.x and higher | 5.x.x          | latest version                                                                       |
+| 6.x - 11.x      | 4.x.x          | [11.0.7](https://github.com/mounthorse-slns/angular-calendar-scheduler/tree/v11.0.7) |
 
 
 ## Getting Started
