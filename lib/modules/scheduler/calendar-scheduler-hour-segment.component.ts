@@ -5,9 +5,7 @@ import {
     CalendarSchedulerEvent
 } from './models';
 
-// WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255
-import momentImported from 'moment';
-const moment = momentImported;
+import moment from 'moment';
 
 @Component({
     selector: 'calendar-scheduler-hour-segment',

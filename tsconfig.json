@@ -8,14 +8,11 @@
     "declaration": false,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": false,
     "strict": false,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strictPropertyInitialization": false,  
     "target": "es2020",
     "typeRoots": [
       "node_modules/@types"
@@ -31,8 +28,7 @@
   "angularCompilerOptions": {
     "strictInjectionParameters": false,
     "strictInputAccessModifiers": false,
-    "strictTemplates": false,
-    "allowSyntheticDefaultImports": true
+    "strictTemplates": false
   },
   "include": [
     "src",
