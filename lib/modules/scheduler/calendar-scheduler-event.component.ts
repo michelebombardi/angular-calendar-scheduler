@@ -6,7 +6,7 @@ import {
 } from './models';
 
 // WORKAROUND: https://github.com/dherges/ng-packagr/issues/217#issuecomment-339460255
-import * as momentImported from 'moment';
+import momentImported from 'moment';
 const moment = momentImported;
 
 @Component({
