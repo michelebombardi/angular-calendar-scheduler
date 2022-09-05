@@ -32,7 +32,8 @@
             "scripts": [],
             "allowedCommonJsDependencies": [
               "@mattlewis92/dom-autoscroller",
-              "moment"
+              "moment",
+              "moment-es6"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
