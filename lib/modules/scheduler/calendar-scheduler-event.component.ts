@@ -5,8 +5,9 @@ import {
     SchedulerViewEvent
 } from './models';
 
-import * as momentNS from 'moment';
-const moment = momentNS;
+// import * as momentNS from 'moment';
+// const moment = momentNS;
+import moment from 'moment-es6';
 
 @Component({
     selector: 'calendar-scheduler-event',
