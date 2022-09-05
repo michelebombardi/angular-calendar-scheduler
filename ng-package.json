@@ -1,9 +1,6 @@
 {
     "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
     "lib": {
-      "entryFile": "lib/public_api.ts",
-      "external": [
-        "moment"
-      ]
+      "entryFile": "lib/public_api.ts"
     }
   }
