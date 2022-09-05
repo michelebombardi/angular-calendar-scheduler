@@ -5,7 +5,7 @@ import {
     CalendarSchedulerEvent
 } from './models';
 
-import moment from 'moment';
+import * as moment from 'moment';
 
 @Component({
     selector: 'calendar-scheduler-hour-segment',
