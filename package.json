@@ -46,7 +46,8 @@
     "week-hours-view",
     "schematics"
   ],
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.0",
     "@angular/animations": "14.2.0",
@@ -85,6 +86,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "moment": "^2.29.4",
+    "moment-es6": "^1.0.0",
     "ng-packagr": "14.2.0",
     "popper.js": "^1.16.0",
     "postcss-cli": "^6.1.3",
