@@ -2,7 +2,7 @@
     "extends": "./tsconfig.json",
     "compilerOptions": {
       "types": ["node"],
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true
+      "esModuleInterop": false,
+      "allowSyntheticDefaultImports": false
     }
   }
