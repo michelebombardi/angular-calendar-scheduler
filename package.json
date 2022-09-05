@@ -104,7 +104,8 @@
     "angular-calendar": "^0.29.0",
     "bootstrap": "^5.2.0",
     "date-fns": "^2.8.1",
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "moment-es6": "^1.0.0"
   },
   "sideEffects": [
     "*.css",
