@@ -13,7 +13,8 @@ import {
 } from 'calendar-utils';
 import { DateAdapter } from 'angular-calendar';
 
-import * as moment from 'moment';
+import * as momentNS from 'moment';
+const moment = momentNS;
 
 export enum DAYS_OF_WEEK {
     SUNDAY = 0,
