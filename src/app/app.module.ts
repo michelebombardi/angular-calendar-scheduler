@@ -8,7 +8,7 @@ registerLocaleData(localeIt);
 
 import { AppComponent } from './app.component';
 
-import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { CalendarModule, DateAdapter, MOMENT } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { SchedulerModule } from 'angular-calendar-scheduler';
@@ -16,6 +16,8 @@ import { SchedulerModule } from 'angular-calendar-scheduler';
 import { AppService } from './services/app.service';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import moment from 'moment';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ],
   providers: [
     AppService,
-    { provide: LOCALE_ID, useValue: 'en-US' }
+    { provide: LOCALE_ID, useValue: 'en-US' },
+    { provide: MOMENT, useValue: moment }
   ],
   bootstrap: [AppComponent]
 })

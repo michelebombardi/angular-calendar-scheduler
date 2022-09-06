@@ -1,4 +1,5 @@
-﻿import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+﻿import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, Inject } from '@angular/core';
+import { MOMENT } from 'angular-calendar';
 import {
     SchedulerViewDay,
     SchedulerViewHourSegment,
@@ -7,7 +8,7 @@ import {
 
 // import * as momentNS from 'moment';
 // const moment = momentNS;
-import moment from 'moment-es6';
+// import moment from 'moment-timezone';
 
 @Component({
     selector: 'calendar-scheduler-hour-segment',
@@ -58,8 +59,10 @@ export class CalendarSchedulerHourSegmentComponent implements OnInit {
 
     @Output() segmentClicked: EventEmitter<{ segment: SchedulerViewHourSegment }> = new EventEmitter<{ segment: SchedulerViewHourSegment }>();
 
+    constructor(@Inject(MOMENT) protected moment: any) {}
+
     ngOnInit(): void {
-        this.title = this.title || moment(this.segment.date).format('dddd L, LT');
+        this.title = this.title || this.moment(this.segment.date).format('dddd L, LT');
     }
 
     /**

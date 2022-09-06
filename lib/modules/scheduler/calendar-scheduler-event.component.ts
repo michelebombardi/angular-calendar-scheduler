@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ElementRef, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, OnInit, ElementRef, ChangeDetectorRef, AfterContentChecked, Inject } from '@angular/core';
+import { MOMENT } from 'angular-calendar';
 import {
     SchedulerViewDay,
     CalendarSchedulerEvent,
@@ -7,7 +8,7 @@ import {
 
 // import * as momentNS from 'moment';
 // const moment = momentNS;
-import moment from 'moment-es6';
+// import moment from 'moment-timezone';
 
 @Component({
     selector: 'calendar-scheduler-event',
@@ -86,10 +87,10 @@ export class CalendarSchedulerEventComponent implements OnInit, AfterContentChec
 
     @Output() eventClicked: EventEmitter<{ event: CalendarSchedulerEvent }> = new EventEmitter<{ event: CalendarSchedulerEvent }>();
 
-    constructor(private hostElement: ElementRef, protected changeDetectorRef: ChangeDetectorRef) {   }
+    constructor(private hostElement: ElementRef, protected changeDetectorRef: ChangeDetectorRef, @Inject(MOMENT) protected moment: any) {   }
 
     public ngOnInit(): void {
-        this.title = this.title || `${this.event.event.title}, ${this.event.event.content ? `${this.event.event.content},` : null} ${moment(this.event.event.start).format('dddd L, LT')}`;
+        this.title = this.title || `${this.event.event.title}, ${this.event.event.content ? `${this.event.event.content},` : null} ${this.moment(this.event.event.start).format('dddd L, LT')}`;
     }
 
     public ngAfterContentChecked(): void {

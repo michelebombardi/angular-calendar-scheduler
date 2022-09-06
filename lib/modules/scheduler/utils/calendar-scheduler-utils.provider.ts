@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
     getSchedulerViewHourGrid,
     GetSchedulerViewHourGridArgs,
@@ -9,11 +9,11 @@ import {
 } from './calendar-scheduler-utils';
 import { WeekViewHour } from 'calendar-utils';
 import { SchedulerView, SchedulerViewDay } from '../models';
-import { DateAdapter } from 'angular-calendar';
+import { DateAdapter, MOMENT } from 'angular-calendar';
 
 @Injectable()
 export class CalendarSchedulerUtils {
-    constructor(private dateAdapter: DateAdapter) { }
+    constructor(private dateAdapter: DateAdapter, @Inject(MOMENT) protected moment: any) { }
 
     getSchedulerViewHourGrid(args: GetSchedulerViewHourGridArgs): WeekViewHour[] {
         return getSchedulerViewHourGrid(this.dateAdapter, args);
@@ -24,6 +24,6 @@ export class CalendarSchedulerUtils {
     }
 
     getSchedulerView(args: GetSchedulerViewArgs): SchedulerView {
-        return getSchedulerView(this.dateAdapter, args);
+        return getSchedulerView(this.dateAdapter, this.moment, args);
     }
 }

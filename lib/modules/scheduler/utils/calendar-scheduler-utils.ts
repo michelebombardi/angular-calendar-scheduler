@@ -15,7 +15,7 @@ import { DateAdapter } from 'angular-calendar';
 
 // import * as momentNS from 'moment';
 // const moment = momentNS;
-import moment from 'moment-es6';
+// import moment from 'moment-timezone';
 
 export enum DAYS_OF_WEEK {
     SUNDAY = 0,
@@ -139,6 +139,7 @@ export interface GetSchedulerViewArgs {
 
 export function getSchedulerView(
     dateAdapter: DateAdapter,
+    moment: any,
     {
         events = [],
         viewDate,
