@@ -22,8 +22,8 @@ import {
     isBefore
 } from 'date-fns';
 import { ResizeEvent } from 'angular-resizable-element';
-import { CalendarDragHelper } from 'angular-calendar/esm2015/modules/common/calendar-drag-helper.provider';
-import { CalendarResizeHelper } from 'angular-calendar/esm2015/modules/common/calendar-resize-helper.provider';
+// import { CalendarDragHelper } from 'angular-calendar/modules/common/calendar-drag-helper.provider';
+// import { CalendarResizeHelper } from 'angular-calendar/modules/common/calendar-resize-helper.provider';
 import { SchedulerConfig } from './scheduler-config';
 import { CalendarEventTimesChangedEventType, DateAdapter } from 'angular-calendar';
 import { DragMoveEvent, DragEndEvent, DropEvent } from 'angular-draggable-droppable';
@@ -57,6 +57,8 @@ import {
     DAYS_IN_WEEK
 } from './utils/calendar-scheduler-utils';
 import { CalendarSchedulerUtils } from './utils/calendar-scheduler-utils.provider';
+import { CalendarResizeHelper } from '../common/temp/calendar-resize-helper.provider';
+import { CalendarDragHelper } from '../common/temp/calendar-drag-helper.provider';
 
 /**
  *  [ngClass]="getPositioningClasses(event)"
