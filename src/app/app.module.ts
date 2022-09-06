@@ -36,7 +36,7 @@ import moment from 'moment';
   providers: [
     AppService,
     { provide: LOCALE_ID, useValue: 'en-US' },
-    { provide: MOMENT, useValue: moment }
+    { provide: MOMENT, useValue: moment }   // https://github.com/mattlewis92/angular-calendar/blob/818eff06c88d357c59589a4077559c17ce246585/projects/angular-calendar/src/modules/common/calendar-moment-date-formatter.provider.ts
   ],
   bootstrap: [AppComponent]
 })
