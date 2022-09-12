@@ -3,6 +3,15 @@
   "version": "14.2.0",
   "license": "MIT",
   "private": false,
+  "packageManager": "pnpm@7.11.0",
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "webpack",
+        "@angular-devkit/*"
+      ]
+    }
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
@@ -14,13 +23,14 @@
     "e2e": "ng e2e",
     "clean": "rimraf dist",
     "build:package": "ng-packagr -p ng-package.json",
-    "build:dist": "npm run build:package && npm run build:styles && npm run copyfiles",
+    "build:dist": "pnpm build:package && pnpm build:styles && pnpm copyfiles",
     "build:styles": "sass lib/modules/scheduler/calendar-scheduler-view.component.scss | postcss --output dist/css/angular-calendar-scheduler.css",
     "copyfiles": "copyfiles CHANGELOG.md dist && copyfiles -u 1 lib/modules/**/package.json dist && copyfiles -u 1 lib/**/*.scss dist/scss",
     "release:git": "git add . package.json && git commit -m \"chore: bump version number\" && standard-version --release-as patch && git push --follow-tags origin master",
     "release:npm": "npm run build:dist && npm publish dist",
-    "release:yarn": "npm run build:dist && yarn publish dist",
-    "release": "npm run release:git && npm run release:yarn",
+    "release:yarn": "yarn build:dist && yarn publish dist",
+    "release:pnpm": "pnpm build:dist && pnpm publish dist",
+    "release": "pnpm release:git && pnpm release:pnpm",
     "postinstall": "ngcc"
   },
   "repository": {
