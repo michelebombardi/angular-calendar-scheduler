@@ -63,12 +63,20 @@ yarn add angular-calendar-scheduler date-fns
 import { CalendarModule } from 'angular-calendar';
 import { SchedulerModule } from 'angular-calendar-scheduler';
 
+import moment from 'moment';
+
 @NgModule({
     ...
     imports: [
         ...,
         CalendarModule.forRoot(),
         SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' }),
+        ...
+    ],
+    providers: [
+        ...
+        { provide: LOCALE_ID, useValue: 'en-US' },
+        { provide: MOMENT, useValue: moment }
         ...
     ],
     ...
