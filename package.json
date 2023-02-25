@@ -26,7 +26,7 @@
     "build:dist": "pnpm build:package && pnpm build:styles && pnpm copyfiles",
     "build:styles": "sass lib/modules/scheduler/calendar-scheduler-view.component.scss | postcss --output dist/css/angular-calendar-scheduler.css",
     "copyfiles": "copyfiles CHANGELOG.md dist && copyfiles -u 1 lib/modules/**/package.json dist && copyfiles -u 1 lib/**/*.scss dist/scss",
-    "release:git": "git add . package.json && git commit -m \"chore: bump version number\" && standard-version --release-as 15.0.0 && git push --follow-tags origin master",
+    "release:git": "git add . package.json && git commit -m \"chore: bump version number\" && standard-version --release-as patch && git push --follow-tags origin master",
     "release:npm": "npm run build:dist && npm publish dist",
     "release:yarn": "yarn build:dist && yarn publish dist",
     "release:pnpm": "pnpm build:dist && pnpm publish dist",
