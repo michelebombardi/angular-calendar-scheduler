@@ -82,6 +82,7 @@
     "angular-resizable-element": "^6.0.0",
     "autoprefixer": "^9.0.0",
     "bootstrap": "^5.2.0",
+    "calendar-utils": "0.10.4",
     "codelyzer": "^6.0.0",
     "copyfiles": "^2.1.1",
     "core-js": "^3.6.1",
