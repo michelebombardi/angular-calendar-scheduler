@@ -15,7 +15,7 @@ import { SchedulerModule } from 'angular-calendar-scheduler';
 
 import { AppService } from './services/app.service';
 
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 
 import moment from 'moment';
 
