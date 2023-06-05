@@ -60,7 +60,7 @@ yarn add angular-calendar-scheduler date-fns
 #### Import
 
 ```ts
-import { CalendarModule } from 'angular-calendar';
+import { CalendarModule, MOMENT } from 'angular-calendar';
 import { SchedulerModule } from 'angular-calendar-scheduler';
 
 import moment from 'moment';
