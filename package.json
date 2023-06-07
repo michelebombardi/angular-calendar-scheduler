@@ -35,14 +35,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mounthorse-slns/angular-calendar-scheduler.git"
+    "url": "git+https://github.com/michelebombardi/angular-calendar-scheduler.git"
   },
-  "author": "Michele Bombardi (Mounthorse Solutions)",
-  "homepage": "https://github.com/mounthorse-slns/angular-calendar-scheduler",
+  "author": "Michele Bombardi (Montecavallo Solutions)",
+  "homepage": "https://github.com/michelebombardi/angular-calendar-scheduler",
   "bugs": {
-    "url": "https://github.com/mounthorse-slns/angular-calendar-scheduler/issues"
+    "url": "https://github.com/michelebombardi/angular-calendar-scheduler/issues"
   },
   "keywords": [
+    "montecavallo",
     "mounthorse",
     "calendar",
     "week",
@@ -98,6 +99,7 @@
     "moment": "^2.29.4",
     "moment-es6": "^1.0.0",
     "moment-timezone": "^0.5.37",
+    "node-sass": "8.0.0",
     "ng-packagr": "15.2.2",
     "popper.js": "^1.16.0",
     "postcss-cli": "^6.1.3",

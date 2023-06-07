@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 /* Material Icons Styles (http://google.github.io/material-design-icons/#icon-font-for-the-web) */
 /* Rules for sizing the icon. */
 .material-icons.md-12 { font-size: 12px; }
@@ -34,9 +36,25 @@ $black-1000: #000000;
 /*----------------------------------------------------------------------------------------------*/
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
-@import "@angular/material/prebuilt-themes/indigo-pink.css";
-
 @import "~bootstrap/dist/css/bootstrap.min.css";
+
+@include mat.core();
+@include mat.legacy-core();
+
+$my-primary: mat.define-palette(mat.$indigo-palette, 500);
+$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$app-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+ ),
+ typography: mat.define-typography-config(),
+ density: 0,
+));
+
+@include mat.all-component-themes($app-theme);
+@include mat.all-legacy-component-themes($app-theme);
 
 html, body {
     height: 100%;

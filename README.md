@@ -12,7 +12,7 @@ ___
 
 ## Demo
 
-https://angular-calendar-scheduler-demo.stackblitz.io
+https://angular-calendar-scheduler-demo-kvmava.stackblitz.io
 
 ## Table of contents
 
