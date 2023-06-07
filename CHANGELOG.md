@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file.
 
 ## [15.0.4](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v15.0.3...v15.0.4) (2023-06-07)
 
