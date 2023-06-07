@@ -45,7 +45,7 @@ export class CalendarDragHelper {
           outer.top < inner.bottom && inner.bottom < outer.bottom;
 
         return (
-          isInsideLeftAndRight(outer, inner) && (isTopInside || isBottomInside)
+          /*isInsideLeftAndRight(outer, inner) &&*/ (isTopInside || isBottomInside)
         );
       }
 
