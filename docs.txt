@@ -1,3 +1,6 @@
 RELEASE:
 - https://github.com/google-github-actions/release-please-action
 - https://github.com/google-github-actions/release-please-action#how-should-i-write-my-commits
+
+1) release:feat:major
+2) release:pnpm
