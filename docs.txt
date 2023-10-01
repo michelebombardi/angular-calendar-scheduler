@@ -1,1 +1,3 @@
-RELEASE: https://github.com/google-github-actions/release-please-action
+RELEASE:
+- https://github.com/google-github-actions/release-please-action
+- https://github.com/google-github-actions/release-please-action#how-should-i-write-my-commits
