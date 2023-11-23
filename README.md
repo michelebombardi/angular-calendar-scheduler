@@ -12,7 +12,8 @@ ___
 
 ## Demo
 
-https://angular-calendar-scheduler-demo-kvmava.stackblitz.io
+<!--https://angular-calendar-scheduler-demo-kvmava.stackblitz.io-->
+[StackBlitz](https://stackblitz.com/edit/angular-calendar-scheduler-demo-kvmava?file=src%2Fapp%2Fapp.component.ts)
 
 ## Table of contents
 
