@@ -22,7 +22,7 @@
             },
             "index": "src/index.html",
             "polyfills": [
-              "src/polyfills.ts"
+              "@angular/localize/init"
             ],
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
