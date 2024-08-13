@@ -36,7 +36,7 @@ import { AppService } from './services/app.service';
         provide: CalendarDateFormatter,
         useClass: SchedulerDateFormatter
     }],
-    //changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
     title: string = 'Angular Calendar Scheduler Demo';
