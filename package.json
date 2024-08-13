@@ -35,8 +35,7 @@
     "release:npm": "npm run build:dist && npm publish dist",
     "release:yarn": "yarn build:dist && yarn publish dist",
     "release:pnpm": "pnpm build:dist && pnpm publish dist",
-    "release": "pnpm release:git && pnpm release:pnpm",
-    "postinstall": "ngcc"
+    "release": "pnpm release:git && pnpm release:pnpm"
   },
   "repository": {
     "type": "git",
@@ -113,7 +112,7 @@
     "ts-node": "~8.5.4",
     "tslib": "^2.0.0",
     "tslint": "~6.1.0",
-    "typescript": "5.2.2",
+    "typescript": "5.4.2",
     "zone.js": "~0.14.10"
   },
   "peerDependencies": {
