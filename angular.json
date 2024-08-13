@@ -75,18 +75,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-calendar-scheduler:build"
+            "buildTarget": "angular-calendar-scheduler:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-calendar-scheduler:build:production"
+              "buildTarget": "angular-calendar-scheduler:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-calendar-scheduler:build"
+            "buildTarget": "angular-calendar-scheduler:build"
           }
         },
         "test": {
