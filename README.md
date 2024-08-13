@@ -1,6 +1,6 @@
 # Angular Calendar Scheduler
 
-[![Build Status](https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler.svg?branch=master)](https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler)
+[![Build Status](https://travis-ci.org/michelebombardi/angular-calendar-scheduler.svg?branch=main)](https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler)
 [![npm version](https://badge.fury.io/js/angular-calendar-scheduler.svg)](https://www.npmjs.com/package/angular-calendar-scheduler)
 [![codecov](https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler/branch/master/graph/badge.svg)](https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler)
 [![issues](https://img.shields.io/github/issues/mounthorse-slns/angular-calendar-scheduler.svg)](https://github.com/mounthorse-slns/angular-calendar-scheduler/issues)
