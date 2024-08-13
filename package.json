@@ -113,7 +113,7 @@
     "ts-node": "~8.5.4",
     "tslib": "^2.0.0",
     "tslint": "~6.1.0",
-    "typescript": "5.1.6",
+    "typescript": "5.5.4",
     "zone.js": "~0.13.3"
   },
   "peerDependencies": {

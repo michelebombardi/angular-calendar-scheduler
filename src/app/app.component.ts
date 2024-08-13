@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, LOCALE_ID, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID, HostListener, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import {
@@ -35,7 +35,8 @@ import { AppService } from './services/app.service';
     providers: [{
         provide: CalendarDateFormatter,
         useClass: SchedulerDateFormatter
-    }]
+    }],
+    //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
     title: string = 'Angular Calendar Scheduler Demo';
@@ -87,7 +88,7 @@ export class AppComponent implements OnInit {
 
     @ViewChild(CalendarSchedulerViewComponent) calendarScheduler: CalendarSchedulerViewComponent;
 
-    constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService, private dateAdapter: DateAdapter) {
+    constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService, private dateAdapter: DateAdapter, private cdr: ChangeDetectorRef) {
         this.locale = locale;
 
         // this.dayModifier = ((day: SchedulerViewDay): void => {
@@ -111,7 +112,10 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         this.appService.getEvents(this.actions)
-            .then((events: CalendarSchedulerEvent[]) => this.events = events);
+            .then((events: CalendarSchedulerEvent[]) => {
+                this.events = events;
+                //this.cdr.detectChanges();
+            });
     }
 
     viewDaysOptionChanged(viewDays: number): void {
