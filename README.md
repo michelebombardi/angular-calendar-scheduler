@@ -1,12 +1,12 @@
 # Angular Calendar Scheduler
 
-[![Build Status](https://travis-ci.org/michelebombardi/angular-calendar-scheduler.svg?branch=main)](https://travis-ci.org/mounthorse-slns/angular-calendar-scheduler)
+[![Build Status](https://travis-ci.org/michelebombardi/angular-calendar-scheduler.svg?branch=main)](https://travis-ci.org/michelebombardi/angular-calendar-scheduler)
 [![npm version](https://badge.fury.io/js/angular-calendar-scheduler.svg)](https://www.npmjs.com/package/angular-calendar-scheduler)
-[![codecov](https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler/branch/master/graph/badge.svg)](https://codecov.io/gh/mounthorse-slns/angular-calendar-scheduler)
-[![issues](https://img.shields.io/github/issues/mounthorse-slns/angular-calendar-scheduler.svg)](https://github.com/mounthorse-slns/angular-calendar-scheduler/issues)
-[![forks](https://img.shields.io/github/forks/mounthorse-slns/angular-calendar-scheduler.svg)](https://github.com/mounthorse-slns/angular-calendar-scheduler/network)
-[![stars](https://img.shields.io/github/stars/mounthorse-slns/angular-calendar-scheduler.svg)](https://github.com/mounthorse-slns/angular-calendar-scheduler/stargazers)
-[![license](https://img.shields.io/github/license/mounthorse-slns/angular-calendar-scheduler.svg)](https://github.com/mounthorse-slns/angular-calendar-scheduler/blob/master/LICENSE)
+[![codecov](https://codecov.io/gh/michelebombardi/angular-calendar-scheduler/branch/master/graph/badge.svg)](https://codecov.io/gh/michelebombardi/angular-calendar-scheduler)
+[![issues](https://img.shields.io/github/issues/michelebombardi/angular-calendar-scheduler.svg)](https://github.com/michelebombardi/angular-calendar-scheduler/issues)
+[![forks](https://img.shields.io/github/forks/michelebombardi/angular-calendar-scheduler.svg)](https://github.com/michelebombardi/angular-calendar-scheduler/network)
+[![stars](https://img.shields.io/github/stars/michelebombardi/angular-calendar-scheduler.svg)](https://github.com/michelebombardi/angular-calendar-scheduler/stargazers)
+[![license](https://img.shields.io/github/license/michelebombardi/angular-calendar-scheduler.svg)](https://github.com/michelebombardi/angular-calendar-scheduler/blob/master/LICENSE)
 
 ___
 
