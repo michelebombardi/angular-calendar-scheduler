@@ -5,11 +5,6 @@ addons:
   chrome: stable
 
 before_install:
-  # Repo for Yarn
-  - sudo apt-key adv --keyserver pgp.mit.edu --recv D101F7899D41F3C3
-  - echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-  - sudo apt-get update -qq
-  - sudo apt-get install -y -qq yarn
 
 cache:
   directories:
@@ -19,8 +14,8 @@ services:
  #- xvfb
 
 before_script:
-  - yarn global add @angular/cli
-  - yarn global add codecov
+  - npm install -g @angular/cli
+  - npm install -g codecov
 
 script:
   #- ng lint # NEED TO INSTALL eslint and @angular-eslint/schematics FIRST (https://devmy.it/blog/article/come-configurare-eslint-e-prettier-su-angular)
