@@ -8,7 +8,10 @@ addons:
 
 before_install:
   #- export CHROME_BIN=chromium-browser
-  #- export DISPLAY=:99.0
+  - "export DISPLAY=:99.0"
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then sh -e /etc/init.d/xvfb start; fi
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then ( sudo Xvfb :99 -ac -screen 0 1024x768x8; echo ok )& fi
+  - sleep 3 # give xvfb some time to start
 
 services:
  #- xvfb
@@ -22,7 +25,7 @@ script:
   #- ng lint # NEED TO INSTALL eslint and @angular-eslint/schematics FIRST (https://devmy.it/blog/article/come-configurare-eslint-e-prettier-su-angular)
   #- node_modules/karma/bin/karma start src/karma.conf.js --single-run
   - ng test --watch=false
-  - ng build --prod
+  - ng build --configuration production
 
 after_success:
   - codecov
