@@ -63,7 +63,9 @@ import {
         </ng-template>
     `,
     host: {
-        '[style.height.%]': '100'
+        '[style.height.%]': '100',
+        '[style.width.%]': '100',
+        '[style.display]': '\'flex\'',
     }
 })
 export class CalendarSchedulerEventComponent implements OnInit, AfterContentChecked {

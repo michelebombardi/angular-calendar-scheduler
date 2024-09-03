@@ -18,7 +18,8 @@ import {
     subPeriod,
     SchedulerDateFormatter,
     SchedulerEventTimesChangedEvent,
-    CalendarSchedulerViewComponent
+    CalendarSchedulerViewComponent,
+    DAYS_OF_WEEK
 } from 'angular-calendar-scheduler';
 import {
     CalendarView,
@@ -45,14 +46,14 @@ export class AppComponent implements OnInit {
 
     view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
-    viewDays: number = 3;
+    viewDays: number = 7;
     refresh: Subject<any> = new Subject();
     locale: string = 'en';
     hourSegments: number = 4;
     weekStartsOn: number = 1;
     startsWithToday: boolean = true;
     activeDayIsOpen: boolean = true;
-    excludeDays: number[] = []; // [0];
+    excludeDays: number[] = [DAYS_OF_WEEK.SATURDAY, DAYS_OF_WEEK.SUNDAY];
     dayStartHour: number = 6;
     dayEndHour: number = 22;
 

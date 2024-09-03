@@ -6,6 +6,7 @@ import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 registerLocaleData(localeIt);
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { CalendarModule, DateAdapter, MOMENT } from 'angular-calendar';
@@ -26,6 +27,7 @@ import moment from 'moment';
   imports: [
     BrowserModule,
     FormsModule,
+    AppRoutingModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory

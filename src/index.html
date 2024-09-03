@@ -9,8 +9,98 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" asp-append-version="true">
+
+  <!-- Style white screen error message -->
+  <style>
+    .whitescreen {
+      display: none; /* do not display on start */
+      z-index: -1000; /* move behind app-root */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      max-width: 100%;
+      -webkit-box-shadow: 0px 0px 20px 0px #ccc;
+      -moz-box-shadow: 0px 0px 20px 0px #ccc;
+      box-shadow: 0px 0px 20px 0px #ccc;
+      font-size: 14px;
+    }
+    .whitescreen p {
+      margin: 0;
+    }
+    .whitescreen-top {
+      background: #1976d2;
+      color: #fff;
+      padding: 20px;
+    }
+    .whitescreen-icon {
+      font-size: 30px;
+      padding-bottom: 20px;
+    }
+    .whitescreen-message {
+      line-height: 20px;
+    }
+    .whitescreen-email {
+      padding-top: 20px;
+    }
+    .whitescreen-bottom {
+      padding: 20px;
+    }
+    .whitescreen-bottom p {
+      font-size: 10px;
+      background: #fff;
+      color: #000;
+    }
+  </style>
 </head>
 <body>
   <app-root></app-root>
+  
+  <!-- White screen error message -->
+  <div id="whitescreen" class="whitescreen">
+    <div class="whitescreen-top">
+      <p class="whitescreen-icon">:-(</p>
+      <p class="whitescreen-message">
+        It looks like the application is not working properly on this device.
+        Please send us a screenshot of this message, so that we can help you:
+      </p>
+      <p class="whitescreen-email">support@example.com</p>
+    </div>
+    <div class="whitescreen-bottom">
+      <p id="whitescreen-stack"></p>
+    </div>
+  </div>
+
+  <!-- White screen error handling -->
+  <script>
+    var WHITESCREEN_EMPTY_APP_ROOT_DELAY = 8000;
+    var WHITESCREEN_ERROR_DELAY = 5000;
+
+    // Show white screen error
+    function showWhitescreenError(error) {
+      console.error(error);
+      var whitescreen = document.getElementById("whitescreen");
+      if (whitescreen.style.display !== "block") {
+        document.getElementById("whitescreen-stack").innerHTML = error.stack.replace(/\n/g, '<br/>');
+        whitescreen.style.display = "block";
+        document.body.style.display = "block"; // only for ionic
+      }
+    }
+
+    // Handle global errors
+    window.addEventListener("error", function (event) {
+      setTimeout(() => {
+        showWhitescreenError(event.error);
+      }, WHITESCREEN_ERROR_DELAY);
+    });
+
+    // Detect empty app-root
+    setTimeout(function () {
+      if (!document.getElementsByTagName("app-root")[0].children.length) {
+        showWhitescreenError(new Error("Empty app-root"));
+      }
+    }, WHITESCREEN_EMPTY_APP_ROOT_DELAY);
+  </script>
 </body>
 </html>
