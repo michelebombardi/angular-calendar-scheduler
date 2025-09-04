@@ -72,6 +72,7 @@ import { CalendarDragHelper } from '../common/temp/calendar-drag-helper.provider
  *  FLEXBOX -> https://css-tricks.com/snippets/css/a-guide-to-flexbox/
  */
 @Component({
+    standalone: false,
     selector: 'calendar-scheduler-view',
     template: `
         <div class="cal-scheduler-view">

@@ -11,6 +11,7 @@ import {
 // import moment from 'moment-timezone';
 
 @Component({
+    standalone: false,
     selector: 'calendar-scheduler-event',
     template: `
         <ng-template #defaultTemplate>

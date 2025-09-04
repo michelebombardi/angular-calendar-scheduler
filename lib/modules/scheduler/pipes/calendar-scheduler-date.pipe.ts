@@ -2,6 +2,7 @@ import { Pipe, PipeTransform, LOCALE_ID, Inject } from '@angular/core';
 import { CalendarDateFormatter, DateAdapter } from 'angular-calendar';
 
 @Pipe({
+  standalone: false,
   name: 'calendarSchedulerDate'
 })
 export class CalendarSchedulerDatePipe implements PipeTransform {

@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/co
 import { SchedulerViewDay } from './models';
 
 @Component({
+    standalone: false,
     selector: 'calendar-scheduler-header',
     template: `
         <ng-template #defaultTemplate>

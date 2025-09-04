@@ -4,6 +4,7 @@ import {
 } from './models';
 
 @Component({
+    standalone: false,
     selector: 'calendar-scheduler-event-content',
     template: `
         <div *ngIf="event.content"

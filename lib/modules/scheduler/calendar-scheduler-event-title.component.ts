@@ -4,6 +4,7 @@ import {
 } from './models';
 
 @Component({
+    standalone: false,
     selector: 'calendar-scheduler-event-title',
     template: `
         <ng-template #defaultTemplate>

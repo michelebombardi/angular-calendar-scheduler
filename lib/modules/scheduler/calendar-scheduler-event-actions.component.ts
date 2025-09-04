@@ -5,6 +5,7 @@ import {
 } from './models';
 
 @Component({
+    standalone: false,
     selector: 'calendar-scheduler-event-actions',
     template: `
         <span *ngIf="event.actions"
