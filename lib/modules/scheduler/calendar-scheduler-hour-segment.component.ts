@@ -15,22 +15,24 @@ import {
     selector: 'calendar-scheduler-hour-segment',
     template: `
         <ng-template #defaultTemplate>
-            <div class="cal-scheduler-hour-segment"
-                [title]="title"
-                [ngClass]="segment?.cssClass"
-                [class.has-events]="segment.events.length > 0"
-                [class.cal-cancelled]="segment.isCancelled"
-                [class.cal-disabled]="segment.isDisabled"
-                [style.backgroundColor]="segment.backgroundColor"
-                [style.height.px]="hourSegmentHeight"
-                (mwlClick)="onSegmentClick($event, segment)">
-                <div class="cal-scheduler-time unselectable" *ngIf="showHour && segment.events.length === 0">
-                    {{ segment.date | calendarDate:'dayViewHour':locale }}
-                </div>
-            </div>
+          <div class="cal-scheduler-hour-segment"
+            [title]="title"
+            [ngClass]="segment?.cssClass"
+            [class.has-events]="segment.events.length > 0"
+            [class.cal-cancelled]="segment.isCancelled"
+            [class.cal-disabled]="segment.isDisabled"
+            [style.backgroundColor]="segment.backgroundColor"
+            [style.height.px]="hourSegmentHeight"
+            (mwlClick)="onSegmentClick($event, segment)">
+            @if (showHour && segment.events.length === 0) {
+              <div class="cal-scheduler-time unselectable">
+                {{ segment.date | calendarDate:'dayViewHour':locale }}
+              </div>
+            }
+          </div>
         </ng-template>
         <ng-template
-            [ngTemplateOutlet]="customTemplate || defaultTemplate"
+          [ngTemplateOutlet]="customTemplate || defaultTemplate"
             [ngTemplateOutletContext]="{
                 title: title,
                 day: day,
@@ -41,7 +43,7 @@ import {
                 segmentClicked: segmentClicked
             }">
         </ng-template>
-    `
+        `
 })
 export class CalendarSchedulerHourSegmentComponent implements OnInit {
     @Input() title: string;

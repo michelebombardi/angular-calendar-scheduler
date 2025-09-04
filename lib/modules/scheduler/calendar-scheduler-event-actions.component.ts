@@ -8,19 +8,22 @@ import {
     standalone: false,
     selector: 'calendar-scheduler-event-actions',
     template: `
-        <span *ngIf="event.actions"
+        @if (event.actions) {
+          <span
             class="cal-scheduler-event-actions">
-            <a
+            @for (action of actions; track action) {
+              <a
                 class="cal-scheduler-event-action"
                 href="javascript:;"
-                *ngFor="let action of actions"
                 (mwlClick)="onActionClick($event, action, event)"
                 [ngClass]="action.cssClass"
                 [innerHtml]="action.label"
                 [title]="action.title">
-            </a>
-        </span>
-    `,
+              </a>
+            }
+          </span>
+        }
+        `,
     host: {
         'class': 'cal-scheduler-event-actions-container'
     }

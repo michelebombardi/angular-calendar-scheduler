@@ -8,24 +8,27 @@ import {
     selector: 'calendar-scheduler-event-title',
     template: `
         <ng-template #defaultTemplate>
-            <div
-                class="cal-scheduler-event-title"
-                [innerHTML]="event.title | schedulerEventTitle:view:event">
-            </div>
+          <div
+            class="cal-scheduler-event-title"
+            [innerHTML]="event.title | schedulerEventTitle:view:event">
+          </div>
+          @if (showActions && !showContent && (event.isClickable || event.isDisabled)) {
             <calendar-scheduler-event-actions
-                *ngIf="showActions && !showContent && (event.isClickable || event.isDisabled)"
-                class="no-content-actions"
-                [event]="event">
+              class="no-content-actions"
+              [event]="event">
             </calendar-scheduler-event-actions>
-            <div *ngIf="event.status && showStatus"
-                class="cal-scheduler-event-status"
-                [class.ok]="event.status === 'ok'"
-                [class.warning]="event.status === 'warning'"
-                [class.danger]="event.status === 'danger'">
+          }
+          @if (event.status && showStatus) {
+            <div
+              class="cal-scheduler-event-status"
+              [class.ok]="event.status === 'ok'"
+              [class.warning]="event.status === 'warning'"
+              [class.danger]="event.status === 'danger'">
             </div>
+          }
         </ng-template>
         <ng-template
-            [ngTemplateOutlet]="customTemplate || defaultTemplate"
+          [ngTemplateOutlet]="customTemplate || defaultTemplate"
             [ngTemplateOutletContext]="{
                 view: view,
                 event: event,
@@ -34,7 +37,7 @@ import {
                 showActions: showActions
             }">
         </ng-template>
-    `,
+        `,
     host: {
         'class': 'cal-scheduler-event-title-container'
     }

@@ -76,131 +76,139 @@ import { CalendarDragHelper } from '../common/temp/calendar-drag-helper.provider
     selector: 'calendar-scheduler-view',
     template: `
         <div class="cal-scheduler-view">
-            <calendar-scheduler-header
-                [days]="days"
-                [locale]="locale"
-                [customTemplate]="headerTemplate"
-                (dayHeaderClicked)="dayHeaderClicked.emit($event)">
-            </calendar-scheduler-header>
-
-            <div class="cal-scheduler" #calendarContainer>
-                <div class="cal-scheduler-hour-rows aside">
-                    <div class="cal-scheduler-hour align-center horizontal" *ngFor="let hour of hours; trackBy:trackByHour">
-                      <div class="cal-scheduler-time">
-                        <div class="cal-scheduler-time-segment" *ngFor="let segment of hour.segments"
-                            [style.height.px]="hourSegmentHeight">
-                            {{ segment.date | calendarDate:'dayViewHour':locale }}
-                        </div>
+          <calendar-scheduler-header
+            [days]="days"
+            [locale]="locale"
+            [customTemplate]="headerTemplate"
+            (dayHeaderClicked)="dayHeaderClicked.emit($event)">
+          </calendar-scheduler-header>
+        
+          <div class="cal-scheduler" #calendarContainer>
+            <div class="cal-scheduler-hour-rows aside">
+              @for (hour of hours; track trackByHour($index, hour)) {
+                <div class="cal-scheduler-hour align-center horizontal">
+                  <div class="cal-scheduler-time">
+                    @for (segment of hour.segments; track segment) {
+                      <div class="cal-scheduler-time-segment"
+                        [style.height.px]="hourSegmentHeight">
+                        {{ segment.date | calendarDate:'dayViewHour':locale }}
                       </div>
-                    </div>
+                    }
+                  </div>
                 </div>
-
-                <div class="cal-scheduler-cols aside" #dayColumns
-                    [class.cal-resize-active]="resizes.size > 0"
-                    mwlDroppable
-                    (dragEnter)="eventDragEnter = eventDragEnter + 1"
-                    (dragLeave)="eventDragEnter = eventDragEnter - 1">
-                    <div class="cal-scheduler-col"
-                        *ngFor="let day of view.days; trackBy:trackByHourColumn"
-                        [ngClass]="day?.cssClass"
-                        [style.backgroundColor]="day.backgroundColor">
-                        <div #eventContainer
-                            class="cal-scheduler-event-container"
-                            *ngFor="let event of day.events; trackBy:trackByDayOrEvent"
-                            [ngClass]="event.event?.cssClass"
-                            [hidden]="event.height === 0 && event.width === 0"
-                            [style.top.px]="event.top"
-                            [style.height.px]="event.height"
-                            [style.left.%]="event.left"
-                            [style.width.%]="event.width"
-                            [class.zoom-on-hover]="zoomEventOnHover"
-
-                            mwlResizable
-                            [resizeSnapGrid]="{left: dayColumnWidth, right: dayColumnWidth, top: eventSnapSize || hourSegmentHeight, bottom: eventSnapSize || hourSegmentHeight}"
-                            [validateResize]="validateResize"
-                            [allowNegativeResizes]="true"
-                            (resizeStart)="resizeStarted(dayColumns, event, $event)"
-                            (resizing)="resizing(event, $event)"
-                            (resizeEnd)="resizeEnded(event)"
-
-                            mwlDraggable
-                            dragActiveClass="cal-drag-active"
-                            [dropData]="{event: event.event, calendarId: calendarId}"
+              }
+            </div>
+        
+            <div class="cal-scheduler-cols aside" #dayColumns
+              [class.cal-resize-active]="resizes.size > 0"
+              mwlDroppable
+              (dragEnter)="eventDragEnter = eventDragEnter + 1"
+              (dragLeave)="eventDragEnter = eventDragEnter - 1">
+              @for (day of view.days; track trackByHourColumn($index, day)) {
+                <div class="cal-scheduler-col"
+                  [ngClass]="day?.cssClass"
+                  [style.backgroundColor]="day.backgroundColor">
+                  @for (event of day.events; track trackByDayOrEvent($index, event)) {
+                    <div #eventContainer
+                      class="cal-scheduler-event-container"
+                      [ngClass]="event.event?.cssClass"
+                      [hidden]="event.height === 0 && event.width === 0"
+                      [style.top.px]="event.top"
+                      [style.height.px]="event.height"
+                      [style.left.%]="event.left"
+                      [style.width.%]="event.width"
+                      [class.zoom-on-hover]="zoomEventOnHover"
+                      mwlResizable
+                      [resizeSnapGrid]="{left: dayColumnWidth, right: dayColumnWidth, top: eventSnapSize || hourSegmentHeight, bottom: eventSnapSize || hourSegmentHeight}"
+                      [validateResize]="validateResize"
+                      [allowNegativeResizes]="true"
+                      (resizeStart)="resizeStarted(dayColumns, event, $event)"
+                      (resizing)="resizing(event, $event)"
+                      (resizeEnd)="resizeEnded(event)"
+                      mwlDraggable
+                      dragActiveClass="cal-drag-active"
+                      [dropData]="{event: event.event, calendarId: calendarId}"
                             [dragAxis]="{
                                 x: event.event.draggable && resizes.size === 0,
                                 y: event.event.draggable && resizes.size === 0
                             }"
-                            [dragSnapGrid]="snapDraggedEvents ? {x: dayColumnWidth, y: eventSnapSize || hourSegmentHeight} : {}"
-                            [ghostDragEnabled]="!snapDraggedEvents"
-                            [validateDrag]="validateDrag"
-                            (dragPointerDown)="dragStarted(dayColumns, eventContainer, event)"
-                            (dragging)="dragMove(event, $event)"
-                            (dragEnd)="dragEnded(event, $event, dayColumnWidth, true)">
-
-                            <div *ngIf="event.event?.resizable?.beforeStart && !event.startsBeforeDay"
-                                class="cal-resize-handle cal-resize-handle-before-start"
-                                mwlResizeHandle
+                      [dragSnapGrid]="snapDraggedEvents ? {x: dayColumnWidth, y: eventSnapSize || hourSegmentHeight} : {}"
+                      [ghostDragEnabled]="!snapDraggedEvents"
+                      [validateDrag]="validateDrag"
+                      (dragPointerDown)="dragStarted(dayColumns, eventContainer, event)"
+                      (dragging)="dragMove(event, $event)"
+                      (dragEnd)="dragEnded(event, $event, dayColumnWidth, true)">
+                      @if (event.event?.resizable?.beforeStart && !event.startsBeforeDay) {
+                        <div
+                          class="cal-resize-handle cal-resize-handle-before-start"
+                          mwlResizeHandle
                                 [resizeEdges]="{
                                     left: true,
                                     top: true
                                 }">
-                            </div>
-                            <calendar-scheduler-event
-                                [day]="day"
-                                [event]="event"
-                                [container]="eventContainer"
-                                [showContent]="showEventContent && event.height >= 75"
-                                [showActions]="showEventActions"
-                                [showStatus]="showEventStatus"
-                                [customTemplate]="eventTemplate"
-                                [eventTitleTemplate]="eventTitleTemplate"
-                                (eventClicked)="eventClicked.emit($event)">
-                            </calendar-scheduler-event>
-                            <div *ngIf="event.event?.resizable?.afterEnd && !event.endsAfterDay"
-                                class="cal-resize-handle cal-resize-handle-after-end"
-                                mwlResizeHandle
+                        </div>
+                      }
+                      <calendar-scheduler-event
+                        [day]="day"
+                        [event]="event"
+                        [container]="eventContainer"
+                        [showContent]="showEventContent && event.height >= 75"
+                        [showActions]="showEventActions"
+                        [showStatus]="showEventStatus"
+                        [customTemplate]="eventTemplate"
+                        [eventTitleTemplate]="eventTitleTemplate"
+                        (eventClicked)="eventClicked.emit($event)">
+                      </calendar-scheduler-event>
+                      @if (event.event?.resizable?.afterEnd && !event.endsAfterDay) {
+                        <div
+                          class="cal-resize-handle cal-resize-handle-after-end"
+                          mwlResizeHandle
                                 [resizeEdges]="{
                                     right: true,
                                     bottom: true
                                 }">
-                            </div>
                         </div>
-
-                        <div class="cal-scheduler-hour"
-                            *ngFor="let hour of day.hours; let i = index; trackBy:trackByHour"
-                            [class.cal-even]="i % 2 === 0"
-                            [class.cal-odd]="i % 2 === 1"
-                            [ngClass]="hour.cssClass"
-                            [style.backgroundColor]="hour.backgroundColor"
-                            (mwlClick)="hourClicked.emit({hour: hour})"
-                            [class.cal-past]="day.isPast"
-                            [class.cal-today]="day.isToday"
-                            [class.cal-future]="day.isFuture"
-                            [class.cal-weekend]="day.isWeekend"
-                            [class.cal-in-month]="day.inMonth"
-                            [class.cal-out-month]="!day.inMonth">
-                            <div class="cal-scheduler-hour-segments">
-                                <calendar-scheduler-hour-segment
-                                    *ngFor="let segment of hour.segments; trackBy:trackByHourSegment"
-                                    [day]="day"
-                                    [segment]="segment"
-                                    [locale]="locale"
-                                    [customTemplate]="cellTemplate"
-                                    [hourSegmentHeight]="hourSegmentHeight"
-                                    [showHour]="showSegmentHour"
-                                    (segmentClicked)="segmentClicked.emit($event)"
-                                    mwlDroppable
-                                    [dragOverClass]="!dragActive || !snapDraggedEvents ? 'cal-drag-over' : 'null'"
-                                    dragActiveClass="cal-drag-active"
-                                    (drop)="eventDropped($event, segment.date)">
-                                </calendar-scheduler-hour-segment>
-                             </div>
-                        </div>
+                      }
                     </div>
+                  }
+                  @for (hour of day.hours; track trackByHour(i, hour); let i = $index) {
+                    <div class="cal-scheduler-hour"
+                      [class.cal-even]="i % 2 === 0"
+                      [class.cal-odd]="i % 2 === 1"
+                      [ngClass]="hour.cssClass"
+                      [style.backgroundColor]="hour.backgroundColor"
+                      (mwlClick)="hourClicked.emit({hour: hour})"
+                      [class.cal-past]="day.isPast"
+                      [class.cal-today]="day.isToday"
+                      [class.cal-future]="day.isFuture"
+                      [class.cal-weekend]="day.isWeekend"
+                      [class.cal-in-month]="day.inMonth"
+                      [class.cal-out-month]="!day.inMonth">
+                      <div class="cal-scheduler-hour-segments">
+                        @for (segment of hour.segments; track trackByHourSegment($index, segment)) {
+                          <calendar-scheduler-hour-segment
+                            [day]="day"
+                            [segment]="segment"
+                            [locale]="locale"
+                            [customTemplate]="cellTemplate"
+                            [hourSegmentHeight]="hourSegmentHeight"
+                            [showHour]="showSegmentHour"
+                            (segmentClicked)="segmentClicked.emit($event)"
+                            mwlDroppable
+                            [dragOverClass]="!dragActive || !snapDraggedEvents ? 'cal-drag-over' : 'null'"
+                            dragActiveClass="cal-drag-active"
+                            (drop)="eventDropped($event, segment.date)">
+                          </calendar-scheduler-hour-segment>
+                        }
+                      </div>
+                    </div>
+                  }
                 </div>
+              }
             </div>
+          </div>
         </div>
-    `,
+        `,
     styleUrls: ['./calendar-scheduler-view.component.scss'],
     encapsulation: ViewEncapsulation.None
 })

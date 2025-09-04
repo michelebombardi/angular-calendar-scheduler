@@ -7,13 +7,15 @@ import {
     standalone: false,
     selector: 'calendar-scheduler-event-content',
     template: `
-        <div *ngIf="event.content"
+        @if (event.content) {
+          <div
             class="cal-scheduler-event-content"
             [style.max-height.px]="maxHeight"
             [style.white-space]="maxHeight && maxHeight > 30 ? 'normal' : 'nowrap'"
             [innerHTML]="event.content">
-        </div>
-    `,
+          </div>
+        }
+        `,
     host: {
         'class': 'cal-scheduler-event-content-container'
     }

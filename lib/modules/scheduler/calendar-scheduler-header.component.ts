@@ -6,35 +6,36 @@ import { SchedulerViewDay } from './models';
     selector: 'calendar-scheduler-header',
     template: `
         <ng-template #defaultTemplate>
-            <div class="cal-scheduler-headers">
-                <div class="cal-header aside cal-header-clock align-center">
-                    <i class="material-icons md-32" style="margin:auto;">schedule</i>
-                </div>
-
-                <div class="cal-header-cols aside">
-                    <div
-                        class="cal-header"
-                        *ngFor="let day of days"
-                        [class.cal-past]="day.isPast"
-                        [class.cal-today]="day.isToday"
-                        [class.cal-future]="day.isFuture"
-                        [class.cal-weekend]="day.isWeekend"
-                        (mwlClick)="onDayHeaderClick($event, day)">
-                        <b>{{ day.date | calendarDate:'weekViewColumnHeader':locale }}</b><br>
-                        <span>{{ day.date | calendarDate:'weekViewColumnSubHeader':locale }}</span>
-                    </div>
-                </div>
+          <div class="cal-scheduler-headers">
+            <div class="cal-header aside cal-header-clock align-center">
+              <i class="material-icons md-32" style="margin:auto;">schedule</i>
             </div>
+        
+            <div class="cal-header-cols aside">
+              @for (day of days; track day) {
+                <div
+                  class="cal-header"
+                  [class.cal-past]="day.isPast"
+                  [class.cal-today]="day.isToday"
+                  [class.cal-future]="day.isFuture"
+                  [class.cal-weekend]="day.isWeekend"
+                  (mwlClick)="onDayHeaderClick($event, day)">
+                  <b>{{ day.date | calendarDate:'weekViewColumnHeader':locale }}</b><br>
+                  <span>{{ day.date | calendarDate:'weekViewColumnSubHeader':locale }}</span>
+                </div>
+              }
+            </div>
+          </div>
         </ng-template>
         <ng-template
-            [ngTemplateOutlet]="customTemplate || defaultTemplate"
+          [ngTemplateOutlet]="customTemplate || defaultTemplate"
             [ngTemplateOutletContext]="{
                 days: days,
                 locale: locale,
                 dayHeaderClicked: dayHeaderClicked
             }">
         </ng-template>
-    `
+        `
 })
 export class CalendarSchedulerHeaderComponent {
 

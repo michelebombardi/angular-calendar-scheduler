@@ -15,41 +15,43 @@ import {
     selector: 'calendar-scheduler-event',
     template: `
         <ng-template #defaultTemplate>
-            <div class="cal-scheduler-event"
-                [title]="title"
-                [style.max-width.px]="container.clientWidth - 4"
-                [class.cal-cancelled]="event.event.isCancelled"
-                [class.cal-disabled]="event.event.isDisabled"
-                [class.cal-not-clickable]="!event.event.isClickable"
-                [class.cal-draggable]="event.event.draggable"
-                [class.cal-starts-before-day]="event.startsBeforeDay"
-                [class.cal-ends-after-day]="event.endsAfterDay"
-                [style.backgroundColor]="event.event.color?.secondary"
-                [style.borderColor]="event.event.color?.primary"
-                (mwlClick)="onEventClick($event, event.event)"
-                (mouseenter)="onMouseEnter()"
-                (mouseleave)="onMouseLeave()">
-                <calendar-scheduler-event-title
-                    view="week"
-                    [event]="event.event"
-                    [showStatus]="showStatus"
-                    [showContent]="showContent"
-                    [showActions]="showActions"
-                    [customTemplate]="eventTitleTemplate">
-                </calendar-scheduler-event-title>
-                <calendar-scheduler-event-content
-                    *ngIf="showContent"
-                    [event]="event.event"
-                    [eventContainer]="container">
-                </calendar-scheduler-event-content>
-                <calendar-scheduler-event-actions
-                    *ngIf="showActions && showContent && (event.event.isClickable || event.event.isDisabled)"
-                    [event]="event.event">
-                </calendar-scheduler-event-actions>
-            </div>
+          <div class="cal-scheduler-event"
+            [title]="title"
+            [style.max-width.px]="container.clientWidth - 4"
+            [class.cal-cancelled]="event.event.isCancelled"
+            [class.cal-disabled]="event.event.isDisabled"
+            [class.cal-not-clickable]="!event.event.isClickable"
+            [class.cal-draggable]="event.event.draggable"
+            [class.cal-starts-before-day]="event.startsBeforeDay"
+            [class.cal-ends-after-day]="event.endsAfterDay"
+            [style.backgroundColor]="event.event.color?.secondary"
+            [style.borderColor]="event.event.color?.primary"
+            (mwlClick)="onEventClick($event, event.event)"
+            (mouseenter)="onMouseEnter()"
+            (mouseleave)="onMouseLeave()">
+            <calendar-scheduler-event-title
+              view="week"
+              [event]="event.event"
+              [showStatus]="showStatus"
+              [showContent]="showContent"
+              [showActions]="showActions"
+              [customTemplate]="eventTitleTemplate">
+            </calendar-scheduler-event-title>
+            @if (showContent) {
+              <calendar-scheduler-event-content
+                [event]="event.event"
+                [eventContainer]="container">
+              </calendar-scheduler-event-content>
+            }
+            @if (showActions && showContent && (event.event.isClickable || event.event.isDisabled)) {
+              <calendar-scheduler-event-actions
+                [event]="event.event">
+              </calendar-scheduler-event-actions>
+            }
+          </div>
         </ng-template>
         <ng-template
-            [ngTemplateOutlet]="customTemplate || defaultTemplate"
+          [ngTemplateOutlet]="customTemplate || defaultTemplate"
             [ngTemplateOutletContext]="{
                 title: title,
                 day: day,
@@ -62,7 +64,7 @@ import {
                 eventClicked: eventClicked
             }">
         </ng-template>
-    `,
+        `,
     host: {
         '[style.height.%]': '100',
         '[style.width.%]': '100',
