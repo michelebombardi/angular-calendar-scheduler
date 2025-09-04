@@ -1,6 +1,6 @@
 import { CalendarDateFormatter, DateFormatterParams, DateAdapter } from 'angular-calendar';
 import { DAYS_IN_WEEK } from '../utils/calendar-scheduler-utils';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
 export interface SchedulerDateFormatterParams extends DateFormatterParams {
     dateAdapter: DateAdapter;
@@ -9,8 +9,10 @@ export interface SchedulerDateFormatterParams extends DateFormatterParams {
 
 @Injectable()
 export class SchedulerDateFormatter extends CalendarDateFormatter {
+    protected dateAdapter = inject(DateAdapter);
+
     constructor(dateAdapter: DateAdapter) {
-        super(dateAdapter);
+        super();
     }
 
     /**
@@ -20,14 +22,14 @@ export class SchedulerDateFormatter extends CalendarDateFormatter {
         return new Intl.DateTimeFormat(locale, { hour: 'numeric', minute: 'numeric' }).format(date);
     }
 
-    public weekViewTitle({ dateAdapter, date, locale, weekStartsOn, excludeDays, daysInWeek, startsWithToday }: SchedulerDateFormatterParams): string {
+    public weekViewTitle({ date, locale, weekStartsOn, excludeDays, daysInWeek, startsWithToday }: SchedulerDateFormatterParams): string {
         // http://generatedcontent.org/post/59403168016/esintlapi
         const year: string = new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date);
         const month: string = new Intl.DateTimeFormat(locale, { month: 'short' }).format(date);
 
         const dateInner: Date = startsWithToday || daysInWeek < DAYS_IN_WEEK
             ? date
-            : dateAdapter.startOfWeek(date, { weekStartsOn: weekStartsOn });
+            : this.dateAdapter.startOfWeek(date, { weekStartsOn: weekStartsOn });
 
         // var firstDay: number = date.getDate() - date.getDay() + 1; // First day is the day of the month - the day of the week
         let firstDay: number = dateInner.getDate();
