@@ -69,6 +69,7 @@ export function provideSchedulerConfig(config: SchedulerConfig) {
 @NgModule({
   imports: [
     CommonModule,
+    // TODO CONVERTIRE A STANDALONE
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
