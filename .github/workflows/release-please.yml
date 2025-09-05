@@ -24,3 +24,30 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}  # Default token, può essere omesso
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+
+      # The logic below handles the npm publication:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        # these if statements ensure that a publication only occurs when
+        # a new release is created:
+        if: ${{ steps.release.outputs.release_created }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 12
+          registry-url: 'https://registry.npmjs.org'
+        if: ${{ steps.release.outputs.release_created }}
+
+      - name: Install dependencies
+        run: npm ci
+        if: ${{ steps.release.outputs.release_created }}
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          if: ${{ steps.release.outputs.release_created }}
