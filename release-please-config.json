@@ -7,7 +7,7 @@
       "changelog-path": "CHANGELOG.md",
       "include-v-in-tag": true,
       "auto-merge": true,
-      "auto-merge-label": "autorelease: pending2",
+      "auto-merge-label": "autorelease: pending3",
       "changelog-sections": [
         {
           "type": "feat",
