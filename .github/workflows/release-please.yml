@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'
 
 permissions:
   contents: write        # Necessario per creare tag e release
@@ -19,6 +21,7 @@ jobs:
     steps:
       - name: Release Please Action
         uses: googleapis/release-please-action@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Solo sul branch main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}  # Default token, può essere omesso
           release-type: node
