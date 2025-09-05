@@ -54,7 +54,10 @@ export class AppComponent implements OnInit {
     weekStartsOn: number = 1;
     startsWithToday: boolean = true;
     activeDayIsOpen: boolean = true;
-    excludeDays: number[] = [DAYS_OF_WEEK.SATURDAY, DAYS_OF_WEEK.SUNDAY];
+    excludeDays: number[] = [
+      DAYS_OF_WEEK.SATURDAY,
+      DAYS_OF_WEEK.SUNDAY
+    ];
     dayStartHour: number = 6;
     dayEndHour: number = 22;
 
