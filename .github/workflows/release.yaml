@@ -1,6 +1,6 @@
 # https://github.com/googleapis/release-please-action
 
-name: Release
+name: Semantic Release
 
 on:
   push:

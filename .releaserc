@@ -10,9 +10,15 @@
       }
     ],
     [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "pnpm publish dist"
+      }
+    ],
+    [
       "@semantic-release/npm",
       {
-        "npmPublish": true
+        "npmPublish": false
       }
     ],
     [

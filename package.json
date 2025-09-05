@@ -3,7 +3,7 @@
   "version": "20.1.2",
   "license": "MIT",
   "private": false,
-  "packageManager": "pnpm@10.8.1",
+  "packageManager": "pnpm@10.15.1",
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
@@ -93,6 +93,7 @@
     "@angular/router": "20.2.4",
     "@popperjs/core": "^2.11.8",
     "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.5",
     "@semantic-release/npm": "^12.0.2",
