@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [20.0.9](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.0.8...v20.0.9) (2025-09-05)
+
+
+### 🐛 Bug Fixes
+
+* minor fix ([673b037](https://github.com/michelebombardi/angular-calendar-scheduler/commit/673b037398e10e564089392b73335a799d0e6800))
+* minor fix ([4ed7a5f](https://github.com/michelebombardi/angular-calendar-scheduler/commit/4ed7a5fe29e99185a94107d52d66e06df7ada890))
+* minor fix ([cd9bab4](https://github.com/michelebombardi/angular-calendar-scheduler/commit/cd9bab4966b9fc30960ddb7df4ea474c04f31647))
+* minor fix ([8040e43](https://github.com/michelebombardi/angular-calendar-scheduler/commit/8040e433f7f4a1f617b13093c9c11f2ee68ab747))
+* minor fix ([fcf66fb](https://github.com/michelebombardi/angular-calendar-scheduler/commit/fcf66fb1eaee1ac31c5223aa29fcc364f885bfe5))
+* minor fix ([8d7d7d5](https://github.com/michelebombardi/angular-calendar-scheduler/commit/8d7d7d5d1196660d08c8ac22c657fdd4297ce326))
+
+
+### 🛠 Chores
+
+* **main:** release angular-calendar-scheduler 21.0.0 ([e5257c3](https://github.com/michelebombardi/angular-calendar-scheduler/commit/e5257c3feecf6f03d54913f33aea87388cec22e0))
+* **main:** release angular-calendar-scheduler 21.0.0 ([f005e93](https://github.com/michelebombardi/angular-calendar-scheduler/commit/f005e93e4fed4bdfc726ca4c90cdffbee35f8cde))
+* **main:** release angular-calendar-scheduler 21.0.0 ([eec41da](https://github.com/michelebombardi/angular-calendar-scheduler/commit/eec41da8310a2698444d9868f748e01832ea118f))
+* **main:** release angular-calendar-scheduler 21.0.0 ([6ecdfa8](https://github.com/michelebombardi/angular-calendar-scheduler/commit/6ecdfa8a19767059001263a5b5de8da35cc416cb))
+* **main:** release angular-calendar-scheduler 21.0.0 ([548dbd1](https://github.com/michelebombardi/angular-calendar-scheduler/commit/548dbd132f911e29bcfa076aff2d552232448c96))
+* **main:** release angular-calendar-scheduler 21.0.0 ([078270d](https://github.com/michelebombardi/angular-calendar-scheduler/commit/078270d1d2ebe0d7d9878c170b03fd030401d527))
+* **main:** release angular-calendar-scheduler 21.0.1 ([6557f33](https://github.com/michelebombardi/angular-calendar-scheduler/commit/6557f332cdbb38509279dd59a12c2deefedff0ae))
+* **main:** release angular-calendar-scheduler 21.0.1 ([b2f52de](https://github.com/michelebombardi/angular-calendar-scheduler/commit/b2f52de31975e031829c47dad96cdf65aad574e2))
+
 ## [21.0.0](https://github.com/michelebombardi/angular-calendar-scheduler/compare/angular-calendar-scheduler-v20.0.8...angular-calendar-scheduler-v21.0.0) (2025-09-05)
 
 
