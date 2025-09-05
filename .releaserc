@@ -27,7 +27,7 @@
       {
         "assets": ["CHANGELOG.md"]
       }
-    ]
+    ],
     [
       "@semantic-release/exec",
       {
