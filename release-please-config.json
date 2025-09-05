@@ -4,7 +4,7 @@
     ".": {
       "release-type": "node",
       "changelog-path": "CHANGELOG.md",
-      "skip-package-name-in-tag": true,
+      "include-component-in-tag": false,
       "include-v-in-tag": true,
       "auto-merge": true,
       "auto-merge-label": "autorelease: pending",
