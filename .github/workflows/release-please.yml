@@ -52,11 +52,12 @@ jobs:
         run: pnpm install --frozen-lockfile
         if: ${{ steps.release.outputs.release_created }}
 
-      #- name: Build
-      #  run: npm run build
+      - name: Build
+        run: pnpm build:dist
+        if: ${{ steps.release.outputs.release_created }}
 
       - name: Publish to npm
-        run: npm publish
+        run: pnpm publish dist
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}
