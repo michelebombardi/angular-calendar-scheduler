@@ -1,5 +1,3 @@
 {
-  "packages": {
-    ".": "20.0.7"
-  }
+  "angular-calendar-scheduler": "20.0.7"
 }
