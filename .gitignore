@@ -45,6 +45,3 @@ Thumbs.db
 # Yarn
 yarn.lock
 yarn-error.log
-
-# pnpm
-pnpm-lock.yaml
