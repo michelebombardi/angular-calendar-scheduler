@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
     view: CalendarView = CalendarView.Week;
     viewDate: Date = new Date();
     viewDays: number = 7;
-    refresh: Subject<any> = new Subject();
+    refresh: Subject<void> = new Subject();
     locale: string = 'en';
     hourSegments: number = 4;
     weekStartsOn: number = 1;
