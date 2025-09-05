@@ -17,11 +17,11 @@ jobs:
   release:
     name: Release Please
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Solo sul branch main
 
     steps:
       - name: Release Please Action
         uses: googleapis/release-please-action@v4
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Solo sul branch main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}  # Default token, può essere omesso
           release-type: node
