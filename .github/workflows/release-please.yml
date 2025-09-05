@@ -2,10 +2,10 @@
 
 name: Release
 
-# on:
-#  push:
-#    branches:
-#      - main
+on:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write        # Necessario per creare tag e release
@@ -15,7 +15,7 @@ jobs:
   release:
     name: Release Please
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Solo sul branch main
+    if: false && github.event_name == 'push' && github.ref == 'refs/heads/main'  # Solo sul branch main
 
     steps:
       - id: release
