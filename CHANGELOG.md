@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [20.0.6](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.0.5...v20.0.6) (2025-09-05)
+
+
+### Bug Fixes
+
+* minor fix ([93d2f64](https://github.com/michelebombardi/angular-calendar-scheduler/commit/93d2f6474956a8ba21740277f65daad1dad90377))
+* minor fix ([16cf517](https://github.com/michelebombardi/angular-calendar-scheduler/commit/16cf5179f062b8a887a9274f28d4c158b7fd9d1d))
+
 ## [20.0.5](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.0.4...v20.0.5) (2025-09-05)
 
 
