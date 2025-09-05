@@ -2,10 +2,10 @@
 
 name: Release
 
-# on:
-#  push:
-#    branches:
-#      - main
+on:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write        # Necessario per creare tag e release
@@ -13,48 +13,34 @@ permissions:
 
 jobs:
   release:
-    name: Release Please
+    name: Release
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Solo sul branch main
 
     steps:
-      - id: release
-        name: Release Please Action
-        uses: googleapis/release-please-action@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # Default token, può essere omesso
-          config-file: release-please-config.json
-          manifest-file: .release-please-manifest.json
-
-      # The logic below handles the npm publication:
       - name: Checkout code
         uses: actions/checkout@v4
-        # these if statements ensure that a publication only occurs when
-        # a new release is created:
-        if: ${{ steps.release.outputs.release_created }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
-        if: ${{ steps.release.outputs.release_created }}
-
-      #- name: Install dependencies
-      #  run: npm ci
-      #  if: ${{ steps.release.outputs.release_created }}
 
       - name: Install PNPM
         uses: pnpm/action-setup@v4
-        if: ${{ steps.release.outputs.release_created }}
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        if: ${{ steps.release.outputs.release_created }}
 
       - name: Build
         run: pnpm build:dist
-        if: ${{ steps.release.outputs.release_created }}
+
+      - name: Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # If publishing to npm
+        run: npx semantic-release
 
       - name: Publish to npm
         run: pnpm publish dist
