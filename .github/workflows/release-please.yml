@@ -1,19 +1,25 @@
+# https://github.com/googleapis/release-please-action
+
+name: Release - angular-calendar-scheduler
+
 on:
   push:
     branches:
       - main
 
 permissions:
-  contents: write
-  pull-requests: write
-
-name: release-please
+  contents: write        # Necessario per creare tag e release
+  pull-requests: write   # Necessario per creare PR di release
 
 jobs:
-  release-please:
+  release:
+    name: Release Please
     runs-on: ubuntu-latest
+
     steps:
-      - uses: google-github-actions/release-please-action@v3
+      - name: Release Please Action
+        uses: googleapis/release-please-action@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Default token, può essere omesso
           release-type: node
-          package-name: release-please-action
+          config-file: release-please-config.json
