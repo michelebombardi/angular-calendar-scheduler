@@ -10,12 +10,6 @@
       }
     ],
     [
-      "@semantic-release/exec",
-      {
-        "publishCmd": "pnpm publish dist"
-      }
-    ],
-    [
       "@semantic-release/npm",
       {
         "npmPublish": false
@@ -34,5 +28,11 @@
         "assets": ["CHANGELOG.md"]
       }
     ]
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "pnpm build:dist && pnpm publish dist"
+      }
+    ],
   ]
 }
