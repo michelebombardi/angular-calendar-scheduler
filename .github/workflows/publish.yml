@@ -1,6 +1,6 @@
 # https://github.com/googleapis/release-please-action
 
-name: Release - angular-calendar-scheduler
+name: Publish - angular-calendar-scheduler
 
 on:
   push:
