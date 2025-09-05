@@ -46,8 +46,6 @@ jobs:
 
       - name: Install PNPM
         uses: pnpm/action-setup@v4
-        with:
-          version: 10  # or whatever version you're using
         if: ${{ steps.release.outputs.release_created }}
 
       - name: Install dependencies
