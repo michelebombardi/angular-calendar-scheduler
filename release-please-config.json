@@ -3,10 +3,8 @@
   "packages": {
     ".": {
       "release-type": "node",
-      "package-name": "",
       "changelog-path": "CHANGELOG.md",
       "include-v-in-tag": true,
-      "tag-separator": "",
       "auto-merge": true,
       "auto-merge-label": "autorelease: pending",
       "changelog-sections": [
