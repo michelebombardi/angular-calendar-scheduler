@@ -26,6 +26,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}  # Default token, può essere omesso
           release-type: node
           config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
   publish:
     name: Publish to npm
     needs: release

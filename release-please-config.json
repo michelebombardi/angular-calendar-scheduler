@@ -4,6 +4,8 @@
     ".": {
       "release-type": "node",
       "package-name": "angular-calendar-scheduler",
+      "changelog-path": "CHANGELOG.md",
+      "include-v-in-tag": true,
       "auto-merge": true,
       "auto-merge-label": "autorelease: pending",
       "changelog-sections": [
@@ -13,19 +15,19 @@
         },
         {
           "type": "fix",
-          "section": "🐞 Bug Fixes"
+          "section": "🐛 Bug Fixes"
         },
         {
           "type": "chore",
-          "section": "🛠 Chores",
+          "section": "🛠 Chores"
         },
         {
           "type": "docs",
-          "section": "📝 Documentation",
+          "section": "📚 Documentation"
         },
         {
           "type": "refactor",
-          "section": "♻ Refactoring",
+          "section": "♻️ Refactoring"
         },
         {
           "type": "style",
@@ -33,7 +35,7 @@
         },
         {
           "type": "perf",
-          "section": "✨ Performance Improvements"
+          "section": "🧹 Performance Improvements"
         },
         {
           "type": "test",
@@ -45,7 +47,7 @@
         },
         {
           "type": "ci",
-          "section": "♻ Continuous Integration"
+          "section": "♻️ Continuous Integration"
         }
       ]
     }
