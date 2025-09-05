@@ -1,6 +1,6 @@
 {
   "name": "angular-calendar-scheduler",
-  "version": "20.1.4",
+  "version": "20.1.3",
   "license": "MIT",
   "private": false,
   "packageManager": "pnpm@10.15.1",
@@ -130,7 +130,7 @@
     "moment-timezone": "^0.5.37",
     "ng-packagr": "^20.2.0",
     "postcss-cli": "^11.0.1",
-    "postcss-flexibility": "^3.0.0",
+    "postcss-flexibility": "^2.0.0",
     "prettier": "^3.6.2",
     "rxjs": "~7.8.0",
     "sass": "^1.92.0",

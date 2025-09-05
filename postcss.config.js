@@ -1,7 +1,7 @@
 const autoprefixer = require('autoprefixer');
 const postCssFlexibility = require('postcss-flexibility');
 
-module.exports = () => ({
+module.exports = {
   plugins: [
     autoprefixer({
       overrideBrowserslist: [
@@ -13,4 +13,4 @@ module.exports = () => ({
     }),
     postCssFlexibility
   ]
-});
+};
