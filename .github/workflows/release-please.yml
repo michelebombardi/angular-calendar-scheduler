@@ -18,7 +18,8 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Solo sul branch main
 
     steps:
-      - name: Release Please Action
+      - id: release
+        name: Release Please Action
         uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}  # Default token, può essere omesso
@@ -43,8 +44,8 @@ jobs:
         run: npm ci
         if: ${{ steps.release.outputs.release_created }}
 
-      - name: Build
-        run: npm run build
+      #- name: Build
+      #  run: npm run build
 
       - name: Publish to npm
         run: npm publish
