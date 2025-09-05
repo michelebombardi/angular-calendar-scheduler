@@ -1,6 +1,6 @@
 {
   "name": "angular-calendar-scheduler",
-  "version": "20.0.4",
+  "version": "20.0.5",
   "license": "MIT",
   "private": false,
   "packageManager": "pnpm@10.8.1",
