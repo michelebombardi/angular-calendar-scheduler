@@ -3,11 +3,9 @@
   "packages": {
     ".": {
       "release-type": "node",
-      "package-name": "angular-calendar-scheduler",
       "changelog-path": "CHANGELOG.md",
-      "include-v-in-tag": true,
       "auto-merge": true,
-      "auto-merge-label": "autorelease: pending",
+      "auto-merge-label": "autorelease: pending2",
       "changelog-sections": [
         {
           "type": "feat",
