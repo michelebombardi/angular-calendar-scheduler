@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
     dayEndHour: number = 22;
 
     minDate: Date = new Date();
-    maxDate: Date = endOfDay(addMonths(new Date(), 1));
+    maxDate: Date = endOfDay(addMonths(new Date(), 6));
     dayModifier: Function;
     hourModifier: Function;
     segmentModifier: Function;

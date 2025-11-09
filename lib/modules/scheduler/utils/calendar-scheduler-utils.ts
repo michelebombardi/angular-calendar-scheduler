@@ -407,27 +407,21 @@ export function getSchedulerViewDays(
     const start = startsWithToday || viewDays < DAYS_IN_WEEK
         ? new Date(viewDate)
         : dateAdapter.startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
+
     const days: SchedulerViewDay[] = [];
 
-    let excludedDaysInRange = 0;
-    if (excluded.length > 0) {
-      for (let i = 0; i < viewDays; i++) {
-        const date = dateAdapter.addDays(start, i);
-        if (excluded.some((e: number) => date.getDay() === e)) {
-          excludedDaysInRange++;
-        }
-      }
-    }
+    let currentDate = new Date(start);
 
-    const loop = (i: number) => {
-        const date = dateAdapter.addDays(start, i);
-        if (!excluded.some((e: number) => date.getDay() === e)) {
-            days.push(getSchedulerDay(dateAdapter, { date, weekendDays }));
+    while (days.length < viewDays) {
+        const dayOfWeek = currentDate.getDay();
+        
+        if (!excluded.includes(dayOfWeek)) {
+            days.push(getSchedulerDay(dateAdapter, { date: currentDate, weekendDays }));
         }
-    };
-    for (let i = 0; i < viewDays + excludedDaysInRange; i++) {
-        loop(i);
+        
+        currentDate = dateAdapter.addDays(currentDate, 1);
     }
+    
     return days;
 }
 

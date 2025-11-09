@@ -31,62 +31,52 @@ export class SchedulerDateFormatter extends CalendarDateFormatter {
             ? date
             : this.dateAdapter.startOfWeek(date, { weekStartsOn: weekStartsOn });
 
-        // var firstDay: number = date.getDate() - date.getDay() + 1; // First day is the day of the month - the day of the week
-        let firstDay: number = dateInner.getDate();
-        while (excludeDays.includes(firstDay)) {
-            firstDay += 1;
+        const start = new Date(dateInner);
+        while (excludeDays.includes(start.getDay())) {
+            start.setDate(start.getDate() + 1);
         }
 
-        let lastDay: number = firstDay + (daysInWeek - 1); // last day is the first day + (daysInWeek - 1)
-        while (excludeDays.includes(lastDay)) {
-            lastDay += 1;
+        const end = new Date(start);
+        let addedDays = 0;
+        while (addedDays < daysInWeek - 1) {
+            end.setDate(end.getDate() + 1);
+            if (!excludeDays.includes(end.getDay())) {
+                addedDays++;
+        }
         }
 
-        let firstDayMonth: string = month;
-        let lastDayMonth: string = month;
-
-        let firstDayYear: string = year;
-        let lastDayYear: string = year;
-
-        if (firstDay < 1) {
-            const prevMonthDate: Date = new Date(dateInner.getFullYear(), dateInner.getMonth() - 1);
-            firstDayMonth = new Intl.DateTimeFormat(locale, { month: 'short' }).format(prevMonthDate);
-            const daysInPrevMonth: number = this.daysInMonth(prevMonthDate);
-
-            let i: number = 0;
-            let prevMonthDay: number = daysInPrevMonth;
-            for (i = 0; i < Math.abs(firstDay); i++) {
-                prevMonthDay--;
-            }
-            firstDay = prevMonthDay;
-
-            const prevMonthYear: string = new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(prevMonthDate);
-            if (Number(prevMonthYear) < Number(year)) {
-                firstDayYear = prevMonthYear;
-            }
+        // Se stesso giorno → mostra solo una data
+        if (start.toDateString() === end.toDateString()) {
+            return new Intl.DateTimeFormat(locale, {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+            }).format(start);
         }
 
-        const daysInMonth: number = this.daysInMonth(dateInner);
-        if (lastDay > daysInMonth) {
-            const nextMonthDate: Date = new Date(dateInner.getFullYear(), dateInner.getMonth() + 1);
-            lastDayMonth = new Intl.DateTimeFormat(locale, { month: 'short' }).format(nextMonthDate);
+        const sameMonth = start.getMonth() === end.getMonth();
+        const sameYear = start.getFullYear() === end.getFullYear();
 
-            let i: number = 0;
-            let nextMonthDay: number = 0;
-            for (i = 0; i < (lastDay - daysInMonth); i++) {
-                nextMonthDay++;
-            }
-            lastDay = nextMonthDay;
+        // Formattatori localizzati
+        const formatDay = (d: Date) =>
+            new Intl.DateTimeFormat(locale, { day: 'numeric' }).format(d);
+        const formatMonth = (d: Date) =>
+            new Intl.DateTimeFormat(locale, { month: 'short' }).format(d);
+        const formatYear = (d: Date) =>
+            new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(d);
 
-            const nextMonthYear: string = new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(nextMonthDate);
-            if (Number(nextMonthYear) > Number(year)) {
-                lastDayYear = nextMonthYear;
-            }
+        if (sameMonth && sameYear) {
+            // Es: 4–10 nov 2025
+            return `${formatDay(start)}–${formatDay(end)} ${formatMonth(end)} ${formatYear(end)}`;
         }
 
-        return `${firstDay}` + (firstDayMonth !== lastDayMonth || lastDay === firstDay ? ' ' + firstDayMonth : '') +
-            (firstDayYear !== lastDayYear ? ' ' + firstDayYear : '') +
-            (lastDay === firstDay ? '' : ` - ${lastDay} ${lastDayMonth} ${lastDayYear}`);
+        if (sameYear) {
+            // Es: 30 dic – 5 gen 2025
+            return `${formatDay(start)} ${formatMonth(start)} – ${formatDay(end)} ${formatMonth(end)} ${formatYear(end)}`;
+        }
+
+        // Anno diverso
+        return `${formatDay(start)} ${formatMonth(start)} ${formatYear(start)} – ${formatDay(end)} ${formatMonth(end)} ${formatYear(end)}`;
     }
 
     private daysInMonth(anyDateInMonth: Date): number {
