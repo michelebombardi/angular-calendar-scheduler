@@ -1,3 +1,10 @@
+## [20.1.7](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.1.6...v20.1.7) (2025-11-09)
+
+
+### Bug Fixes
+
+* calendar header and visible days when excluded days are set ([3c3e0f0](https://github.com/michelebombardi/angular-calendar-scheduler/commit/3c3e0f0cc256fcc310db65f5964b00a307098355))
+
 ## [20.1.6](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.1.5...v20.1.6) (2025-09-05)
 
 
