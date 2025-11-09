@@ -24,6 +24,7 @@ import {
             [class.cal-draggable]="event.event.draggable"
             [class.cal-starts-before-day]="event.startsBeforeDay"
             [class.cal-ends-after-day]="event.endsAfterDay"
+            [style.color]="event.event.color?.secondaryText"
             [style.backgroundColor]="event.event.color?.secondary"
             [style.borderColor]="event.event.color?.primary"
             (mwlClick)="onEventClick($event, event.event)"

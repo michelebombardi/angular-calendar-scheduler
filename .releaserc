@@ -34,5 +34,13 @@
         "publishCmd": "pnpm build:dist && pnpm publish dist"
       }
     ],
+    [
+      "@saithodev/semantic-release-backmerge",
+      {
+        "backmergeBranches": ["develop", {"from": "main", "to": "develop"}],
+        "clearWorkspace": true,
+        "restoreWorkspace": false
+      }
+    ]
   ]
 }

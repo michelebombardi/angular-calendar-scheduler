@@ -26,7 +26,7 @@ export class AppService {
                 end: addDays(addHours(startOfHour(new Date()), 1), 1),
                 title: 'Event 1 (draggable)',
                 content: 'IMPORTANT EVENT',
-                color: { primary: '#E0E0E0', secondary: '#EEEEEE' },
+                color: { primary: '#E0E0E0', secondary: '#EEEEEE', secondaryText: '#c42f2f' },
                 actions: actions,
                 status: 'danger' as CalendarSchedulerEventStatus,
                 isClickable: true,
