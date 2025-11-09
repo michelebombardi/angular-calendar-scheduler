@@ -1,3 +1,10 @@
+## [20.1.8](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.1.7...v20.1.8) (2025-11-09)
+
+
+### Bug Fixes
+
+* secondaryText usage ([e8875e3](https://github.com/michelebombardi/angular-calendar-scheduler/commit/e8875e38aa6dc7bb2b787893a39eee6591cc466b))
+
 ## [20.1.7](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.1.6...v20.1.7) (2025-11-09)
 
 
