@@ -1,6 +1,5 @@
 # https://github.com/semantic-release/semantic-release/tree/master/docs
 # https://github.com/semantic-release/commit-analyzer
-
 name: Semantic Release
 
 on:
