@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":semanticCommitTypeAll(fix)"
+  ],
+  "assignees": [
+    "michelebombardi"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "major": {
+    "automerge": false,
+    "commitBody": ""
+  },
+  "separateMajorMinor": true,
+  "baseBranches": [
+    "develop"
+  ],
+  "rebaseWhen": "auto",
+  "automerge": false,
+  "platformAutomerge": false,
+  "dependencyDashboard": true,
+  "dependencyDashboardApproval": true,
+  "dependencyDashboardAutoclose": true,
+  "semanticCommits": "enabled",
+  "skipInstalls": true,
+  "commitBody": ""
+}
