@@ -107,7 +107,7 @@
     "angular-resizable-element": "^8.0.0",
     "autoprefixer": "^10.4.21",
     "bootstrap": "^5.3.3",
-    "calendar-utils": "0.10.4",
+    "calendar-utils": "0.12.4",
     "copyfiles": "^2.1.1",
     "core-js": "^3.6.1",
     "date-fns": "^4.1.0",
