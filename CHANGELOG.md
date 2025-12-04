@@ -1,3 +1,10 @@
+# [20.2.0](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.1.8...v20.2.0) (2025-12-04)
+
+
+### Features
+
+* angular version 21 ([5ab2d9e](https://github.com/michelebombardi/angular-calendar-scheduler/commit/5ab2d9efd8e5a200474281f3011f3a5d89cad83a))
+
 ## [20.1.8](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.1.7...v20.1.8) (2025-11-09)
 
 
