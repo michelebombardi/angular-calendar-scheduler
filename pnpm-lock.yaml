@@ -99,8 +99,8 @@ importers:
         specifier: ^5.3.3
         version: 5.3.8(@popperjs/core@2.11.8)
       calendar-utils:
-        specifier: 0.10.4
-        version: 0.10.4
+        specifier: 0.12.4
+        version: 0.12.4(date-fns@4.1.0)(moment@2.30.1)
       copyfiles:
         specifier: ^2.1.1
         version: 2.4.1
@@ -2425,9 +2425,6 @@ packages:
   cacache@20.0.3:
     resolution: {integrity: sha512-3pUp4e8hv07k1QlijZu6Kn7c9+ZpWWk4j3F8N3xPuCExULobqJydKYOTj1FTq58srkJsXvO7LbGAH4C0ZU3WGw==}
     engines: {node: ^20.17.0 || >=22.9.0}
-
-  calendar-utils@0.10.4:
-    resolution: {integrity: sha512-gBK4xCJ42yjaUKwuUha6cZOfxAmGzvSgbdAaX3xLRioeKbYoOK1x1qeD6dch72rsMZlTgATPbBBx42bnkStqgQ==}
 
   calendar-utils@0.12.4:
     resolution: {integrity: sha512-OYhqJdeDRRVUdMYJMUrXtR7Go+80oEcA6VK4T3zjcUloQqcOVQKs/kp7j8Yw0HiLOcGwzF50WhLmzZoUNfkM7A==}
@@ -8004,8 +8001,6 @@ snapshots:
       p-map: 7.0.3
       ssri: 13.0.0
       unique-filename: 5.0.0
-
-  calendar-utils@0.10.4: {}
 
   calendar-utils@0.12.4(date-fns@4.1.0)(moment@2.30.1):
     optionalDependencies:
