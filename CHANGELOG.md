@@ -1,3 +1,10 @@
+# [20.3.0](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.2.0...v20.3.0) (2025-12-04)
+
+
+### Features
+
+* commento test ([ec9bb9d](https://github.com/michelebombardi/angular-calendar-scheduler/commit/ec9bb9d89f6a7e93874c0bfcf0f7a2d8cb8e2c04))
+
 # [20.2.0](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.1.8...v20.2.0) (2025-12-04)
 
 
