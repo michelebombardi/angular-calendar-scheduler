@@ -3,7 +3,7 @@
   "version": "21.0.0",
   "license": "MIT",
   "private": false,
-  "packageManager": "pnpm@10.20.0",
+  "packageManager": "pnpm@10.24.0",
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
