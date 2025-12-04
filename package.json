@@ -73,7 +73,8 @@
     "angular-scheduler",
     "angular-calendar-week-hours-view",
     "week-hours-view",
-    "schematics"
+    "schematics",
+    "angular"
   ],
   "devDependencies": {
     "@angular/animations": "21.0.3",
