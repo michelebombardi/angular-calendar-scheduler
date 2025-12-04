@@ -114,7 +114,7 @@
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsdoc": "^54.3.1",
+    "eslint-plugin-jsdoc": "^61.0.0",
     "eslint-plugin-prefer-arrow": "latest",
     "eslint-plugin-prettier": "^5.5.4",
     "husky": "^9.1.7",
