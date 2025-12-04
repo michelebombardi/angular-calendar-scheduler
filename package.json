@@ -6,7 +6,7 @@
   "packageManager": "pnpm@10.20.0",
   "pnpm": {
     "overrides": {
-      "body-parser": "2.2.0"
+      "body-parser": "2.2.1"
     },
     "peerDependencyRules": {
       "ignoreMissing": [
