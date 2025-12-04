@@ -69,11 +69,11 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(semantic-release@25.0.2(typescript@5.9.2))
       '@semantic-release/github':
-        specifier: ^11.0.5
-        version: 11.0.5(semantic-release@25.0.2(typescript@5.9.2))
-      '@semantic-release/npm':
-        specifier: ^12.0.2
+        specifier: ^12.0.0
         version: 12.0.2(semantic-release@25.0.2(typescript@5.9.2))
+      '@semantic-release/npm':
+        specifier: ^13.0.0
+        version: 13.1.2(semantic-release@25.0.2(typescript@5.9.2))
       '@types/jasmine':
         specifier: ~3.6.0
         version: 3.6.11
@@ -1574,12 +1574,6 @@ packages:
   '@octokit/openapi-types@27.0.0':
     resolution: {integrity: sha512-whrdktVs1h6gtR+09+QsNk2+FO+49j6ga1c55YZudfEG+oKJVvJLQi3zkOm5JjiUXAagWK2tI2kTGKJ2Ys7MGA==}
 
-  '@octokit/plugin-paginate-rest@13.1.1':
-    resolution: {integrity: sha512-q9iQGlZlxAVNRN2jDNskJW/Cafy7/XE52wjZ5TTvyhyOD904Cvx//DNyoO3J/MXJ0ve3rPoNWKEg5iZrisQSuw==}
-    engines: {node: '>= 20'}
-    peerDependencies:
-      '@octokit/core': '>=6'
-
   '@octokit/plugin-paginate-rest@14.0.0':
     resolution: {integrity: sha512-fNVRE7ufJiAA3XUrha2omTA39M6IXIc6GIZLvlbsm8QOQCYvpq/LkMNGyFlB1d8hTDzsAXa3OKtybdMAYsV/fw==}
     engines: {node: '>= 20'}
@@ -2021,12 +2015,6 @@ packages:
     peerDependencies:
       semantic-release: '>=18.0.0'
 
-  '@semantic-release/github@11.0.5':
-    resolution: {integrity: sha512-wJamzHteXwBdopvkTD6BJjPz1UHLm20twlVCSMA9zpd3B5KrOQX137jfTbNJT6ZVz3pXtg0S1DroQl4wifJ4WQ==}
-    engines: {node: '>=20.8.1'}
-    peerDependencies:
-      semantic-release: '>=24.1.0'
-
   '@semantic-release/github@12.0.2':
     resolution: {integrity: sha512-qyqLS+aSGH1SfXIooBKjs7mvrv0deg8v+jemegfJg1kq6ji+GJV8CO08VJDEsvjp3O8XJmTTIAjjZbMzagzsdw==}
     engines: {node: ^22.14.0 || >= 24.10.0}
@@ -2042,12 +2030,6 @@ packages:
   '@semantic-release/npm@11.0.3':
     resolution: {integrity: sha512-KUsozQGhRBAnoVg4UMZj9ep436VEGwT536/jwSqB7vcEfA6oncCUU7UIYTRdLx7GvTtqn0kBjnkfLVkcnBa2YQ==}
     engines: {node: ^18.17 || >=20}
-    peerDependencies:
-      semantic-release: '>=20.1.0'
-
-  '@semantic-release/npm@12.0.2':
-    resolution: {integrity: sha512-+M9/Lb35IgnlUO6OSJ40Ie+hUsZLuph2fqXC/qrKn0fMvUU/jiCjpoL6zEm69vzcmaZJ8yNKtMBEKHWN49WBbQ==}
-    engines: {node: '>=20.8.1'}
     peerDependencies:
       semantic-release: '>=20.1.0'
 
@@ -7047,11 +7029,6 @@ snapshots:
 
   '@octokit/openapi-types@27.0.0': {}
 
-  '@octokit/plugin-paginate-rest@13.1.1(@octokit/core@7.0.3)':
-    dependencies:
-      '@octokit/core': 7.0.3
-      '@octokit/types': 14.1.0
-
   '@octokit/plugin-paginate-rest@14.0.0(@octokit/core@7.0.3)':
     dependencies:
       '@octokit/core': 7.0.3
@@ -7431,28 +7408,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/github@11.0.5(semantic-release@25.0.2(typescript@5.9.2))':
-    dependencies:
-      '@octokit/core': 7.0.3
-      '@octokit/plugin-paginate-rest': 13.1.1(@octokit/core@7.0.3)
-      '@octokit/plugin-retry': 8.0.1(@octokit/core@7.0.3)
-      '@octokit/plugin-throttling': 11.0.1(@octokit/core@7.0.3)
-      '@semantic-release/error': 4.0.0
-      aggregate-error: 5.0.0
-      debug: 4.4.1
-      dir-glob: 3.0.1
-      globby: 14.1.0
-      http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.6
-      issue-parser: 7.0.1
-      lodash-es: 4.17.21
-      mime: 4.0.7
-      p-filter: 4.1.0
-      semantic-release: 25.0.2(typescript@5.9.2)
-      url-join: 5.0.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@semantic-release/github@12.0.2(semantic-release@25.0.2(typescript@5.9.2))':
     dependencies:
       '@octokit/core': 7.0.3
@@ -7513,23 +7468,6 @@ snapshots:
       registry-auth-token: 5.1.0
       semantic-release: 22.0.12(typescript@5.9.2)
       semver: 7.7.3
-      tempy: 3.1.0
-
-  '@semantic-release/npm@12.0.2(semantic-release@25.0.2(typescript@5.9.2))':
-    dependencies:
-      '@semantic-release/error': 4.0.0
-      aggregate-error: 5.0.0
-      execa: 9.6.0
-      fs-extra: 11.3.1
-      lodash-es: 4.17.21
-      nerf-dart: 1.0.0
-      normalize-url: 8.0.2
-      npm: 10.9.3
-      rc: 1.2.8
-      read-pkg: 9.0.1
-      registry-auth-token: 5.1.0
-      semantic-release: 25.0.2(typescript@5.9.2)
-      semver: 7.7.2
       tempy: 3.1.0
 
   '@semantic-release/npm@13.1.2(semantic-release@25.0.2(typescript@5.9.2))':
