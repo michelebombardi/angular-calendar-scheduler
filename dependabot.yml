@@ -5,3 +5,6 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "direct"
+    ignore:
+      - dependency-name: "*"
+        dependency-type: "indirect"
