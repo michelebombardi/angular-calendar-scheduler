@@ -1,3 +1,13 @@
+# [21.0.0](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.3.0...v21.0.0) (2025-12-04)
+
+
+* feat!: test ([833428d](https://github.com/michelebombardi/angular-calendar-scheduler/commit/833428dd04b9d86723ac6d2b6f74aab7c84e7faa))
+
+
+### BREAKING CHANGES
+
+* requires angular v21.
+
 # [20.3.0](https://github.com/michelebombardi/angular-calendar-scheduler/compare/v20.2.0...v20.3.0) (2025-12-04)
 
 
