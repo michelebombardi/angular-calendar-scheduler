@@ -126,7 +126,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "lint-staged": "^16.1.6",
-    "minimatch": "^10.0.3",
+    "minimatch": "^10.2.3",
     "moment": "^2.29.4",
     "moment-es6": "^1.0.0",
     "moment-timezone": "^0.5.37",
