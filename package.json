@@ -77,21 +77,21 @@
     "angular"
   ],
   "devDependencies": {
-    "@angular/animations": "21.0.3",
+    "@angular/animations": "21.2.22",
     "@angular/build": "^21.0.2",
     "@angular/cdk": "21.0.2",
     "@angular/cli": "21.0.2",
     "@angular/common": "21.0.3",
     "@angular/compiler": "21.0.3",
-    "@angular/compiler-cli": "21.0.3",
+    "@angular/compiler-cli": "21.2.22",
     "@angular/core": "21.0.3",
-    "@angular/forms": "21.0.3",
-    "@angular/language-service": "21.0.3",
-    "@angular/localize": "21.0.3",
+    "@angular/forms": "21.2.22",
+    "@angular/language-service": "21.2.22",
+    "@angular/localize": "21.2.22",
     "@angular/material": "21.0.2",
-    "@angular/platform-browser": "21.0.3",
-    "@angular/platform-browser-dynamic": "21.0.3",
-    "@angular/router": "21.0.3",
+    "@angular/platform-browser": "21.2.22",
+    "@angular/platform-browser-dynamic": "21.2.22",
+    "@angular/router": "21.2.22",
     "@popperjs/core": "^2.11.8",
     "@saithodev/semantic-release-backmerge": "^4.0.1",
     "@semantic-release/changelog": "^6.0.3",
@@ -139,7 +139,7 @@
     "ts-node": "~8.5.4",
     "tslib": "^2.0.0",
     "typescript": "~5.9.2",
-    "zone.js": "~0.15.1"
+    "zone.js": "~0.16.0"
   },
   "peerDependencies": {
     "angular-calendar": "^0.32.0"
