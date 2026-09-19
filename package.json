@@ -129,7 +129,7 @@
     "minimatch": "^10.0.3",
     "moment": "^2.29.4",
     "moment-es6": "^1.0.0",
-    "moment-timezone": "^0.5.37",
+    "moment-timezone": "^0.6.0",
     "ng-packagr": "^21.0.0",
     "postcss-cli": "^11.0.1",
     "prettier": "^3.6.2",
