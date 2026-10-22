@@ -8,6 +8,14 @@
 [![stars](https://img.shields.io/github/stars/michelebombardi/angular-calendar-scheduler.svg)](https://github.com/michelebombardi/angular-calendar-scheduler/stargazers)
 [![license](https://img.shields.io/github/license/michelebombardi/angular-calendar-scheduler.svg)](https://github.com/michelebombardi/angular-calendar-scheduler/blob/master/LICENSE)
 
+> [!WARNING]
+> **This library is deprecated and is no longer maintained.**
+> It has been replaced by **Meridiana**, calendar and scheduler components for Angular, React and React Native.
+>
+> - Documentation: https://meridiana.moobitech.it (Angular guide: https://meridiana.moobitech.it/docs/angular)
+> - Public docs repository: https://github.com/moobitech/meridiana-docs
+> - Angular package on npm: [`@moobitech/meridiana-angular`](https://www.npmjs.com/package/@moobitech/meridiana-angular)
+
 ___
 
 ## Demo
